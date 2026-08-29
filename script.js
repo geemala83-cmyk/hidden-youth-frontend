@@ -2,8 +2,7 @@
    HIDDEN YOUTH — FRONTEND + BACKEND
 ===================================================== */
 
-const API_URL = "http://localhost:3000";
-
+const API_URL = "https://hidden-youth-backend-production.up.railway.app";
 
 /* =====================================================
    3D DRESS
