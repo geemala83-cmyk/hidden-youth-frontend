@@ -1538,3 +1538,82 @@ window.addEventListener("load", function () {
 
 
 })();
+
+/* =====================================================
+   HIDDEN YOUTH — LIVE VISITOR TRACKING
+===================================================== */
+
+(function () {
+
+    const VISITOR_KEY = "hiddenYouthVisitorId";
+
+    let visitorId = localStorage.getItem(VISITOR_KEY);
+
+    if (!visitorId) {
+
+        visitorId =
+            "visitor-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10);
+
+        localStorage.setItem(
+            VISITOR_KEY,
+            visitorId
+        );
+    }
+
+    async function sendVisitorHeartbeat() {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/visitors/heartbeat`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        visitorId: visitorId
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                console.error(
+                    "Visitor heartbeat failed:",
+                    response.status
+                );
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                console.log("HIDDEN YOUTH: VISITOR ONLINE");
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Visitor tracking error:",
+                error
+            );
+        }
+    }
+
+    /* Send immediately */
+    sendVisitorHeartbeat();
+
+    /* Send every 20 seconds */
+    setInterval(
+        sendVisitorHeartbeat,
+        20000
+    );
+
+})();
