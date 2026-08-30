@@ -1442,3 +1442,99 @@ window.addEventListener("load", function () {
     });
 
 });
+
+/* =====================================================
+   LIVE VISITOR TRACKING
+   HIDDEN YOUTH
+===================================================== */
+
+(function () {
+
+    const VISITOR_STORAGE_KEY = "hiddenYouthVisitorId";
+
+    let visitorId =
+        localStorage.getItem(VISITOR_STORAGE_KEY);
+
+    if (!visitorId) {
+
+        visitorId =
+            "visitor-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10);
+
+        localStorage.setItem(
+            VISITOR_STORAGE_KEY,
+            visitorId
+        );
+    }
+
+
+    async function sendVisitorHeartbeat() {
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/visitors/heartbeat`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        visitorId: visitorId
+                    })
+                }
+            );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    "Visitor heartbeat failed:",
+                    response.status
+                );
+
+                return;
+            }
+
+
+            const data =
+                await response.json();
+
+            if (data.success) {
+
+                console.log(
+                    "LIVE VISITOR: ACTIVE"
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "LIVE VISITOR ERROR:",
+                error
+            );
+        }
+    }
+
+
+    /* FIRST HEARTBEAT */
+
+    sendVisitorHeartbeat();
+
+
+    /* KEEP VISITOR ONLINE */
+
+    setInterval(
+        sendVisitorHeartbeat,
+        20 * 1000
+    );
+
+
+})();
