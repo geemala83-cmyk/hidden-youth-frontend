@@ -2738,15 +2738,27 @@
        REFRESH ALL
     ===================================================== */
 
-    async function refreshAll() {
+   async function refreshAll() {
+
+    try {
 
         await Promise.all([
             loadDashboard(),
             loadProducts(),
-            loadOrders()
+            loadOrders(),
+            loadVisitors(),
+            loadCarts()
         ]);
 
+        console.log("Dashboard refreshed successfully.");
+
+    } catch (error) {
+
+        console.error("Refresh failed:", error);
+
     }
+
+}
 
 
     /* =====================================================
