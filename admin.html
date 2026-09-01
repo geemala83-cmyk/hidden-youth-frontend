@@ -1724,23 +1724,28 @@ function updateStats(
         ).length;
 
 
-    const sales =
-        orders.reduce(
-            function(
-                sum,
-                order
-            ) {
+ const sales =
+    orders
+        .filter(function(order) {
+
+            return String(
+                order.status || ""
+            ).toUpperCase() === "DELIVERED";
+
+        })
+        .reduce(
+            function(sum, order) {
 
                 return (
                     sum +
                     Number(
-                        order.total ||
-                        0
+                        order.total || 0
                     )
                 );
 
             },
             0
+        );
         );
 
 
