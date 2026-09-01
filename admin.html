@@ -2312,119 +2312,42 @@
 <script>
 
     /* =====================================================
-
-   AUTO REFRESH — LIVE VISITORS + CARTS
-
-===================================================== */
-
-
-let liveRefreshTimer = null;
-
-
-function startLiveRefresh() {
-
-
-    if (liveRefreshTimer) {
-
-        clearInterval(liveRefreshTimer);
-
-    }
-
-
-    liveRefreshTimer = setInterval(async function () {
-
-
-        if (!adminToken) {
-
-            return;
-
-        }
-
-
-        try {
-
-
-            await loadDashboard();
-
-
-            const activeTab =
-
-                document.querySelector(".tab.active")?.dataset.tab;
-
-
-            if (activeTab === "visitors") {
-
-                await loadVisitors();
-
-            }
-
-
-            if (activeTab === "carts") {
-
-                await loadCarts();
-
-            }
-
-
-        } catch (error) {
-
-
-            console.error(
-
-                "Live refresh error:",
-
-                error
-
-            );
-
-
-        }
-
-
-    }, 10000);
-
-
-}
-
-
-
-/* START LIVE REFRESH */
-
-
-if (adminToken) {
-
-
-    startLiveRefresh();
-
-
-}
-
-
-
-
-    /* =====================================================
-
        BACKEND
-
     ===================================================== */
 
-
     const API_URL =
-
         "https://hidden-youth-backend-production.up.railway.app";
 
-
-
     let adminToken =
-
         localStorage.getItem("hiddenYouthAdminToken") || "";
 
-
     let products = [];
-
     let orders = [];
 
+    /* =====================================================
+       AUTO REFRESH — LIVE VISITORS + CARTS
+    ===================================================== */
 
+    let liveRefreshTimer = null;
+
+    function startLiveRefresh() {
+        if (liveRefreshTimer) {
+            clearInterval(liveRefreshTimer);
+        }
+
+        liveRefreshTimer = setInterval(async function () {
+            if (!adminToken) return;
+
+            try {
+                await loadDashboard();
+                const activeTab = document.querySelector(".tab.active")?.dataset.tab;
+                if (activeTab === "visitors") await loadVisitors();
+                if (activeTab === "carts") await loadCarts();
+            } catch (error) {
+                console.error("Live refresh error:", error);
+            }
+        }, 10000);
+    }
 
     /* =====================================================
 
@@ -2653,6 +2576,7 @@ if (adminToken) {
 
 
         refreshAll();
+        startLiveRefresh();
 
 
     }
