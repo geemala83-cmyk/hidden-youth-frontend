@@ -2817,47 +2817,54 @@
     }
 
 
-    /* =====================================================
-       AUTO REFRESH — LIVE VISITORS + CARTS
-    ===================================================== */
+  <script>
 
-    let liveRefreshTimer = null;
+/* =====================================================
+   AUTO REFRESH — LIVE VISITORS + CARTS
+===================================================== */
 
-    function startLiveRefresh() {
+let liveRefreshTimer = null;
 
-        if (liveRefreshTimer) {
-            clearInterval(liveRefreshTimer);
-        }
+function startLiveRefresh() {
 
-        liveRefreshTimer = setInterval(async function () {
-
-            if (!adminToken) {
-                return;
-            }
-
-            try {
-                await loadDashboard();
-
-                const activeTab =
-                    document.querySelector(".tab.active")?.dataset.tab;
-
-                if (activeTab === "visitors") {
-                    await loadVisitors();
-                }
-
-                if (activeTab === "carts") {
-                    await loadCarts();
-                }
-
-            } catch (error) {
-                console.error("Live refresh error:", error);
-            }
-
-        }, 10000);
-
+    if (liveRefreshTimer) {
+        clearInterval(liveRefreshTimer);
     }
 
-</script>
+    liveRefreshTimer = setInterval(async function () {
 
+        if (!adminToken) {
+            return;
+        }
+
+        try {
+
+            await loadDashboard();
+
+            const activeTab =
+                document.querySelector(".tab.active")?.dataset.tab;
+
+            if (activeTab === "visitors") {
+                await loadVisitors();
+            }
+
+            if (activeTab === "carts") {
+                await loadCarts();
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Live refresh error:",
+                error
+            );
+
+        }
+
+    }, 10000);
+
+}
+
+</script>
 </body>
 </html>
