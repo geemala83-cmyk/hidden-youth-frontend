@@ -2309,6 +2309,8 @@
 </div>
 
 
+<script>
+
     /* =====================================================
 
    AUTO REFRESH — LIVE VISITORS + CARTS
@@ -2398,8 +2400,6 @@ if (adminToken) {
 }
 
 
-
-<script>
 
 
     /* =====================================================
@@ -2595,7 +2595,7 @@ if (adminToken) {
                 console.error(error);
 
 
-                const loginError =
+                error =
 
                     document.getElementById(
 
@@ -2604,7 +2604,7 @@ if (adminToken) {
                     );
 
 
-                loginError.textContent =
+                error.textContent =
 
                     error.message ||
 
