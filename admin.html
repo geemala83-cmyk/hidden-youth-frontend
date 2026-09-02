@@ -1407,14 +1407,14 @@
 
                 console.error(error);
 
-                error =
-                    document.getElementById(
-                        "loginError"
-                    );
+             const loginError =
+    document.getElementById(
+        "loginError"
+    );
 
-                error.textContent =
-                    error.message ||
-                    "Invalid username or password.";
+loginError.textContent =
+    error.message ||
+    "Invalid username or password.";
 
             } finally {
 
