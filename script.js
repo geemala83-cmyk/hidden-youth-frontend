@@ -1711,7 +1711,93 @@ if (checkoutForm) {
         }
     );
 }
+/* =====================================================
+   POSTAL CODE → AREA / CITY
+===================================================== */
 
+const postalCodeInput =
+    document.getElementById("customerPostalCode");
+
+const postalArea =
+    document.getElementById("postalArea");
+
+const cityInput =
+    document.getElementById("customerCity");
+
+if (postalCodeInput) {
+
+    postalCodeInput.addEventListener(
+        "input",
+        async function () {
+
+            const postalCode =
+                postalCodeInput.value
+                    .replace(/\D/g, "")
+                    .slice(0, 5);
+
+            postalCodeInput.value =
+                postalCode;
+
+            if (postalCode.length !== 5) {
+                if (postalArea) {
+                    postalArea.innerHTML = "";
+                }
+                return;
+            }
+
+            if (postalArea) {
+                postalArea.innerHTML =
+                    "CHECKING AREA...";
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        `https://0otcsk4qig.execute-api.ap-northeast-1.amazonaws.com/prod/api/postal-codes/${postalCode}`
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.results ||
+                    data.results.length === 0
+                ) {
+                    throw new Error(
+                        "POSTAL CODE NOT FOUND"
+                    );
+                }
+
+                const location =
+                    data.results[0];
+
+                if (cityInput) {
+                    cityInput.value =
+                        location.city || "";
+                }
+
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        `<strong>AREA:</strong> ${location.area_name || ""}`;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "POSTAL CODE ERROR:",
+                    error
+                );
+
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        "AREA NOT FOUND — PLEASE CHECK POSTAL CODE.";
+                }
+            }
+        }
+    );
+}
 
 /* =====================================================
    PAGE LOAD
