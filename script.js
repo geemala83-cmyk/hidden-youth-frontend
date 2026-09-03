@@ -1260,6 +1260,11 @@ const closeCheckout =
         "closeCheckout"
     );
 
+const checkoutSubtotal =
+    document.getElementById(
+        "checkoutSubtotal"
+    );
+
 const checkoutItems =
     document.getElementById(
         "checkoutItems"
@@ -1269,7 +1274,93 @@ const checkoutTotal =
     document.getElementById(
         "checkoutTotal"
     );
+const deliveryChargeElement =
+    document.getElementById(
+        "deliveryCharge"
+    );
 
+function getDeliveryCharge() {
+
+    const cityInput =
+        document.getElementById("customerCity");
+
+    const postalCodeInput =
+        document.getElementById("customerPostalCode");
+
+    const city =
+        cityInput
+            ? cityInput.value.trim().toLowerCase()
+            : "";
+
+    const postalCode =
+        postalCodeInput
+            ? postalCodeInput.value.trim()
+            : "";
+
+    if (city && city !== "lahore") {
+        return 500;
+    }
+
+    const nearPostalCodes = [
+        "54000",
+        "54700",
+        "54782",
+        "53720"
+    ];
+
+    const mediumPostalCodes = [
+        "54010",
+        "54020",
+        "54030",
+        "54040"
+    ];
+
+    const farPostalCodes = [
+        "54050",
+        "54060",
+        "54070",
+        "54080"
+    ];
+
+    if (nearPostalCodes.includes(postalCode)) {
+        return 250;
+    }
+
+    if (mediumPostalCodes.includes(postalCode)) {
+        return 350;
+    }
+
+    if (farPostalCodes.includes(postalCode)) {
+        return 450;
+    }
+
+    return 350;
+}
+
+
+function updateCheckoutTotal() {
+
+    const subtotal = getCartTotal();
+
+    const delivery = getDeliveryCharge();
+
+    const total = subtotal + delivery;
+
+    if (checkoutSubtotal) {
+        checkoutSubtotal.textContent =
+            "Rs. " + subtotal.toLocaleString();
+    }
+
+    if (deliveryChargeElement) {
+        deliveryChargeElement.textContent =
+            "Rs. " + delivery.toLocaleString();
+    }
+
+    if (checkoutTotal) {
+        checkoutTotal.textContent =
+            "Rs. " + total.toLocaleString();
+    }
+} 
 
 /* =====================================================
    OPEN CHECKOUT
@@ -1339,13 +1430,7 @@ function openCheckout() {
     }
 
 
-    if (checkoutTotal) {
-
-        checkoutTotal.textContent =
-            "Rs. " +
-            getCartTotal()
-                .toLocaleString();
-    }
+  updateCheckoutTotal();
 
 
     const cartPanel =
@@ -1777,7 +1862,8 @@ if (postalCodeInput) {
                     cityInput.value =
                         location.city || "";
                 }
-
+updateCheckoutTotal();
+               
                 if (postalArea) {
                     postalArea.innerHTML =
                         `<strong>AREA:</strong> ${location.area_name || ""}`;
