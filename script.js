@@ -1865,8 +1865,7 @@ if (postalCodeInput) {
 
                 const response =
                     await fetch(
-                        `https://0otcsk4qig.execute-api.ap-northeast-1.amazonaws.com/prod/api/postal-codes/${postalCode}`
-                    );
+`${API_URL}/api/postal-codes/${postalCode}`                    );
 
                 const data =
                     await response.json();
