@@ -1334,7 +1334,7 @@ function getDeliveryCharge() {
         return 450;
     }
 
-    return 350;
+   return 0;
 }
 
 
@@ -1614,7 +1614,33 @@ if (checkoutForm) {
                     )
                     ?.value
                     .trim();
+const postalCode =
+    document
+        .getElementById(
+            "customerPostalCode"
+        )
+        ?.value
+        .trim();
 
+const postalAreaElement =
+    document.getElementById(
+        "postalArea"
+    );
+
+if (
+    !postalCode ||
+    postalCode.length !== 5 ||
+    !postalAreaElement ||
+    !postalAreaElement.innerHTML.includes("AREA:")
+) {
+
+    alert(
+        "PLEASE ENTER A VALID POSTAL CODE FIRST.\n\n" +
+        "YOUR DELIVERY CHARGE WILL BE CALCULATED AFTER THE POSTAL CODE IS VERIFIED."
+    );
+
+    return;
+}
 
             if (
                 !name ||
