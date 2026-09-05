@@ -724,49 +724,122 @@
 
 
 
-    <!-- =========================================
-         HIDDEN YOUTH CHECKOUT
-    ========================================= -->
+ <!-- =========================================
+     HIDDEN YOUTH CHECKOUT
+========================================= -->
 
-    <div
-        class="checkout-overlay"
-        id="checkoutOverlay"
-    ></div>
+<div
+    class="checkout-overlay"
+    id="checkoutOverlay"
+></div>
 
+<div
+    class="checkout-panel"
+    id="checkoutPanel"
+>
 
-    <div
-        class="checkout-panel"
-        id="checkoutPanel"
-    >
+    <div class="checkout-header">
 
-        <div class="checkout-header">
+        <div>
 
-            <div>
+            <span>
+                HIDDEN YOUTH
+            </span>
 
-                <span>
-                    HIDDEN YOUTH
-                </span>
-
-                <h2>
-                    CHECKOUT
-                </h2>
-
-            </div>
-
-
-            <button
-                type="button"
-                id="closeCheckout"
-                class="checkout-close"
-            >
-                ×
-            </button>
+            <h2>
+                CHECKOUT
+            </h2>
 
         </div>
 
+        <button
+            type="button"
+            id="closeCheckout"
+            class="checkout-close"
+        >
+            ×
+        </button>
+
+    </div>
 
 
-        <div class="checkout-content">
+    <div class="checkout-content">
+
+        <form id="checkoutForm">
+
+            <label>
+
+                FULL NAME
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Your name"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                PHONE NUMBER
+
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="03XX XXXXXXX"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                DELIVERY ADDRESS
+
+                <textarea
+                    id="customerAddress"
+                    placeholder="Your complete delivery address"
+                    required
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                CITY
+
+                <input
+                    type="text"
+                    id="customerCity"
+                    placeholder="Lahore"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                POSTAL CODE
+
+                <input
+                    type="text"
+                    id="customerPostalCode"
+                    placeholder="Enter postal code"
+                    maxlength="5"
+                    inputmode="numeric"
+                    required
+                >
+
+            </label>
+
+
+            <div id="postalArea"></div>
+
 
             <div class="checkout-summary">
 
@@ -777,137 +850,65 @@
                 <div id="checkoutItems"></div>
 
 
-            <div class="checkout-total">
-    <span>
-        SUBTOTAL
-    </span>
+                <div class="checkout-total">
 
-    <strong id="checkoutSubtotal">
-        Rs. 0
-    </strong>
-</div>
+                    <span>
+                        SUBTOTAL
+                    </span>
 
-<div class="checkout-total">
-    <span>
-        DELIVERY
-    </span>
+                    <strong id="checkoutSubtotal">
+                        Rs. 0
+                    </strong>
 
-    <strong id="deliveryCharge">
-        Rs. 0
-    </strong>
-</div>
+                </div>
 
-<div class="checkout-total">
-    <span>
-        TOTAL
-    </span>
 
-    <strong id="checkoutTotal">
-        Rs. 0
-    </strong>
-</div>
+                <div class="checkout-total">
+
+                    <span>
+                        DELIVERY
+                    </span>
+
+                    <strong id="deliveryCharge">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong id="checkoutTotal">
+                        Rs. 0
+                    </strong>
+
+                </div>
 
             </div>
 
 
+            <button
+                type="submit"
+                class="place-order-btn"
+            >
 
-            <form id="checkoutForm">
+                PLACE ORDER
 
-                <label>
+                <span>
+                    →
+                </span>
 
-                    FULL NAME
+            </button>
 
-                    <input
-                        type="text"
-                        id="customerName"
-                        placeholder="Your name"
-                        required
-                    >
-
-                </label>
-
-
-
-                <label>
-
-                    PHONE NUMBER
-
-                    <input
-                        type="tel"
-                        id="customerPhone"
-                        placeholder="03XX XXXXXXX"
-                        required
-                    >
-
-                </label>
-
-
-
-                <label>
-
-                    DELIVERY ADDRESS
-
-                    <textarea
-                        id="customerAddress"
-                        placeholder="Your complete delivery address"
-                        required
-                    ></textarea>
-
-                </label>
-
-
-
-                <label>
-
-                    CITY
-
-                    <input
-                        type="text"
-                        id="customerCity"
-                        placeholder="Lahore"
-                        required
-                    >
-
-                </label>
-<label>
-
-    POSTAL CODE
-
-    <input
-        type="text"
-        id="customerPostalCode"
-        placeholder="Enter postal code"
-        maxlength="5"
-        inputmode="numeric"
-        required
-    >
-
-</label>
-
-<div id="postalArea"></div>
-
-
-                <button
-                    type="submit"
-                    class="place-order-btn"
-                >
-
-                    PLACE ORDER
-
-                    <span>
-                        →
-                    </span>
-
-                </button>
-
-            </form>
-
-        </div>
+        </form>
 
     </div>
 
-
-
+</div>
     <!-- =====================================================
          JAVASCRIPT
          ONLY MOVED TO THE VERY END
