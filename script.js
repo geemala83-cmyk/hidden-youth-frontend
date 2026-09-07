@@ -1822,6 +1822,7 @@ if (
         }
     );
 }
+
 /* =====================================================
    POSTAL CODE → AREA / CITY
 ===================================================== */
@@ -1850,9 +1851,11 @@ if (postalCodeInput) {
                 postalCode;
 
             if (postalCode.length !== 5) {
+
                 if (postalArea) {
                     postalArea.innerHTML = "";
                 }
+
                 return;
             }
 
@@ -1865,15 +1868,16 @@ if (postalCodeInput) {
 
                 const response =
                     await fetch(
-`${API_URL}/api/postal-codes/${postalCode}`                    );
+                        `https://api.zippopotam.us/pk/${postalCode}`
+                    );
 
                 const data =
                     await response.json();
 
                 if (
                     !response.ok ||
-                    !data.results ||
-                    data.results.length === 0
+                    !data.places ||
+                    data.places.length === 0
                 ) {
                     throw new Error(
                         "POSTAL CODE NOT FOUND"
@@ -1881,17 +1885,24 @@ if (postalCodeInput) {
                 }
 
                 const location =
-                    data.results[0];
+                    data.places[0];
+
+                const area =
+                    location["place name"] || "";
+
+                const city =
+                    location["state"] || "";
 
                 if (cityInput) {
                     cityInput.value =
-                        location.city || "";
+                        city;
                 }
-updateCheckoutTotal();
-               
+
+                updateCheckoutTotal();
+
                 if (postalArea) {
                     postalArea.innerHTML =
-                        `<strong>AREA:</strong> ${location.area_name || ""}`;
+                        `<strong>AREA:</strong> ${area}`;
                 }
 
             } catch (error) {
