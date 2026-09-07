@@ -2305,7 +2305,29 @@ loginError.textContent =
                                 </div>
 
                             </div>
+<div class="info">
+    <div class="info-label">
+        Postal Code
+    </div>
 
+    <div class="info-value">
+        ${escapeHTML(
+            customer.postalCode || "—"
+        )}
+    </div>
+</div>
+
+<div class="info">
+    <div class="info-label">
+        Delivery Charge
+    </div>
+
+    <div class="info-value">
+        ${formatMoney(
+            Number(customer.deliveryCharge || 0)
+        )}
+    </div>
+</div>
                         </div>
 
 
