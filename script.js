@@ -1297,29 +1297,55 @@ function getDeliveryCharge() {
             ? postalCodeInput.value.trim()
             : "";
 
+    if (!postalCode || postalCode.length !== 5) {
+        return 0;
+    }
+
+    // Lahore se bahar
     if (city && city !== "lahore") {
         return 500;
     }
 
+    // BATAPUR ke qareeb areas
     const nearPostalCodes = [
-        "54000",
-        "54700",
-        "54782",
-        "53720"
+        "53400", // Batapur
+        "53600", // Wagha
+        "54850", // Harbans Pura
+        "54870", // Tajpura
+        "54920"  // Baghbanpura
     ];
 
+    // BATAPUR se thore door areas
     const mediumPostalCodes = [
-        "54010",
+        "54000",
         "54020",
         "54030",
-        "54040"
+        "54590",
+        "54610",
+        "54650",
+        "54800",
+        "54810",
+        "54880",
+        "54890",
+        "53710"
     ];
 
+    // BATAPUR se sab se door areas
     const farPostalCodes = [
-        "54050",
-        "54060",
-        "54070",
-        "54080"
+        "53100",
+        "53720",
+        "54500",
+        "54570",
+        "54600",
+        "54660",
+        "54700",
+        "54760",
+        "54762",
+        "54770",
+        "54780",
+        "54782",
+        "54792",
+        "55160"
     ];
 
     if (nearPostalCodes.includes(postalCode)) {
@@ -1331,10 +1357,11 @@ function getDeliveryCharge() {
     }
 
     if (farPostalCodes.includes(postalCode)) {
-        return 450;
+        return 500;
     }
 
-   return 0;
+    // Lahore ka koi naya/unknown code
+    return 500;
 }
 
 
