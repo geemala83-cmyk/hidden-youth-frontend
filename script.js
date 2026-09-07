@@ -1851,11 +1851,9 @@ if (postalCodeInput) {
                 postalCode;
 
             if (postalCode.length !== 5) {
-
                 if (postalArea) {
                     postalArea.innerHTML = "";
                 }
-
                 return;
             }
 
@@ -1866,18 +1864,17 @@ if (postalCodeInput) {
 
             try {
 
-                const response =
-                    await fetch(
-                        `https://api.zippopotam.us/pk/${postalCode}`
-                    );
+                const response = await fetch(
+                    `${API_URL}/api/postal-codes/${postalCode}`
+                );
 
                 const data =
                     await response.json();
 
                 if (
                     !response.ok ||
-                    !data.places ||
-                    data.places.length === 0
+                    !data.results ||
+                    data.results.length === 0
                 ) {
                     throw new Error(
                         "POSTAL CODE NOT FOUND"
@@ -1885,24 +1882,20 @@ if (postalCodeInput) {
                 }
 
                 const location =
-                    data.places[0];
-
-                const area =
-                    location["place name"] || "";
-
-                const city =
-                    location["state"] || "";
+                    data.results[0];
 
                 if (cityInput) {
                     cityInput.value =
-                        city;
+                        location.city || "";
                 }
 
                 updateCheckoutTotal();
 
                 if (postalArea) {
                     postalArea.innerHTML =
-                        `<strong>AREA:</strong> ${area}`;
+                        `<strong>AREA:</strong> ${
+                            location.area_name || ""
+                        }`;
                 }
 
             } catch (error) {
