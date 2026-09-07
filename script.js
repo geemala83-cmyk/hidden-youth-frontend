@@ -1698,7 +1698,12 @@ if (
                         address,
 
                     city:
-                        city
+                        city, 
+                   postalCode:
+    postalCode,
+
+deliveryCharge:
+    getDeliveryCharge()
 
                 },
 
