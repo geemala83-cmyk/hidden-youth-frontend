@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidden Youth — Button Down</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body.button-down-page { background:#030006; color:#fff; min-height:100vh; }
+.bd-header { width:min(1180px,calc(100% - 40px)); margin:0 auto; padding:34px 0 20px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.bd-brand { letter-spacing:.28em; font-size:12px; color:#b995d2; }
+.bd-back { border:1px solid rgba(186,126,255,.45); background:rgba(20,5,31,.65); color:#eadbfa; padding:12px 18px; border-radius:999px; text-decoration:none; font-size:11px; letter-spacing:.18em; }
+.bd-title { width:min(1180px,calc(100% - 40px)); margin:30px auto 42px; }
+.bd-title span { display:block; color:#a875c9; font-size:11px; letter-spacing:.35em; margin-bottom:12px; }
+.bd-title h1 { margin:0; font-family:Georgia,serif; font-size:clamp(48px,7vw,88px); font-weight:500; line-height:.95; }
+.bd-title h1 b { color:#c99bf1; font-weight:500; }
+.bd-title p { margin:18px 0 0; color:#9d91a8; letter-spacing:.16em; font-size:11px; }
+#buttonDownProducts { display:grid; width:min(1180px,calc(100% - 40px)); margin:0 auto 70px; grid-template-columns:repeat(4,1fr); gap:20px; }
+.bd-card { min-width:0; cursor:pointer; }
+.bd-image { position:relative; overflow:hidden; }
+.bd-image img { width:100%; display:block; }
+.bd-info { padding:14px 4px 0; }
+.bd-info h3 { margin:0 0 8px; }
+.bd-info p { margin:0 0 8px; color:#9d91a8; font-size:11px; }
+.bd-info strong { font-size:14px; }
+@media(max-width:900px) { #buttonDownProducts { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:560px) { .bd-header,.bd-title,#buttonDownProducts { width:calc(100% - 24px); } #buttonDownProducts { grid-template-columns:1fr; } }
+</style>
+</head>
+<body class="button-down-page">
+<header class="bd-header">
+  <div class="bd-brand">HIDDEN YOUTH / BUTTON DOWN</div>
+  <a class="bd-back" href="index.html#collections">← BACK TO COLLECTIONS</a>
+</header>
+
+<section class="bd-title">
+  <span>02 / BUTTON DOWN COLLECTION</span>
+  <h1>BUTTON <b>DOWN</b></h1>
+  <p>EVERYDAY / ELEVATED — EXPLORE THE COMPLETE COLLECTION</p>
+</section>
+
+<div id="buttonDownProducts"></div>
+
+<!-- ==============================
+         HIDDEN YOUTH CART
+    ============================== -->
+
+    <div class="cart-panel" id="cartPanel">
+
+        <div class="cart-header">
+
+            <div>
+                <span>HIDDEN YOUTH</span>
+                <h2>YOUR BAG</h2>
+            </div>
+
+            <button
+                type="button"
+                id="closeCart"
+                class="cart-close"
+                onclick="closeHiddenYouthCart()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="cart-items" id="cartItems">
+
+            <div class="empty-cart">
+
+                <span>◇</span>
+
+                <h3>
+                    YOUR BAG IS EMPTY
+                </h3>
+
+                <p>
+                    Discover something worth hiding.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <div class="cart-summary">
+
+                <span>
+                    SUBTOTAL
+                </span>
+
+                <strong id="cartTotal">
+                    Rs. 0
+                </strong>
+
+            </div>
+
+
+            <button
+                class="checkout-btn"
+                id="checkoutBtn"
+            >
+                PROCEED TO CHECKOUT
+                <span>→</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div
+        class="cart-overlay"
+        id="cartOverlay"
+    ></div>
+
+
+
+ <!-- =========================================
+     HIDDEN YOUTH CHECKOUT
+========================================= -->
+
+<div
+    class="checkout-overlay"
+    id="checkoutOverlay"
+></div>
+
+<div
+    class="checkout-panel"
+    id="checkoutPanel"
+>
+
+    <div class="checkout-header">
+
+        <div>
+
+            <span>
+                HIDDEN YOUTH
+            </span>
+
+            <h2>
+                CHECKOUT
+            </h2>
+
+        </div>
+
+        <button
+            type="button"
+            id="closeCheckout"
+            class="checkout-close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="checkout-content">
+
+        <form id="checkoutForm">
+
+            <label>
+
+                FULL NAME
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Your name"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                PHONE NUMBER
+
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="03XX XXXXXXX"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                DELIVERY ADDRESS
+
+                <textarea
+                    id="customerAddress"
+                    placeholder="Your complete delivery address"
+                    required
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                CITY
+
+                <input
+                    type="text"
+                    id="customerCity"
+                    placeholder="Lahore"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                POSTAL CODE
+
+                <input
+                    type="text"
+                    id="customerPostalCode"
+                    placeholder="Enter postal code"
+                    maxlength="5"
+                    inputmode="numeric"
+                    required
+                >
+
+            </label>
+
+
+            <div id="postalArea"></div>
+
+
+            <div class="checkout-summary">
+
+                <span>
+                    YOUR ORDER
+                </span>
+
+                <div id="checkoutItems"></div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        SUBTOTAL
+                    </span>
+
+                    <strong id="checkoutSubtotal">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        DELIVERY
+                    </span>
+
+                    <strong id="deliveryCharge">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong id="checkoutTotal">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="place-order-btn"
+            >
+
+                PLACE ORDER
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<script>
+const BUTTON_DOWN_API = "https://hidden-youth-backend-production.up.railway.app";
+
+function imageUrl(src) {
+    if (!src) return "";
+    return src;
+}
+
+async function loadButtonDownProducts() {
+    const container = document.getElementById("buttonDownProducts");
+
+    try {
+        const response = await fetch(BUTTON_DOWN_API + "/api/category/Button%20Down");
+        const data = await response.json();
+
+        if (!data.success) throw new Error("Products unavailable");
+
+        if (!data.products || data.products.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9d91a8;padding:60px 0;">NO BUTTON DOWN PRODUCTS YET.</div>';
+            return;
+        }
+
+        container.innerHTML = data.products.map(function(product) {
+            return `
+                <article class="bd-card" data-product-id="${product.id}">
+                    <div class="bd-image">
+                        <img src="${imageUrl(product.image || "")}" alt="${product.name || "Button Down"}">
+                    </div>
+                    <div class="bd-info">
+                        <h3>${product.name || "BUTTON DOWN"}</h3>
+                        <p>${product.description || "EVERYDAY / ELEVATED"}</p>
+                        <strong>Rs. ${Number(product.price || 0).toLocaleString()}</strong>
+                    </div>
+                </article>
+            `;
+        }).join("");
+
+        container.querySelectorAll(".bd-card").forEach(function(card) {
+            card.addEventListener("click", function() {
+                window.location.href = "product.html?id=" + card.dataset.productId;
+            });
+        });
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#9d91a8;padding:60px 0;">UNABLE TO LOAD PRODUCTS.</div>';
+    }
+}
+
+loadButtonDownProducts();
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
