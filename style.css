@@ -3506,3 +3506,74 @@ body {
         gap: 10px;
     }
 }
+/* ===== FIX PREMIUM COLLECTION CARDS ===== */
+
+.collection-buttons-wrap {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 40px auto !important;
+    padding: 0 20px !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px !important;
+}
+
+.collection-buttons-wrap .premium-collection-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 480px !important;
+    display: block !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.collection-buttons-wrap .collection-card-content {
+    width: 55% !important;
+    max-width: 55% !important;
+    position: relative !important;
+    z-index: 5 !important;
+    box-sizing: border-box !important;
+}
+
+.collection-buttons-wrap .collection-product {
+    width: 45% !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+}
+
+.collection-buttons-wrap .gym-product,
+.collection-buttons-wrap .buttondown-product {
+    width: 45% !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+}
+
+.collection-buttons-wrap .collection-card-content h2,
+.collection-buttons-wrap .collection-card-content h3 {
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+}
+
+@media (max-width: 700px) {
+    .collection-buttons-wrap {
+        grid-template-columns: 1fr !important;
+        padding: 0 12px !important;
+    }
+
+    .collection-buttons-wrap .premium-collection-card {
+        height: 480px !important;
+    }
+
+    .collection-buttons-wrap .collection-card-content {
+        width: 60% !important;
+        max-width: 60% !important;
+    }
+}
