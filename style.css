@@ -3277,386 +3277,232 @@ body {
     background: transparent;
     color: white;
 }
-/* =====================================================
-   NEW PREMIUM COLLECTION DESIGN
-   ===================================================== */
+/* ===== PREMIUM COLLECTION CARDS ===== */
 
-.collection-buttons-wrap {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 26px;
-    max-width: 1180px;
-    margin: 0 auto;
-}
-
-.premium-collection-card {
-    position: relative;
-    height: 480px;
-    overflow: hidden;
-    isolation: isolate;
-
-    border: 1px solid rgba(190, 110, 255, 0.55);
-    border-radius: 18px;
-
-    background:
-        radial-gradient(
-            circle at 50% 45%,
-            rgba(130, 35, 210, 0.32),
-            transparent 48%
-        ),
-        linear-gradient(
-            135deg,
-            #160625 0%,
-            #08020d 55%,
-            #030106 100%
-        );
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.55),
-        inset 0 0 45px rgba(150,60,240,.08);
-
-    color: white;
-    cursor: pointer;
-    text-align: center;
-
-    transform-style: preserve-3d;
-
-    transition:
-        transform .5s cubic-bezier(.16,1,.3,1),
-        box-shadow .5s ease,
-        border-color .4s ease;
-}
-
-.premium-collection-card::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    z-index: -1;
-
-    border-radius: 17px;
-
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            rgba(175,75,255,.24),
-            transparent 43%
-        );
-}
-
-.premium-collection-card::after {
-    content: "";
-    position: absolute;
-    width: 420px;
-    height: 420px;
-    left: 50%;
-    top: 52%;
-
-    transform: translate(-50%,-50%);
-
-    background: radial-gradient(
-        circle,
-        rgba(157,65,240,.28),
-        transparent 68%
-    );
-
-    filter: blur(35px);
-    z-index: -1;
-    pointer-events: none;
-}
-
-
-/* TOP */
-
-.collection-card-top {
-    position: absolute;
-    top: 30px;
-    left: 42px;
-    right: 42px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    z-index: 5;
-}
-
-.collection-card-top small {
-    font-size: 11px;
-    letter-spacing: 5px;
-    color: #caa6dc;
-}
-
-.collection-card-top span {
-    font-size: 10px;
-    line-height: 1.7;
-    letter-spacing: 4px;
-    text-align: right;
-    color: #b88bca;
-}
-
-
-/* PRODUCT */
-
-.collection-product {
-    position: absolute;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.collection-product img {
-    display: block;
+.collection-cards {
     width: 100%;
+    max-width: 1180px;
+    margin: 45px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    padding: 0 20px;
+}
+
+.fashion-card {
+    position: relative;
+    min-height: 520px;
+    overflow: hidden;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(157, 78, 255, .20), transparent 35%),
+        linear-gradient(145deg, #171020 0%, #09070d 55%, #12091d 100%);
+    border: 1px solid rgba(190, 120, 255, .25);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, .45),
+        inset 0 0 50px rgba(139, 55, 255, .06);
+    transition: .4s ease;
+}
+
+.fashion-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(190, 120, 255, .65);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, .55),
+        0 0 45px rgba(146, 55, 255, .18);
+}
+
+
+/* IMAGE AREA */
+
+.card-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 57%;
     height: 100%;
-    object-fit: contain;
-
-    filter:
-        drop-shadow(0 20px 35px rgba(0,0,0,.7))
-        drop-shadow(0 0 25px rgba(145,55,220,.25));
+    background-size: cover;
+    background-position: center;
+    opacity: .9;
+    z-index: 1;
 }
 
-.gym-product {
-    width: 250px;
-    height: 330px;
-
-    left: -10px;
-    bottom: -35px;
-
-    transform: rotate(-5deg);
-}
-
-.buttondown-product {
-    width: 280px;
-    height: 330px;
-
-    right: -35px;
-    bottom: -25px;
-
-    transform: rotate(3deg);
-}
-
-
-/* CENTER CONTENT */
-
-.collection-card-content {
+.card-image::after {
+    content: "";
     position: absolute;
     inset: 0;
+    background:
+        linear-gradient(90deg, #0a070e 0%, rgba(10,7,14,.45) 35%, transparent 80%),
+        linear-gradient(0deg, rgba(8,5,12,.85), transparent 45%);
+}
 
+.gym-image {
+    background-image: url("images/gym-fit.jpg");
+}
+
+.buttondown-image {
+    background-image: url("images/button-down.jpg");
+}
+
+
+/* TOP TEXT */
+
+.card-number {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 3;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: #c58aff;
+}
+
+.card-label {
+    position: absolute;
+    top: 27px;
+    right: 25px;
+    z-index: 3;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,.7);
+}
+
+
+/* CONTENT */
+
+.card-content {
+    position: relative;
+    z-index: 5;
+    width: 58%;
+    min-height: 520px;
+    padding: 115px 30px 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-
-    padding-top: 145px;
-
-    z-index: 4;
+    justify-content: flex-start;
 }
 
-.collection-card-content strong {
+.card-small {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #b477ef;
+    margin-bottom: 14px;
+}
+
+.card-content h3 {
+    margin: 0;
     font-family: Georgia, "Times New Roman", serif;
-
-    font-size: clamp(34px, 4vw, 58px);
-    line-height: 1;
-
-    letter-spacing: 1px;
-
-    color: #fff;
-
-    text-shadow:
-        0 5px 20px rgba(0,0,0,.7),
-        0 0 30px rgba(205,120,255,.16);
+    font-size: 52px;
+    line-height: .95;
+    letter-spacing: -2px;
+    color: #f8f2ff;
+    text-transform: uppercase;
 }
 
-.collection-subtitle {
-    margin-top: 20px;
-
-    font-size: 10px;
-    letter-spacing: 5px;
-
-    color: #c09bcf;
-}
-
-
-/* SYMBOL */
-
-.collection-symbol {
-    position: absolute;
-
-    top: 42px;
-    left: 50%;
-
-    width: 70px;
-    height: 70px;
-
-    transform: translateX(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid rgba(200,125,255,.7);
-    border-radius: 50%;
-
-    background: rgba(90,25,125,.15);
-
-    box-shadow:
-        0 0 25px rgba(165,70,255,.22),
-        inset 0 0 18px rgba(200,120,255,.08);
-
-    color: #d9aaff;
-    font-size: 25px;
-
-    z-index: 5;
+.card-content p {
+    margin: 18px 0 25px;
+    max-width: 300px;
+    color: rgba(255,255,255,.62);
+    font-size: 13px;
+    line-height: 1.7;
 }
 
 
 /* FEATURES */
 
-.collection-features {
+.card-features {
     display: flex;
-    gap: 42px;
-
-    margin-top: 42px;
+    gap: 16px;
+    margin-top: auto;
+    margin-bottom: 25px;
 }
 
-.collection-features div {
-    width: 105px;
-
+.card-features div {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    min-width: 65px;
 }
 
-.collection-features b {
-    font-size: 23px;
-    font-weight: 400;
-
-    color: #d49aff;
-
-    text-shadow:
-        0 0 18px rgba(175,75,255,.65);
+.card-features span {
+    color: #bd72ff;
+    font-size: 17px;
+    margin-bottom: 6px;
 }
 
-.collection-features small {
-    font-size: 8px;
-    line-height: 1.7;
-    letter-spacing: 3px;
+.card-features strong {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #fff;
+}
 
-    color: #c8a9d2;
+.card-features small {
+    margin-top: 3px;
+    font-size: 7px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,.42);
 }
 
 
-/* EXPLORE */
+/* EXPLORE BUTTON */
 
-.premium-collection-card .collection-explore {
-    position: absolute;
-
-    left: 50%;
-    bottom: 38px;
-
-    min-width: 330px;
-    height: 62px;
-
-    transform: translateX(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 35px;
-
-    padding: 0 20px;
-
-    border: 1px solid rgba(205,145,255,.75);
-    border-radius: 40px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(120,35,185,.55),
-            rgba(35,8,55,.65)
-        );
-
-    box-shadow:
-        0 0 30px rgba(145,55,235,.38),
-        inset 0 1px 0 rgba(255,255,255,.15);
-
-    font-size: 11px;
-    letter-spacing: 5px;
-
+.explore-btn {
+    width: 100%;
+    height: 52px;
+    border: 1px solid rgba(190,120,255,.55);
+    border-radius: 10px;
+    background: linear-gradient(
+        90deg,
+        rgba(111,38,180,.9),
+        rgba(177,86,255,.85)
+    );
     color: white;
-
-    z-index: 8;
-
-    transition:
-        transform .4s ease,
-        box-shadow .4s ease,
-        background .4s ease;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(153,65,255,.22);
+    transition: .3s ease;
 }
 
-.premium-collection-card .collection-explore b {
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: rgba(190,110,255,.25);
-
-    font-size: 22px;
-
-    transition: transform .35s ease;
+.explore-btn span {
+    margin-left: 12px;
+    font-size: 16px;
 }
 
-.premium-collection-card:hover {
-    transform:
-        translateY(-10px)
-        scale(1.012);
-
-    border-color: rgba(225,185,255,.9);
-
-    box-shadow:
-        0 35px 90px rgba(70,15,100,.65),
-        0 0 45px rgba(155,70,240,.25),
-        inset 0 0 50px rgba(160,70,240,.08);
-}
-
-.premium-collection-card:hover .collection-explore {
-    transform:
-        translateX(-50%)
-        translateY(-4px);
-
-    box-shadow:
-        0 0 45px rgba(165,75,255,.6);
-}
-
-.premium-collection-card:hover .collection-explore b {
-    transform: translateX(6px);
+.explore-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 35px rgba(171,77,255,.5);
 }
 
 
 /* MOBILE */
 
-@media (max-width: 800px) {
+@media (max-width: 700px) {
 
-    .collection-buttons-wrap {
+    .collection-cards {
         grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 12px;
     }
 
-    .premium-collection-card {
-        height: 430px;
+    .fashion-card {
+        min-height: 500px;
     }
 
-    .collection-features {
-        gap: 15px;
+    .card-image {
+        width: 65%;
     }
 
-    .collection-features div {
-        width: 85px;
+    .card-content {
+        width: 72%;
+        min-height: 500px;
+        padding: 105px 22px 22px;
     }
 
-    .premium-collection-card .collection-explore {
-        min-width: 280px;
+    .card-content h3 {
+        font-size: 42px;
+    }
+
+    .card-features {
+        gap: 10px;
     }
 }
