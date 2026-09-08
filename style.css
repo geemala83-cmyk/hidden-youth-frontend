@@ -3277,303 +3277,464 @@ body {
     background: transparent;
     color: white;
 }
-/* ===== PREMIUM COLLECTION CARDS ===== */
 
-.collection-cards {
+
+/* =====================================================
+   HIDDEN YOUTH — PREMIUM COLLECTION CARDS
+   ===================================================== */
+
+.collection-buttons-wrap {
+    position: relative;
+    z-index: 4;
     width: 100%;
     max-width: 1180px;
-    margin: 45px auto 0;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
-    padding: 0 20px;
 }
 
-.fashion-card {
+.collection-buttons-wrap .gym-fit-container {
+    width: 100%;
+    min-width: 0;
     position: relative;
-    min-height: 520px;
+}
+
+.collection-buttons-wrap .premium-collection-card {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    min-width: 0;
+    padding: 0;
     overflow: hidden;
-    border-radius: 24px;
+    display: block;
+    box-sizing: border-box;
+
+    border: 1px solid rgba(190, 130, 255, 0.32);
+    border-radius: 10px;
+
     background:
-        radial-gradient(circle at 80% 20%, rgba(157, 78, 255, .20), transparent 35%),
-        linear-gradient(145deg, #171020 0%, #09070d 55%, #12091d 100%);
-    border: 1px solid rgba(190, 120, 255, .25);
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, .45),
-        inset 0 0 50px rgba(139, 55, 255, .06);
-    transition: .4s ease;
+        radial-gradient(
+            circle at 72% 50%,
+            rgba(145, 55, 220, 0.20),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(30, 10, 45, 0.98),
+            rgba(4, 2, 8, 0.99)
+        );
+
+    color: white;
+    cursor: pointer;
+    text-align: left;
+
+    transform-style: preserve-3d;
+
+    transition:
+        border-color 0.45s ease,
+        box-shadow 0.45s ease,
+        transform 0.6s cubic-bezier(.16,1,.3,1);
 }
 
-.fashion-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(190, 120, 255, .65);
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, .55),
-        0 0 45px rgba(146, 55, 255, .18);
+.collection-buttons-wrap .premium-collection-card::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    z-index: 2;
+    pointer-events: none;
+
+    border: 1px solid rgba(210, 175, 255, 0.13);
+    border-radius: 6px;
+}
+
+.collection-buttons-wrap .premium-collection-card::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -100px;
+    top: 50%;
+    z-index: 1;
+    transform: translateY(-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(163, 70, 255, 0.28),
+            transparent 68%
+        );
+
+    filter: blur(28px);
+    pointer-events: none;
 }
 
 
-/* IMAGE AREA */
+/* TOP */
 
-.card-image {
+.collection-buttons-wrap .collection-card-top {
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    right: 28px;
+    z-index: 8;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.collection-buttons-wrap .collection-card-top small {
+    position: static;
+    color: #9273a5;
+    font-size: 8px;
+    letter-spacing: 4px;
+}
+
+.collection-buttons-wrap .collection-card-top span {
+    color: rgba(255,255,255,.55);
+    font-size: 7px;
+    line-height: 1.7;
+    letter-spacing: 3px;
+    text-align: right;
+}
+
+
+/* PRODUCT IMAGE */
+
+.collection-buttons-wrap .collection-product {
     position: absolute;
     top: 0;
     right: 0;
-    width: 57%;
+    width: 52%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: .9;
-    z-index: 1;
+    z-index: 3;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
 }
 
-.card-image::after {
+.collection-buttons-wrap .collection-product::after {
     content: "";
     position: absolute;
     inset: 0;
+
     background:
-        linear-gradient(90deg, #0a070e 0%, rgba(10,7,14,.45) 35%, transparent 80%),
-        linear-gradient(0deg, rgba(8,5,12,.85), transparent 45%);
+        linear-gradient(
+            90deg,
+            #0b0610 0%,
+            rgba(11,6,16,.72) 22%,
+            rgba(11,6,16,.15) 58%,
+            transparent 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(5,2,9,.65),
+            transparent 35%,
+            transparent 75%,
+            rgba(5,2,9,.3)
+        );
 }
 
-.gym-image {
-    background-image: url("images/gym-fit.jpg");
+.collection-buttons-wrap .collection-product img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+
+    filter:
+        brightness(.86)
+        saturate(.82)
+        contrast(1.04);
+
+    transition:
+        transform .7s cubic-bezier(.16,1,.3,1),
+        filter .5s ease;
 }
 
-.buttondown-image {
-    background-image: url("images/button-down.jpg");
+.collection-buttons-wrap .premium-collection-card:hover
+.collection-product img {
+    transform: scale(1.045);
+    filter:
+        brightness(.98)
+        saturate(.95)
+        contrast(1.05);
 }
 
 
-/* TOP TEXT */
+/* SYMBOL */
 
-.card-number {
+.collection-buttons-wrap .premium-collection-card .collection-symbol {
     position: absolute;
     top: 25px;
-    left: 25px;
-    z-index: 3;
-    font-size: 13px;
-    letter-spacing: 5px;
-    color: #c58aff;
-}
+    left: 50%;
+    z-index: 8;
 
-.card-label {
-    position: absolute;
-    top: 27px;
-    right: 25px;
-    z-index: 3;
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: rgba(255,255,255,.7);
+    width: 38px;
+    height: 38px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(190,130,255,.35);
+    border-radius: 50%;
+
+    background: rgba(45,16,68,.35);
+    color: #c898ff;
+    font-size: 17px;
+
+    box-shadow: 0 0 22px rgba(150,65,235,.14);
+
+    transition: transform .6s ease, box-shadow .5s ease;
 }
 
 
 /* CONTENT */
 
-.card-content {
-    position: relative;
-    z-index: 5;
-    width: 58%;
-    min-height: 520px;
-    padding: 115px 30px 30px;
+.collection-buttons-wrap .premium-collection-card .collection-card-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 7;
+
+    width: 59%;
+    max-width: 59%;
+    padding: 112px 30px 28px;
+
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    align-items: flex-start;
+
+    box-sizing: border-box;
 }
 
-.card-small {
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: #b477ef;
-    margin-bottom: 14px;
-}
+.collection-buttons-wrap .premium-collection-card .collection-card-content > strong {
+    position: static;
+    width: auto;
+    padding: 0;
+    transform: none;
 
-.card-content h3 {
-    margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 52px;
+    color: #f1eaf6;
+    font-family: Georgia, serif;
+    font-size: clamp(34px, 4vw, 56px);
+    font-weight: 500;
     line-height: .95;
-    letter-spacing: -2px;
-    color: #f8f2ff;
-    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
 }
 
-.card-content p {
-    margin: 18px 0 25px;
-    max-width: 300px;
-    color: rgba(255,255,255,.62);
-    font-size: 13px;
-    line-height: 1.7;
+.collection-buttons-wrap .premium-collection-card .collection-subtitle {
+    display: block;
+    width: auto;
+    margin-top: 13px;
+
+    color: #9c82aa;
+    font-size: 8px;
+    letter-spacing: 3px;
 }
 
 
 /* FEATURES */
 
-.card-features {
-    display: flex;
-    gap: 16px;
+.collection-buttons-wrap .premium-collection-card .collection-features {
+    position: static;
+
+    width: 100%;
     margin-top: auto;
-    margin-bottom: 25px;
+    margin-bottom: 23px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
 }
 
-.card-features div {
+.collection-buttons-wrap .premium-collection-card .collection-features > div {
+    min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 65px;
 }
 
-.card-features span {
-    color: #bd72ff;
-    font-size: 17px;
-    margin-bottom: 6px;
-}
+.collection-buttons-wrap .premium-collection-card .collection-features b {
+    margin-bottom: 7px;
 
-.card-features strong {
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: #fff;
-}
-
-.card-features small {
-    margin-top: 3px;
-    font-size: 7px;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,.42);
-}
-
-
-/* EXPLORE BUTTON */
-
-.explore-btn {
-    width: 100%;
-    height: 52px;
-    border: 1px solid rgba(190,120,255,.55);
-    border-radius: 10px;
-    background: linear-gradient(
-        90deg,
-        rgba(111,38,180,.9),
-        rgba(177,86,255,.85)
-    );
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    cursor: pointer;
-    box-shadow: 0 0 25px rgba(153,65,255,.22);
-    transition: .3s ease;
-}
-
-.explore-btn span {
-    margin-left: 12px;
+    color: #c28aff;
     font-size: 16px;
+    font-weight: 400;
 }
 
-.explore-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 35px rgba(171,77,255,.5);
+.collection-buttons-wrap .premium-collection-card .collection-features small {
+    position: static;
+
+    color: rgba(255,255,255,.48);
+    font-size: 6px;
+    line-height: 1.6;
+    letter-spacing: 1.5px;
+}
+
+
+/* EXPLORE */
+
+.collection-buttons-wrap .premium-collection-card .collection-explore {
+    position: static;
+
+    width: 100%;
+    min-height: 46px;
+    padding: 0 17px;
+
+    transform: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(190,130,255,.34);
+    border-radius: 7px;
+
+    background: rgba(102,35,150,.10);
+    color: #c0a9cc;
+
+    font-size: 7px;
+    letter-spacing: 2.5px;
+
+    transition:
+        background .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease;
+}
+
+.collection-buttons-wrap .premium-collection-card .collection-explore b {
+    position: static;
+
+    color: #c58dff;
+    font-size: 15px;
+    font-weight: 400;
+
+    transition: transform .35s ease;
+}
+
+
+/* HOVER */
+
+.collection-buttons-wrap .premium-collection-card:hover {
+    border-color: rgba(210,165,255,.68);
+
+    box-shadow:
+        0 25px 65px rgba(55,15,90,.38),
+        0 0 42px rgba(150,65,235,.17);
+}
+
+.collection-buttons-wrap .premium-collection-card:hover .collection-symbol {
+    transform: translateX(-50%) rotate(180deg) scale(1.08);
+    box-shadow: 0 0 28px rgba(172,87,255,.32);
+}
+
+.collection-buttons-wrap .premium-collection-card:hover .collection-explore {
+    background: rgba(139,55,200,.20);
+    border-color: rgba(205,165,255,.55);
+    box-shadow: 0 0 24px rgba(157,74,240,.18);
+}
+
+.collection-buttons-wrap .premium-collection-card:hover .collection-explore b {
+    transform: translateX(5px);
+}
+
+
+/* GYM PRODUCTS */
+
+.collection-buttons-wrap .gym-fit-container .gym-products {
+    display: none;
+    width: 100%;
+    margin-top: 22px;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.collection-buttons-wrap .gym-fit-container.active .gym-products {
+    display: grid;
 }
 
 
 /* MOBILE */
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
 
-    .collection-cards {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 12px;
-    }
-
-    .fashion-card {
-        min-height: 500px;
-    }
-
-    .card-image {
-        width: 65%;
-    }
-
-    .card-content {
-        width: 72%;
-        min-height: 500px;
-        padding: 105px 22px 22px;
-    }
-
-    .card-content h3 {
-        font-size: 42px;
-    }
-
-    .card-features {
-        gap: 10px;
-    }
-}
-/* ===== FIX PREMIUM COLLECTION CARDS ===== */
-
-.collection-buttons-wrap {
-    width: 100% !important;
-    max-width: 1180px !important;
-    margin: 40px auto !important;
-    padding: 0 20px !important;
-
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 28px !important;
-}
-
-.collection-buttons-wrap .premium-collection-card {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: 480px !important;
-    display: block !important;
-    position: relative !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-}
-
-.collection-buttons-wrap .collection-card-content {
-    width: 55% !important;
-    max-width: 55% !important;
-    position: relative !important;
-    z-index: 5 !important;
-    box-sizing: border-box !important;
-}
-
-.collection-buttons-wrap .collection-product {
-    width: 45% !important;
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-    height: 100% !important;
-}
-
-.collection-buttons-wrap .gym-product,
-.collection-buttons-wrap .buttondown-product {
-    width: 45% !important;
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-    height: 100% !important;
-}
-
-.collection-buttons-wrap .collection-card-content h2,
-.collection-buttons-wrap .collection-card-content h3 {
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: normal !important;
-}
-
-@media (max-width: 700px) {
     .collection-buttons-wrap {
-        grid-template-columns: 1fr !important;
-        padding: 0 12px !important;
+        grid-template-columns: 1fr;
+        gap: 22px;
     }
 
     .collection-buttons-wrap .premium-collection-card {
-        height: 480px !important;
+        height: 450px;
     }
 
-    .collection-buttons-wrap .collection-card-content {
-        width: 60% !important;
-        max-width: 60% !important;
+    .collection-buttons-wrap .collection-product {
+        width: 50%;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-card-content {
+        width: 64%;
+        max-width: 64%;
+        padding: 105px 22px 22px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-card-content > strong {
+        font-size: 42px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-features {
+        gap: 8px;
+    }
+
+    .collection-buttons-wrap .gym-fit-container .gym-products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+
+    .collection-buttons-wrap {
+        padding: 0 10px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card {
+        height: 430px;
+    }
+
+    .collection-buttons-wrap .collection-product {
+        width: 47%;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-card-content {
+        width: 70%;
+        max-width: 70%;
+        padding: 100px 18px 18px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-card-content > strong {
+        font-size: 35px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-features small {
+        font-size: 5.5px;
+    }
+
+    .collection-buttons-wrap .premium-collection-card .collection-explore {
+        font-size: 6px;
     }
 }
