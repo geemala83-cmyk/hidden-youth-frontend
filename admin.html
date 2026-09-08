@@ -721,6 +721,37 @@
                 height: 220px;
             }
         }
+
+        /* PRODUCT CATEGORY FILTERS */
+        .product-category-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0 0 18px;
+        }
+
+        .product-category-tab {
+            border: 1px solid #333;
+            background: #151515;
+            color: #888;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .product-category-tab.active {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .admin-product-sku {
+            color: #666;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
     </style>
 </head>
 
@@ -980,6 +1011,12 @@
 
             </div>
 
+            <div class="product-category-tabs" id="productCategoryTabs">
+                <button class="product-category-tab active" data-category-filter="ALL">ALL PRODUCTS</button>
+                <button class="product-category-tab" data-category-filter="Gym Fit">GYM FIT</button>
+                <button class="product-category-tab" data-category-filter="Button Down">BUTTON DOWN</button>
+            </div>
+
             <div
                 class="products-grid"
                 id="productsContainer"
@@ -1183,8 +1220,23 @@
                         Category
                     </label>
 
+                    <select id="productCategory">
+                        <option value="Gym Fit">Gym Fit</option>
+                        <option value="Button Down">Button Down</option>
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        SKU (Optional)
+                    </label>
+
                     <input
-                        id="productCategory"
+                        id="productSku"
+                        placeholder="GYM-001"
                     >
 
                 </div>
@@ -1241,11 +1293,25 @@
                 <div class="field form-full">
 
                     <label>
-                        Description
+                        Short Description
                     </label>
 
                     <textarea
                         id="productDescription"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="field form-full">
+
+                    <label>
+                        Product Details
+                    </label>
+
+                    <textarea
+                        id="productDetails"
+                        placeholder="Fabric: ...&#10;Colour: ...&#10;Fit: ...&#10;Care: ..."
                     ></textarea>
 
                 </div>
@@ -1307,6 +1373,7 @@
 
     let products = [];
     let orders = [];
+    let productCategoryFilter = "ALL";
 
 
     /* =====================================================
@@ -1650,8 +1717,26 @@ loginError.textContent =
         }
 
 
+        const visibleProducts =
+            productCategoryFilter === "ALL"
+                ? products
+                : products.filter(product =>
+                    String(product.category || "").toLowerCase() ===
+                    productCategoryFilter.toLowerCase()
+                );
+
+        if (!visibleProducts.length) {
+            container.innerHTML = `
+                <div class="empty">
+                    <h3>No Products</h3>
+                    <p>No products found in this section.</p>
+                </div>
+            `;
+            return;
+        }
+
         container.innerHTML =
-            products.map(product => {
+            visibleProducts.map(product => {
 
                 const stock =
                     Number(product.stock || 0);
@@ -1701,6 +1786,12 @@ loginError.textContent =
                                     <div class="product-category">
                                         ${escapeHTML(product.category || "Uncategorized")}
                                     </div>
+
+                                    ${product.sku ? `
+                                        <div class="admin-product-sku">
+                                            SKU: ${escapeHTML(product.sku)}
+                                        </div>
+                                    ` : ""}
 
                                 </div>
 
@@ -1824,12 +1915,22 @@ loginError.textContent =
             document.getElementById(
                 "productCategory"
             ).value =
-                product.category || "";
+                product.category || "Gym Fit";
+
+            document.getElementById(
+                "productSku"
+            ).value =
+                product.sku || "";
 
             document.getElementById(
                 "productDescription"
             ).value =
                 product.description || "";
+
+            document.getElementById(
+                "productDetails"
+            ).value =
+                product.details || "";
 
             document.getElementById(
                 "productPrice"
@@ -1924,9 +2025,19 @@ loginError.textContent =
                             "productCategory"
                         ).value.trim(),
 
+                    sku:
+                        document.getElementById(
+                            "productSku"
+                        ).value.trim(),
+
                     description:
                         document.getElementById(
                             "productDescription"
+                        ).value.trim(),
+
+                    details:
+                        document.getElementById(
+                            "productDetails"
                         ).value.trim(),
 
                     price:
@@ -2752,6 +2863,27 @@ loginError.textContent =
                 }
             );
 
+        });
+
+
+    /* =====================================================
+       PRODUCT CATEGORY FILTERS
+    ===================================================== */
+
+    document
+        .querySelectorAll(".product-category-tab")
+        .forEach(button => {
+            button.addEventListener("click", function() {
+                document
+                    .querySelectorAll(".product-category-tab")
+                    .forEach(tab => tab.classList.remove("active"));
+
+                button.classList.add("active");
+                productCategoryFilter =
+                    button.dataset.categoryFilter || "ALL";
+
+                renderProducts();
+            });
         });
 
 
