@@ -495,8 +495,19 @@ addToBagButtons.forEach(
                         );
                     }
 
+                    const productCard =
+                        button.closest("[data-product-id]");
+
+                    const productId = productCard
+                        ? Number(productCard.dataset.productId)
+                        : null;
+
                     const product =
-                        data.products[index];
+                        productId !== null
+                            ? data.products.find(
+                                item => Number(item.id) === productId
+                              )
+                            : data.products[index];
 
                     if (!product) {
                         return;
@@ -957,8 +968,19 @@ heartButtons.forEach(
                         return;
                     }
 
+                    const productCard =
+                        button.closest("[data-product-id]");
+
+                    const productId = productCard
+                        ? Number(productCard.dataset.productId)
+                        : null;
+
                     const product =
-                        data.products[index];
+                        productId !== null
+                            ? data.products.find(
+                                item => Number(item.id) === productId
+                              )
+                            : data.products[index];
 
                     if (!product) {
                         return;
