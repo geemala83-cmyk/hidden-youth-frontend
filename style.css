@@ -3291,7 +3291,6 @@ body {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
     gap: 28px;
 }
 
@@ -3306,20 +3305,32 @@ body {
     width: 100%;
     height: 480px;
     min-width: 0;
-    margin: 0;
     padding: 0;
     overflow: hidden;
     display: block;
     box-sizing: border-box;
+
     border: 1px solid rgba(190, 130, 255, 0.32);
     border-radius: 10px;
+
     background:
-        radial-gradient(circle at 72% 50%, rgba(145, 55, 220, 0.20), transparent 42%),
-        linear-gradient(145deg, rgba(30, 10, 45, 0.98), rgba(4, 2, 8, 0.99));
+        radial-gradient(
+            circle at 72% 50%,
+            rgba(145, 55, 220, 0.20),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(30, 10, 45, 0.98),
+            rgba(4, 2, 8, 0.99)
+        );
+
     color: white;
     cursor: pointer;
     text-align: left;
+
     transform-style: preserve-3d;
+
     transition:
         border-color 0.45s ease,
         box-shadow 0.45s ease,
@@ -3332,6 +3343,7 @@ body {
     inset: 10px;
     z-index: 2;
     pointer-events: none;
+
     border: 1px solid rgba(210, 175, 255, 0.13);
     border-radius: 6px;
 }
@@ -3345,11 +3357,20 @@ body {
     top: 50%;
     z-index: 1;
     transform: translateY(-50%);
+
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(163, 70, 255, 0.28), transparent 68%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(163, 70, 255, 0.28),
+            transparent 68%
+        );
+
     filter: blur(28px);
     pointer-events: none;
 }
+
 
 /* TOP */
 
@@ -3359,6 +3380,7 @@ body {
     left: 28px;
     right: 28px;
     z-index: 8;
+
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -3379,6 +3401,7 @@ body {
     text-align: right;
 }
 
+
 /* PRODUCT IMAGE */
 
 .collection-buttons-wrap .collection-product {
@@ -3389,9 +3412,11 @@ body {
     height: 100%;
     z-index: 3;
     overflow: hidden;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     pointer-events: none;
 }
 
@@ -3399,6 +3424,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
+
     background:
         linear-gradient(
             90deg,
@@ -3422,16 +3448,26 @@ body {
     display: block;
     object-fit: cover;
     object-position: center;
-    filter: brightness(.86) saturate(.82) contrast(1.04);
+
+    filter:
+        brightness(.86)
+        saturate(.82)
+        contrast(1.04);
+
     transition:
         transform .7s cubic-bezier(.16,1,.3,1),
         filter .5s ease;
 }
 
-.collection-buttons-wrap .premium-collection-card:hover .collection-product img {
+.collection-buttons-wrap .premium-collection-card:hover
+.collection-product img {
     transform: scale(1.045);
-    filter: brightness(.98) saturate(.95) contrast(1.05);
+    filter:
+        brightness(.98)
+        saturate(.95)
+        contrast(1.05);
 }
+
 
 /* SYMBOL */
 
@@ -3440,20 +3476,28 @@ body {
     top: 25px;
     left: 50%;
     z-index: 8;
+
     width: 38px;
     height: 38px;
+
     transform: translateX(-50%);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border: 1px solid rgba(190,130,255,.35);
     border-radius: 50%;
+
     background: rgba(45,16,68,.35);
     color: #c898ff;
     font-size: 17px;
+
     box-shadow: 0 0 22px rgba(150,65,235,.14);
+
     transition: transform .6s ease, box-shadow .5s ease;
 }
+
 
 /* CONTENT */
 
@@ -3463,12 +3507,15 @@ body {
     top: 0;
     bottom: 0;
     z-index: 7;
+
     width: 59%;
     max-width: 59%;
     padding: 112px 30px 28px;
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     box-sizing: border-box;
 }
 
@@ -3477,6 +3524,7 @@ body {
     width: auto;
     padding: 0;
     transform: none;
+
     color: #f1eaf6;
     font-family: Georgia, serif;
     font-size: clamp(34px, 4vw, 56px);
@@ -3490,18 +3538,22 @@ body {
     display: block;
     width: auto;
     margin-top: 13px;
+
     color: #9c82aa;
     font-size: 8px;
     letter-spacing: 3px;
 }
 
+
 /* FEATURES */
 
 .collection-buttons-wrap .premium-collection-card .collection-features {
     position: static;
+
     width: 100%;
     margin-top: auto;
     margin-bottom: 23px;
+
     display: flex;
     align-items: flex-start;
     gap: 15px;
@@ -3516,6 +3568,7 @@ body {
 
 .collection-buttons-wrap .premium-collection-card .collection-features b {
     margin-bottom: 7px;
+
     color: #c28aff;
     font-size: 16px;
     font-weight: 400;
@@ -3523,31 +3576,41 @@ body {
 
 .collection-buttons-wrap .premium-collection-card .collection-features small {
     position: static;
+
     color: rgba(255,255,255,.48);
     font-size: 6px;
     line-height: 1.6;
     letter-spacing: 1.5px;
 }
 
+
 /* EXPLORE */
 
 .collection-buttons-wrap .premium-collection-card .collection-explore {
     position: static;
+
     width: 100%;
     min-height: 46px;
     padding: 0 17px;
+
     transform: none;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+
     box-sizing: border-box;
+
     border: 1px solid rgba(190,130,255,.34);
     border-radius: 7px;
+
     background: rgba(102,35,150,.10);
     color: #c0a9cc;
+
     font-size: 7px;
     letter-spacing: 2.5px;
+
     transition:
         background .4s ease,
         border-color .4s ease,
@@ -3556,16 +3619,20 @@ body {
 
 .collection-buttons-wrap .premium-collection-card .collection-explore b {
     position: static;
+
     color: #c58dff;
     font-size: 15px;
     font-weight: 400;
+
     transition: transform .35s ease;
 }
+
 
 /* HOVER */
 
 .collection-buttons-wrap .premium-collection-card:hover {
     border-color: rgba(210,165,255,.68);
+
     box-shadow:
         0 25px 65px rgba(55,15,90,.38),
         0 0 42px rgba(150,65,235,.17);
@@ -3586,12 +3653,14 @@ body {
     transform: translateX(5px);
 }
 
+
 /* GYM PRODUCTS */
 
 .collection-buttons-wrap .gym-fit-container .gym-products {
     display: none;
     width: 100%;
     margin-top: 22px;
+
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
@@ -3600,9 +3669,11 @@ body {
     display: grid;
 }
 
+
 /* MOBILE */
 
 @media (max-width: 750px) {
+
     .collection-buttons-wrap {
         grid-template-columns: 1fr;
         gap: 22px;
@@ -3636,6 +3707,7 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .collection-buttons-wrap {
         padding: 0 10px;
     }
@@ -3666,3 +3738,101 @@ body {
         font-size: 6px;
     }
 }
+
+/* =========================================================
+   FINAL COLLECTION FIX — BUTTON DOWN
+   Only overrides Collection card layout/image rendering.
+   ========================================================= */
+
+.collection-buttons-wrap {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 28px !important;
+    align-items: start !important;
+}
+
+.collection-buttons-wrap > .gym-fit-container,
+.collection-buttons-wrap > .premium-collection-card {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.collection-buttons-wrap > .premium-collection-card,
+.collection-buttons-wrap .gym-fit-container > .premium-collection-card {
+    height: 480px !important;
+    width: 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Button Down image — keep it visible on the right */
+.collection-buttons-wrap .buttondown-product {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 52% !important;
+    height: 100% !important;
+    z-index: 20 !important;
+    display: block !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+.collection-buttons-wrap .buttondown-product img {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 21 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    filter: brightness(.92) saturate(.92) contrast(1.03) !important;
+}
+
+/* Keep the card text above the image only where it belongs */
+.collection-buttons-wrap .premium-collection-card .collection-card-content {
+    z-index: 30 !important;
+}
+
+.collection-buttons-wrap .premium-collection-card .collection-card-top,
+.collection-buttons-wrap .premium-collection-card .collection-symbol {
+    z-index: 31 !important;
+}
+
+/* Do not let the decorative overlay hide the product image */
+.collection-buttons-wrap .buttondown-product::after {
+    z-index: 22 !important;
+    pointer-events: none !important;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8, 3, 12, .98) 0%,
+            rgba(8, 3, 12, .62) 24%,
+            rgba(8, 3, 12, .12) 58%,
+            transparent 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(5, 2, 9, .30),
+            transparent 45%
+        ) !important;
+}
+
+@media (max-width: 750px) {
+    .collection-buttons-wrap {
+        grid-template-columns: 1fr !important;
+    }
+
+    .collection-buttons-wrap > .premium-collection-card,
+    .collection-buttons-wrap .gym-fit-container > .premium-collection-card {
+        height: 450px !important;
+    }
+}
+
