@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidden Youth — Product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body.product-page { background:#030006; color:#fff; min-height:100vh; }
+.product-header { width:min(1180px,calc(100% - 40px)); margin:0 auto; padding:30px 0; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.product-brand { font-size:12px; letter-spacing:.28em; color:#b995d2; }
+.product-back { color:#eadbfa; text-decoration:none; border:1px solid rgba(186,126,255,.45); background:rgba(20,5,31,.65); padding:11px 16px; border-radius:999px; font-size:10px; letter-spacing:.16em; }
+.product-main { width:min(1180px,calc(100% - 40px)); margin:20px auto 80px; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr); gap:70px; align-items:center; }
+.product-gallery { min-width:0; display:flex; justify-content:center; }
+.product-image-box { width:100%; max-width:620px; height:430px; border:1px solid rgba(190,125,255,.25); background:radial-gradient(circle at 50% 45%,rgba(116,49,170,.20),rgba(3,0,6,.92) 68%); border-radius:18px; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; cursor:zoom-in; }
+.product-image-box img { width:100%; height:100%; object-fit:contain; padding:25px; transition:transform .35s ease; }
+.product-image-box:hover img { transform:scale(1.04); }
+.zoom-hint { position:absolute; right:16px; bottom:14px; padding:8px 11px; border:1px solid rgba(255,255,255,.18); background:rgba(0,0,0,.45); border-radius:999px; color:#cfc4d7; font-size:9px; letter-spacing:.14em; }
+.product-info-panel { padding:10px 0; }
+.product-category { color:#a875c9; font-size:10px; letter-spacing:.28em; margin-bottom:14px; }
+.product-title { margin:0; font-family:Georgia,serif; font-size:clamp(38px,5vw,64px); font-weight:500; line-height:.98; }
+.product-price { margin:22px 0 26px; font-size:22px; font-weight:600; }
+.product-sku { color:#8f8497; font-size:10px; letter-spacing:.16em; margin-bottom:25px; }
+.product-description { color:#aaa0b0; line-height:1.8; font-size:13px; white-space:pre-line; }
+.product-details { margin-top:25px; padding-top:22px; border-top:1px solid rgba(255,255,255,.09); color:#d8d0dc; font-size:12px; line-height:1.9; white-space:pre-line; }
+.product-actions { margin-top:30px; display:flex; gap:12px; }
+.product-add { border:0; background:#fff; color:#09050c; padding:15px 24px; font-size:10px; font-weight:700; letter-spacing:.18em; cursor:pointer; border-radius:999px; }
+.product-add.added { opacity:.65; }
+.product-error { width:min(800px,calc(100% - 40px)); margin:80px auto; text-align:center; color:#b9afbf; }
+.zoom-modal { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.92); padding:30px; }
+.zoom-modal.active { display:flex; }
+.zoom-modal img { max-width:92vw; max-height:88vh; object-fit:contain; }
+.zoom-close { position:absolute; top:22px; right:26px; border:0; background:transparent; color:#fff; font-size:34px; cursor:pointer; }
+@media(max-width:850px) {
+    .product-main { grid-template-columns:1fr; gap:35px; }
+    .product-image-box { height:420px; }
+}
+@media(max-width:560px) {
+    .product-header,.product-main { width:calc(100% - 24px); }
+    .product-header { padding-top:20px; }
+    .product-image-box { height:360px; }
+}
+</style>
+</head>
+<body class="product-page">
+
+<header class="product-header">
+    <div class="product-brand">HIDDEN YOUTH</div>
+    <a class="product-back" href="gym-fit.html">← BACK TO COLLECTION</a>
+</header>
+
+<main id="productArea">
+    <div class="product-main">
+        <section class="product-gallery">
+            <div class="product-image-box" id="productImageBox" aria-label="Zoom product image">
+                <img id="productImage" src="" alt="">
+                <span class="zoom-hint">CLICK TO ZOOM</span>
+            </div>
+        </section>
+
+        <section class="product-info-panel">
+            <div class="product-category" id="productCategory"></div>
+            <h1 class="product-title" id="productName">Loading...</h1>
+            <div class="product-price" id="productPrice"></div>
+            <div class="product-sku" id="productSku"></div>
+            <div class="product-description" id="productDescription"></div>
+            <div class="product-details" id="productDetails"></div>
+            <div class="product-actions">
+                <button class="product-add" id="productAdd" type="button">ADD TO BAG</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div class="zoom-modal" id="zoomModal">
+    <button class="zoom-close" id="zoomClose" type="button" aria-label="Close zoom">×</button>
+    <img id="zoomImage" src="" alt="">
+</div>
+
+<!-- ==============================
+         HIDDEN YOUTH CART
+    ============================== -->
+
+    <div class="cart-panel" id="cartPanel">
+
+        <div class="cart-header">
+
+            <div>
+                <span>HIDDEN YOUTH</span>
+                <h2>YOUR BAG</h2>
+            </div>
+
+            <button
+                type="button"
+                id="closeCart"
+                class="cart-close"
+                onclick="closeHiddenYouthCart()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="cart-items" id="cartItems">
+
+            <div class="empty-cart">
+
+                <span>◇</span>
+
+                <h3>
+                    YOUR BAG IS EMPTY
+                </h3>
+
+                <p>
+                    Discover something worth hiding.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <div class="cart-summary">
+
+                <span>
+                    SUBTOTAL
+                </span>
+
+                <strong id="cartTotal">
+                    Rs. 0
+                </strong>
+
+            </div>
+
+
+            <button
+                class="checkout-btn"
+                id="checkoutBtn"
+            >
+                PROCEED TO CHECKOUT
+                <span>→</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div
+        class="cart-overlay"
+        id="cartOverlay"
+    ></div>
+
+
+
+ <!-- =========================================
+     HIDDEN YOUTH CHECKOUT
+========================================= -->
+
+<div
+    class="checkout-overlay"
+    id="checkoutOverlay"
+></div>
+
+<div
+    class="checkout-panel"
+    id="checkoutPanel"
+>
+
+    <div class="checkout-header">
+
+        <div>
+
+            <span>
+                HIDDEN YOUTH
+            </span>
+
+            <h2>
+                CHECKOUT
+            </h2>
+
+        </div>
+
+        <button
+            type="button"
+            id="closeCheckout"
+            class="checkout-close"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="checkout-content">
+
+        <form id="checkoutForm">
+
+            <label>
+
+                FULL NAME
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Your name"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                PHONE NUMBER
+
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="03XX XXXXXXX"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                DELIVERY ADDRESS
+
+                <textarea
+                    id="customerAddress"
+                    placeholder="Your complete delivery address"
+                    required
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                CITY
+
+                <input
+                    type="text"
+                    id="customerCity"
+                    placeholder="Lahore"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+
+                POSTAL CODE
+
+                <input
+                    type="text"
+                    id="customerPostalCode"
+                    placeholder="Enter postal code"
+                    maxlength="5"
+                    inputmode="numeric"
+                    required
+                >
+
+            </label>
+
+
+            <div id="postalArea"></div>
+
+
+            <div class="checkout-summary">
+
+                <span>
+                    YOUR ORDER
+                </span>
+
+                <div id="checkoutItems"></div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        SUBTOTAL
+                    </span>
+
+                    <strong id="checkoutSubtotal">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        DELIVERY
+                    </span>
+
+                    <strong id="deliveryCharge">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong id="checkoutTotal">
+                        Rs. 0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="place-order-btn"
+            >
+
+                PLACE ORDER
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<script>
+const PRODUCT_API = "https://hidden-youth-backend-production.up.railway.app";
+const productId = new URLSearchParams(window.location.search).get("id");
+let currentProduct = null;
+
+function resolveImage(src) {
+    if (!src) return "";
+    if (/^(https?:|data:|blob:|\/)/i.test(src)) return src;
+    return src;
+}
+
+async function loadProductDetail() {
+    if (!productId) {
+        document.getElementById("productArea").innerHTML =
+            '<div class="product-error">Product not found.</div>';
+        return;
+    }
+
+    try {
+        const response = await fetch(PRODUCT_API + "/api/products/" + encodeURIComponent(productId));
+        const data = await response.json();
+
+        if (!data.success || !data.product) throw new Error("Product unavailable");
+
+        currentProduct = data.product;
+
+        document.title = "Hidden Youth — " + (currentProduct.name || "Product");
+        document.getElementById("productCategory").textContent =
+            (currentProduct.category || "HIDDEN YOUTH").toUpperCase();
+        document.getElementById("productName").textContent =
+            currentProduct.name || "Product";
+        document.getElementById("productPrice").textContent =
+            "Rs. " + Number(currentProduct.price || 0).toLocaleString();
+        document.getElementById("productSku").textContent =
+            currentProduct.sku ? "SKU: " + currentProduct.sku : "";
+        document.getElementById("productDescription").textContent =
+            currentProduct.description || "";
+        document.getElementById("productDetails").textContent =
+            currentProduct.details || "";
+
+        const image = resolveImage(currentProduct.image);
+        document.getElementById("productImage").src = image;
+        document.getElementById("productImage").alt = currentProduct.name || "Product";
+        document.getElementById("zoomImage").src = image;
+        document.getElementById("zoomImage").alt = currentProduct.name || "Product";
+    } catch (error) {
+        console.error(error);
+        document.getElementById("productArea").innerHTML =
+            '<div class="product-error">Unable to load this product.</div>';
+    }
+}
+
+document.getElementById("productImageBox").addEventListener("click", function() {
+    document.getElementById("zoomModal").classList.add("active");
+});
+
+document.getElementById("zoomClose").addEventListener("click", function() {
+    document.getElementById("zoomModal").classList.remove("active");
+});
+
+document.getElementById("zoomModal").addEventListener("click", function(event) {
+    if (event.target === this) this.classList.remove("active");
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        document.getElementById("zoomModal").classList.remove("active");
+    }
+});
+
+document.getElementById("productAdd").addEventListener("click", function() {
+    if (!currentProduct) return;
+
+    let cart = [];
+    try {
+        cart = JSON.parse(localStorage.getItem("hiddenYouthCart") || "[]");
+    } catch {
+        cart = [];
+    }
+
+    const existing = cart.find(item => Number(item.id) === Number(currentProduct.id));
+
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            ...currentProduct,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem("hiddenYouthCart", JSON.stringify(cart));
+
+    this.textContent = "ADDED ✓";
+    this.classList.add("added");
+
+    setTimeout(() => {
+        this.textContent = "ADD TO BAG";
+        this.classList.remove("added");
+    }, 1200);
+
+    if (typeof updateCartUI === "function") updateCartUI();
+
+    const cartPanel = document.getElementById("cartPanel");
+    const cartOverlay = document.getElementById("cartOverlay");
+
+    if (cartPanel) cartPanel.classList.add("active");
+    if (cartOverlay) cartOverlay.classList.add("active");
+});
+
+loadProductDetail();
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
