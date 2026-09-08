@@ -673,17 +673,8 @@ collectionButtons.forEach(function (button) {
 
         if (collection === "gym") {
 
-            const gymContainer =
-                document.querySelector(
-                    ".gym-fit-container"
-                );
-
-            if (gymContainer) {
-
-                gymContainer.classList.toggle(
-                    "active"
-                );
-            }
+            window.location.href = "gym-fit.html";
+            return;
         }
 
 
