@@ -2,7 +2,7 @@
    HIDDEN YOUTH — FRONTEND + BACKEND
 ===================================================== */
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://hidden-youth-backend-production.up.railway.app";
 
 
 /* =====================================================
@@ -672,7 +672,6 @@ collectionButtons.forEach(function (button) {
 
 
         if (collection === "gym") {
-
             window.location.href = "gym-fit.html";
             return;
         }
