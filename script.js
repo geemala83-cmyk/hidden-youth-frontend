@@ -2,17 +2,25 @@
    HIDDEN YOUTH — FRONTEND + BACKEND
 ===================================================== */
 
-const API_URL = "https://hidden-youth-backend-production.up.railway.app";
+const API_URL =
+    "https://hidden-youth-backend-production.up.railway.app";
 
 
 /* =====================================================
    3D DRESS
 ===================================================== */
 
-const dressWrapper = document.querySelector(".dress-wrapper");
-const dressImage = document.querySelector(".dress-image");
-const visualArea = document.querySelector(".visual-area");
-const visualGlow = document.querySelector(".visual-glow");
+const dressWrapper =
+    document.querySelector(".dress-wrapper");
+
+const dressImage =
+    document.querySelector(".dress-image");
+
+const visualArea =
+    document.querySelector(".visual-area");
+
+const visualGlow =
+    document.querySelector(".visual-glow");
 
 let mouseX = 0;
 let mouseY = 0;
@@ -20,42 +28,74 @@ let currentX = 0;
 let currentY = 0;
 let dressHover = false;
 
-if (visualArea && dressWrapper && dressImage) {
 
-    visualArea.addEventListener("mousemove", function (event) {
+if (
+    visualArea &&
+    dressWrapper &&
+    dressImage
+) {
 
-        const rect = visualArea.getBoundingClientRect();
+    visualArea.addEventListener(
+        "mousemove",
+        function (event) {
 
-        mouseX =
-            ((event.clientX - rect.left) / rect.width) - 0.5;
+            const rect =
+                visualArea.getBoundingClientRect();
 
-        mouseY =
-            ((event.clientY - rect.top) / rect.height) - 0.5;
-    });
+            mouseX =
+                ((event.clientX - rect.left) /
+                    rect.width) - 0.5;
 
-    visualArea.addEventListener("mouseenter", function () {
+            mouseY =
+                ((event.clientY - rect.top) /
+                    rect.height) - 0.5;
+        }
+    );
 
-        dressHover = true;
-        dressImage.style.animationPlayState = "paused";
-    });
 
-    visualArea.addEventListener("mouseleave", function () {
+    visualArea.addEventListener(
+        "mouseenter",
+        function () {
 
-        dressHover = false;
-        mouseX = 0;
-        mouseY = 0;
+            dressHover = true;
 
-        dressImage.style.animationPlayState = "running";
-    });
+            dressImage.style.animationPlayState =
+                "paused";
+        }
+    );
+
+
+    visualArea.addEventListener(
+        "mouseleave",
+        function () {
+
+            dressHover = false;
+
+            mouseX = 0;
+            mouseY = 0;
+
+            dressImage.style.animationPlayState =
+                "running";
+        }
+    );
+
 
     function animateDress() {
 
-        currentX += (mouseX - currentX) * 0.08;
-        currentY += (mouseY - currentY) * 0.08;
+        currentX +=
+            (mouseX - currentX) * 0.08;
 
-        const rotateY = currentX * 28;
-        const rotateX = currentY * -20;
-        const depth = dressHover ? 35 : 20;
+        currentY +=
+            (mouseY - currentY) * 0.08;
+
+        const rotateY =
+            currentX * 28;
+
+        const rotateX =
+            currentY * -20;
+
+        const depth =
+            dressHover ? 35 : 20;
 
         dressWrapper.style.transform =
             `perspective(1200px)
@@ -63,7 +103,9 @@ if (visualArea && dressWrapper && dressImage) {
              rotateY(${rotateY}deg)
              translateZ(${depth}px)`;
 
-        requestAnimationFrame(animateDress);
+        requestAnimationFrame(
+            animateDress
+        );
     }
 
     animateDress();
@@ -74,30 +116,44 @@ if (visualArea && dressWrapper && dressImage) {
    PURPLE GLOW
 ===================================================== */
 
-if (visualArea && visualGlow) {
+if (
+    visualArea &&
+    visualGlow
+) {
 
-    visualArea.addEventListener("mousemove", function (event) {
+    visualArea.addEventListener(
+        "mousemove",
+        function (event) {
 
-        const rect = visualArea.getBoundingClientRect();
+            const rect =
+                visualArea.getBoundingClientRect();
 
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+            const x =
+                event.clientX - rect.left;
 
-        const moveX =
-            (x - rect.width / 2) * 0.12;
+            const y =
+                event.clientY - rect.top;
 
-        const moveY =
-            (y - rect.height / 2) * 0.12;
+            const moveX =
+                (x - rect.width / 2) * 0.12;
 
-        visualGlow.style.transform =
-            `translate(${moveX}px, ${moveY}px) scale(1.08)`;
-    });
+            const moveY =
+                (y - rect.height / 2) * 0.12;
 
-    visualArea.addEventListener("mouseleave", function () {
+            visualGlow.style.transform =
+                `translate(${moveX}px, ${moveY}px) scale(1.08)`;
+        }
+    );
 
-        visualGlow.style.transform =
-            "translate(0, 0) scale(1)";
-    });
+
+    visualArea.addEventListener(
+        "mouseleave",
+        function () {
+
+            visualGlow.style.transform =
+                "translate(0, 0) scale(1)";
+        }
+    );
 }
 
 
@@ -111,14 +167,21 @@ const exploreButton =
 const collectionSection =
     document.querySelector("#collections");
 
-if (exploreButton && collectionSection) {
 
-    exploreButton.addEventListener("click", function () {
+if (
+    exploreButton &&
+    collectionSection
+) {
 
-        collectionSection.scrollIntoView({
-            behavior: "smooth"
-        });
-    });
+    exploreButton.addEventListener(
+        "click",
+        function () {
+
+            collectionSection.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    );
 }
 
 
@@ -132,16 +195,30 @@ let cart = [];
 function loadCart() {
 
     const savedCart =
-        localStorage.getItem("hiddenYouthCart");
+        localStorage.getItem(
+            "hiddenYouthCart"
+        );
 
     if (savedCart) {
 
         try {
-            cart = JSON.parse(savedCart);
+
+            cart =
+                JSON.parse(savedCart);
+
         } catch {
+
             cart = [];
         }
     }
+
+    /*
+       IMPORTANT:
+       Restore cart first, then sync
+       it with the backend.
+    */
+
+    syncCartWithBackend();
 }
 
 
@@ -151,23 +228,194 @@ function saveCart() {
         "hiddenYouthCart",
         JSON.stringify(cart)
     );
+
+    /*
+       Every cart change is also
+       sent to the backend.
+    */
+
+    syncCartWithBackend();
 }
 
+
+/* =====================================================
+   VISITOR ID
+===================================================== */
+
+function getVisitorId() {
+
+    const KEY =
+        "hiddenYouthVisitorId";
+
+    let visitorId =
+        localStorage.getItem(KEY);
+
+    if (!visitorId) {
+
+        visitorId =
+            "visitor-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10);
+
+        localStorage.setItem(
+            KEY,
+            visitorId
+        );
+    }
+
+    return visitorId;
+}
+
+
+/* =====================================================
+   SYNC CART WITH BACKEND
+===================================================== */
+
+async function syncCartWithBackend() {
+
+    try {
+
+        const visitorId =
+            getVisitorId();
+
+        const response =
+            await fetch(
+                `${API_URL}/api/visitor/cart`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            visitorId:
+                                visitorId,
+
+                            items:
+                                cart.map(
+                                    function (item) {
+
+                                        return {
+
+                                            id:
+                                                Number(
+                                                    item.id
+                                                ),
+
+                                            name:
+                                                String(
+                                                    item.name ||
+                                                    ""
+                                                ),
+
+                                            price:
+                                                Number(
+                                                    item.price ||
+                                                    0
+                                                ),
+
+                                            quantity:
+                                                Number(
+                                                    item.quantity ||
+                                                    1
+                                                ),
+
+                                            image:
+                                                String(
+                                                    item.image ||
+                                                    ""
+                                                )
+                                        };
+                                    }
+                                )
+                        })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "CART SYNC FAILED:",
+                response.status
+            );
+
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            console.log(
+                "HIDDEN YOUTH: CART SYNCED"
+            );
+        }
+
+    } catch (error) {
+
+        console.error(
+            "CART SYNC ERROR:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   CART COUNT
+===================================================== */
 
 function getCartCount() {
 
     return cart.reduce(
-        (total, item) => total + item.quantity,
+        function (total, item) {
+
+            return (
+                total +
+                Number(
+                    item.quantity || 0
+                )
+            );
+
+        },
         0
     );
 }
 
 
+/* =====================================================
+   CART TOTAL
+===================================================== */
+
 function getCartTotal() {
 
     return cart.reduce(
-        (total, item) =>
-            total + (Number(item.price) * item.quantity),
+        function (total, item) {
+
+            return (
+                total +
+                (
+                    Number(
+                        item.price || 0
+                    ) *
+                    Number(
+                        item.quantity || 0
+                    )
+                )
+            );
+
+        },
         0
     );
 }
@@ -182,7 +430,9 @@ async function loadProducts() {
     try {
 
         const response =
-            await fetch(`${API_URL}/api/products`);
+            await fetch(
+                `${API_URL}/api/products`
+            );
 
         const data =
             await response.json();
@@ -214,112 +464,154 @@ async function loadProducts() {
 ===================================================== */
 
 const addToBagButtons =
-    document.querySelectorAll(".add-bag");
+    document.querySelectorAll(
+        ".add-bag"
+    );
 
-addToBagButtons.forEach(function (button, index) {
 
-    button.addEventListener("click", async function (event) {
+addToBagButtons.forEach(
+    function (button, index) {
 
-        event.stopPropagation();
+        button.addEventListener(
+            "click",
+            async function (event) {
 
-        try {
+                event.stopPropagation();
 
-            const response =
-                await fetch(`${API_URL}/api/products`);
+                try {
 
-            const data =
-                await response.json();
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/products`
+                        );
 
-            if (!data.success) {
-                throw new Error("Products unavailable");
+                    const data =
+                        await response.json();
+
+                    if (!data.success) {
+
+                        throw new Error(
+                            "Products unavailable"
+                        );
+                    }
+
+                    const product =
+                        data.products[index];
+
+                    if (!product) {
+                        return;
+                    }
+
+                    const existingProduct =
+                        cart.find(
+                            item =>
+                                item.id ===
+                                product.id
+                        );
+
+                    if (existingProduct) {
+
+                        existingProduct.quantity +=
+                            1;
+
+                    } else {
+
+                        cart.push({
+
+                            ...product,
+
+                            quantity: 1
+
+                        });
+                    }
+
+                    saveCart();
+
+                    updateCartUI();
+
+
+                    /* OPEN CART */
+
+                    const cartPanel =
+                        document.getElementById(
+                            "cartPanel"
+                        );
+
+                    const cartOverlay =
+                        document.getElementById(
+                            "cartOverlay"
+                        );
+
+
+                    if (cartPanel) {
+
+                        cartPanel.classList.add(
+                            "active"
+                        );
+                    }
+
+
+                    if (cartOverlay) {
+
+                        cartOverlay.classList.add(
+                            "active"
+                        );
+                    }
+
+
+                    /* BUTTON ANIMATION */
+
+                    const originalText =
+                        button.textContent;
+
+                    button.textContent =
+                        "ADDED ✓";
+
+                    button.classList.add(
+                        "added"
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            button.textContent =
+                                originalText;
+
+                            button.classList.remove(
+                                "added"
+                            );
+
+                        },
+                        1200
+                    );
+
+
+                    console.log(
+                        "Added:",
+                        product.name
+                    );
+
+                    console.log(
+                        "Cart:",
+                        cart
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    alert(
+                        "Backend is not connected. Start npm first."
+                    );
+                }
             }
-
-            const product =
-                data.products[index];
-
-            if (!product) {
-                return;
-            }
-
-            const existingProduct =
-                cart.find(
-                    item => item.id === product.id
-                );
-
-            if (existingProduct) {
-
-                existingProduct.quantity += 1;
-
-            } else {
-
-                cart.push({
-                    ...product,
-                    quantity: 1
-                });
-            }
-
-            saveCart();
-
-            updateCartUI();
-
-
-            /* OPEN CART */
-
-            const cartPanel =
-                document.getElementById("cartPanel");
-
-            const cartOverlay =
-                document.getElementById("cartOverlay");
-
-            if (cartPanel) {
-                cartPanel.classList.add("active");
-            }
-
-            if (cartOverlay) {
-                cartOverlay.classList.add("active");
-            }
-
-
-            /* BUTTON ANIMATION */
-
-            const originalText =
-                button.textContent;
-
-            button.textContent =
-                "ADDED ✓";
-
-            button.classList.add("added");
-
-            setTimeout(function () {
-
-                button.textContent =
-                    originalText;
-
-                button.classList.remove("added");
-
-            }, 1200);
-
-
-            console.log(
-                "Added:",
-                product.name
-            );
-
-            console.log(
-                "Cart:",
-                cart
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                "Backend is not connected. Start npm first."
-            );
-        }
-    });
-});
+        );
+    }
+);
 
 
 /* =====================================================
@@ -329,7 +621,10 @@ addToBagButtons.forEach(function (button, index) {
 function updateCartUI() {
 
     const cartCount =
-        document.querySelector(".cart-count");
+        document.querySelector(
+            ".cart-count"
+        );
+
 
     if (cartCount) {
 
@@ -339,21 +634,29 @@ function updateCartUI() {
 
 
     const cartTotal =
-        document.querySelector(".cart-total");
+        document.querySelector(
+            ".cart-total"
+        );
+
 
     if (cartTotal) {
 
         cartTotal.textContent =
             "Rs. " +
-            getCartTotal().toLocaleString();
+            getCartTotal()
+                .toLocaleString();
     }
 
 
     const cartItems =
-        document.getElementById("cartItems");
+        document.getElementById(
+            "cartItems"
+        );
 
     const cartTotalBox =
-        document.getElementById("cartTotal");
+        document.getElementById(
+            "cartTotal"
+        );
 
 
     if (!cartItems) {
@@ -370,7 +673,9 @@ function updateCartUI() {
 
                 <span>◇</span>
 
-                <h3>YOUR BAG IS EMPTY</h3>
+                <h3>
+                    YOUR BAG IS EMPTY
+                </h3>
 
                 <p>
                     Discover something worth hiding.
@@ -378,6 +683,7 @@ function updateCartUI() {
 
             </div>
         `;
+
 
         if (cartTotalBox) {
 
@@ -392,64 +698,66 @@ function updateCartUI() {
     /* PRODUCTS */
 
     cartItems.innerHTML =
-        cart.map(function (item) {
+        cart.map(
+            function (item) {
 
-            return `
-                <div class="cart-product">
+                return `
+                    <div class="cart-product">
 
-                    <img
-                        src="${item.image || ""}"
-                        alt="${item.name}"
-                    >
+                        <img
+                            src="${item.image || ""}"
+                            alt="${item.name}"
+                        >
 
-                    <div class="cart-product-info">
+                        <div class="cart-product-info">
 
-                        <h3>
-                            ${item.name}
-                        </h3>
+                            <h3>
+                                ${item.name}
+                            </h3>
 
-                        <p>
-                            Rs.
-                            ${Number(item.price).toLocaleString()}
-                        </p>
+                            <p>
+                                Rs.
+                                ${Number(
+                                    item.price
+                                ).toLocaleString()}
+                            </p>
 
+                            <div class="cart-quantity">
 
-                        <div class="cart-quantity">
+                                <button
+                                    class="quantity-minus"
+                                    data-id="${item.id}"
+                                >
+                                    −
+                                </button>
+
+                                <span>
+                                    ${item.quantity}
+                                </span>
+
+                                <button
+                                    class="quantity-plus"
+                                    data-id="${item.id}"
+                                >
+                                    +
+                                </button>
+
+                            </div>
 
                             <button
-                                class="quantity-minus"
+                                class="remove-product"
                                 data-id="${item.id}"
                             >
-                                −
-                            </button>
-
-                            <span>
-                                ${item.quantity}
-                            </span>
-
-                            <button
-                                class="quantity-plus"
-                                data-id="${item.id}"
-                            >
-                                +
+                                REMOVE
                             </button>
 
                         </div>
 
-
-                        <button
-                            class="remove-product"
-                            data-id="${item.id}"
-                        >
-                            REMOVE
-                        </button>
-
                     </div>
+                `;
 
-                </div>
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 
     /* TOTAL */
@@ -458,97 +766,136 @@ function updateCartUI() {
 
         cartTotalBox.textContent =
             "Rs. " +
-            getCartTotal().toLocaleString();
+            getCartTotal()
+                .toLocaleString();
     }
 
 
     /* PLUS */
 
     cartItems
-        .querySelectorAll(".quantity-plus")
-        .forEach(function (button) {
+        .querySelectorAll(
+            ".quantity-plus"
+        )
+        .forEach(
+            function (button) {
 
-            button.addEventListener("click", function () {
+                button.addEventListener(
+                    "click",
+                    function () {
 
-                const id =
-                    Number(button.dataset.id);
+                        const id =
+                            Number(
+                                button.dataset.id
+                            );
 
-                const product =
-                    cart.find(
-                        item => item.id === id
-                    );
+                        const product =
+                            cart.find(
+                                item =>
+                                    item.id === id
+                            );
 
-                if (product) {
+                        if (product) {
 
-                    product.quantity += 1;
+                            product.quantity +=
+                                1;
 
-                    saveCart();
+                            saveCart();
 
-                    updateCartUI();
-                }
-            });
-        });
+                            updateCartUI();
+                        }
+                    }
+                );
+            }
+        );
 
 
     /* MINUS */
 
     cartItems
-        .querySelectorAll(".quantity-minus")
-        .forEach(function (button) {
+        .querySelectorAll(
+            ".quantity-minus"
+        )
+        .forEach(
+            function (button) {
 
-            button.addEventListener("click", function () {
+                button.addEventListener(
+                    "click",
+                    function () {
 
-                const id =
-                    Number(button.dataset.id);
-
-                const product =
-                    cart.find(
-                        item => item.id === id
-                    );
-
-                if (product) {
-
-                    product.quantity -= 1;
-
-                    if (product.quantity <= 0) {
-
-                        cart =
-                            cart.filter(
-                                item => item.id !== id
+                        const id =
+                            Number(
+                                button.dataset.id
                             );
+
+                        const product =
+                            cart.find(
+                                item =>
+                                    item.id === id
+                            );
+
+                        if (product) {
+
+                            product.quantity -=
+                                1;
+
+
+                            if (
+                                product.quantity <=
+                                0
+                            ) {
+
+                                cart =
+                                    cart.filter(
+                                        item =>
+                                            item.id !==
+                                            id
+                                    );
+                            }
+
+
+                            saveCart();
+
+                            updateCartUI();
+                        }
                     }
-
-                    saveCart();
-
-                    updateCartUI();
-                }
-            });
-        });
+                );
+            }
+        );
 
 
     /* REMOVE */
 
     cartItems
-        .querySelectorAll(".remove-product")
-        .forEach(function (button) {
+        .querySelectorAll(
+            ".remove-product"
+        )
+        .forEach(
+            function (button) {
 
-            button.addEventListener("click", function () {
+                button.addEventListener(
+                    "click",
+                    function () {
 
-                const id =
-                    Number(button.dataset.id);
+                        const id =
+                            Number(
+                                button.dataset.id
+                            );
 
-                cart =
-                    cart.filter(
-                        item => item.id !== id
-                    );
+                        cart =
+                            cart.filter(
+                                item =>
+                                    item.id !== id
+                            );
 
-                saveCart();
+                        saveCart();
 
-                updateCartUI();
-            });
-        });
+                        updateCartUI();
+                    }
+                );
+            }
+        );
 }
-
 
 /* =====================================================
    WISHLIST
@@ -560,14 +907,18 @@ let wishlist = [];
 function loadWishlist() {
 
     const savedWishlist =
-        localStorage.getItem("hiddenYouthWishlist");
+        localStorage.getItem(
+            "hiddenYouthWishlist"
+        );
 
     if (savedWishlist) {
 
         try {
 
             wishlist =
-                JSON.parse(savedWishlist);
+                JSON.parse(
+                    savedWishlist
+                );
 
         } catch {
 
@@ -578,81 +929,99 @@ function loadWishlist() {
 
 
 const heartButtons =
-    document.querySelectorAll(".heart");
-
-heartButtons.forEach(function (button, index) {
-
-    button.addEventListener("click", async function (event) {
-
-        event.stopPropagation();
-
-        try {
-
-            const response =
-                await fetch(`${API_URL}/api/products`);
-
-            const data =
-                await response.json();
-
-            if (!data.success) {
-                return;
-            }
-
-            const product =
-                data.products[index];
-
-            if (!product) {
-                return;
-            }
+    document.querySelectorAll(
+        ".heart"
+    );
 
 
-            const alreadySaved =
-                wishlist.find(
-                    item => item.id === product.id
-                );
+heartButtons.forEach(
+    function (button, index) {
+
+        button.addEventListener(
+            "click",
+            async function (event) {
+
+                event.stopPropagation();
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/products`
+                        );
+
+                    const data =
+                        await response.json();
+
+                    if (!data.success) {
+                        return;
+                    }
+
+                    const product =
+                        data.products[index];
+
+                    if (!product) {
+                        return;
+                    }
 
 
-            if (alreadySaved) {
+                    const alreadySaved =
+                        wishlist.find(
+                            item =>
+                                item.id ===
+                                product.id
+                        );
 
-                wishlist =
-                    wishlist.filter(
-                        item => item.id !== product.id
+
+                    if (alreadySaved) {
+
+                        wishlist =
+                            wishlist.filter(
+                                item =>
+                                    item.id !==
+                                    product.id
+                            );
+
+                        button.textContent =
+                            "♡";
+
+                        button.classList.remove(
+                            "liked"
+                        );
+
+                    } else {
+
+                        wishlist.push(
+                            product
+                        );
+
+                        button.textContent =
+                            "♥";
+
+                        button.classList.add(
+                            "liked"
+                        );
+                    }
+
+
+                    localStorage.setItem(
+                        "hiddenYouthWishlist",
+                        JSON.stringify(
+                            wishlist
+                        )
                     );
 
-                button.textContent =
-                    "♡";
+                } catch (error) {
 
-                button.classList.remove(
-                    "liked"
-                );
-
-            } else {
-
-                wishlist.push(product);
-
-                button.textContent =
-                    "♥";
-
-                button.classList.add(
-                    "liked"
-                );
+                    console.error(
+                        "Wishlist error:",
+                        error
+                    );
+                }
             }
-
-
-            localStorage.setItem(
-                "hiddenYouthWishlist",
-                JSON.stringify(wishlist)
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Wishlist error:",
-                error
-            );
-        }
-    });
-});
+        );
+    }
+);
 
 
 /* =====================================================
@@ -660,78 +1029,111 @@ heartButtons.forEach(function (button, index) {
 ===================================================== */
 
 const collectionButtons =
-    document.querySelectorAll(".collection-btn");
+    document.querySelectorAll(
+        ".collection-btn"
+    );
 
 
-collectionButtons.forEach(function (button) {
+collectionButtons.forEach(
+    function (button) {
 
-    button.addEventListener("click", function () {
+        button.addEventListener(
+            "click",
+            function () {
 
-        const collection =
-            button.dataset.collection;
-
-
-        if (collection === "gym") {
-            window.location.href = "gym-fit.html";
-            return;
-        }
+                const collection =
+                    button.dataset.collection;
 
 
-        if (collection === "buttondown") {
+                if (
+                    collection ===
+                    "gym"
+                ) {
 
-            console.log(
-                "BUTTON DOWN selected"
-            );
-        }
-    });
-});
+                    const gymContainer =
+                        document.querySelector(
+                            ".gym-fit-container"
+                        );
+
+                    if (gymContainer) {
+
+                        gymContainer.classList.toggle(
+                            "active"
+                        );
+                    }
+                }
+
+
+                if (
+                    collection ===
+                    "buttondown"
+                ) {
+
+                    console.log(
+                        "BUTTON DOWN selected"
+                    );
+                }
+            }
+        );
+    }
+);
 
 
 /* =====================================================
    3D COLLECTION TILT
 ===================================================== */
 
-collectionButtons.forEach(function (button) {
+collectionButtons.forEach(
+    function (button) {
 
-    button.addEventListener(
-        "mousemove",
-        function (event) {
+        button.addEventListener(
+            "mousemove",
+            function (event) {
 
-            const rect =
-                button.getBoundingClientRect();
+                const rect =
+                    button.getBoundingClientRect();
 
-            const x =
-                event.clientX - rect.left;
+                const x =
+                    event.clientX -
+                    rect.left;
 
-            const y =
-                event.clientY - rect.top;
+                const y =
+                    event.clientY -
+                    rect.top;
 
-            const rotateY =
-                ((x / rect.width) - 0.5) * 6;
+                const rotateY =
+                    (
+                        (x / rect.width) -
+                        0.5
+                    ) * 6;
 
-            const rotateX =
-                ((y / rect.height) - 0.5) * -6;
-
-
-            button.style.transform =
-                `perspective(1000px)
-                 rotateX(${rotateX}deg)
-                 rotateY(${rotateY}deg)
-                 translateY(-12px)
-                 scale(1.015)`;
-        }
-    );
+                const rotateX =
+                    (
+                        (y / rect.height) -
+                        0.5
+                    ) * -6;
 
 
-    button.addEventListener(
-        "mouseleave",
-        function () {
+                button.style.transform =
+                    `perspective(1000px)
+                     rotateX(${rotateX}deg)
+                     rotateY(${rotateY}deg)
+                     translateY(-12px)
+                     scale(1.015)`;
+            }
+        );
 
-            button.style.transform =
-                "";
-        }
-    );
-});
+
+        button.addEventListener(
+            "mouseleave",
+            function () {
+
+                button.style.transform =
+                    "";
+            }
+        );
+    }
+);
 
 
 /* =====================================================
@@ -739,7 +1141,9 @@ collectionButtons.forEach(function (button) {
 ===================================================== */
 
 const menuButton =
-    document.querySelector(".menu-btn");
+    document.querySelector(
+        ".menu-btn"
+    );
 
 
 if (menuButton) {
@@ -805,10 +1209,14 @@ if (menuButton) {
 function closeHiddenYouthCart() {
 
     const panel =
-        document.getElementById("cartPanel");
+        document.getElementById(
+            "cartPanel"
+        );
 
     const overlay =
-        document.getElementById("cartOverlay");
+        document.getElementById(
+            "cartOverlay"
+        );
 
 
     if (panel) {
@@ -833,23 +1241,128 @@ function closeHiddenYouthCart() {
 ===================================================== */
 
 const checkoutBtn =
-    document.getElementById("checkoutBtn");
+    document.getElementById(
+        "checkoutBtn"
+    );
 
 const checkoutPanel =
-    document.getElementById("checkoutPanel");
+    document.getElementById(
+        "checkoutPanel"
+    );
 
 const checkoutOverlay =
-    document.getElementById("checkoutOverlay");
+    document.getElementById(
+        "checkoutOverlay"
+    );
 
 const closeCheckout =
-    document.getElementById("closeCheckout");
+    document.getElementById(
+        "closeCheckout"
+    );
+
+const checkoutSubtotal =
+    document.getElementById(
+        "checkoutSubtotal"
+    );
 
 const checkoutItems =
-    document.getElementById("checkoutItems");
+    document.getElementById(
+        "checkoutItems"
+    );
 
 const checkoutTotal =
-    document.getElementById("checkoutTotal");
+    document.getElementById(
+        "checkoutTotal"
+    );
+const deliveryChargeElement =
+    document.getElementById(
+        "deliveryCharge"
+    );
 
+function getDeliveryCharge() {
+
+    const cityInput =
+        document.getElementById("customerCity");
+
+    const postalCodeInput =
+        document.getElementById("customerPostalCode");
+
+    const city =
+        cityInput
+            ? cityInput.value.trim().toLowerCase()
+            : "";
+
+    const postalCode =
+        postalCodeInput
+            ? postalCodeInput.value.trim()
+            : "";
+
+    if (city && city !== "lahore") {
+        return 500;
+    }
+
+    const nearPostalCodes = [
+        "54000",
+        "54700",
+        "54760",
+        "54762",
+        "54782",
+        "53720"
+    ];
+
+    const mediumPostalCodes = [
+        "54010",
+        "54020",
+        "54030",
+        "54040"
+    ];
+
+    const farPostalCodes = [
+        "54050",
+        "54060",
+        "54070",
+        "54080"
+    ];
+
+    if (nearPostalCodes.includes(postalCode)) {
+        return 250;
+    }
+
+    if (mediumPostalCodes.includes(postalCode)) {
+        return 350;
+    }
+
+    if (farPostalCodes.includes(postalCode)) {
+        return 450;
+    }
+
+   return 0;
+}
+
+
+function updateCheckoutTotal() {
+
+    const subtotal = getCartTotal();
+
+    const delivery = getDeliveryCharge();
+
+    const total = subtotal + delivery;
+
+    if (checkoutSubtotal) {
+        checkoutSubtotal.textContent =
+            "Rs. " + subtotal.toLocaleString();
+    }
+
+    if (deliveryChargeElement) {
+        deliveryChargeElement.textContent =
+            "Rs. " + delivery.toLocaleString();
+    }
+
+    if (checkoutTotal) {
+        checkoutTotal.textContent =
+            "Rs. " + total.toLocaleString();
+    }
+} 
 
 /* =====================================================
    OPEN CHECKOUT
@@ -857,9 +1370,10 @@ const checkoutTotal =
 
 function openCheckout() {
 
-    /* CHECK EMPTY CART */
-
-    if (!cart || cart.length === 0) {
+    if (
+        !cart ||
+        cart.length === 0
+    ) {
 
         alert(
             "YOUR BAG IS EMPTY."
@@ -868,8 +1382,6 @@ function openCheckout() {
         return;
     }
 
-
-    /* CHECK ELEMENTS */
 
     if (!checkoutPanel) {
 
@@ -881,58 +1393,57 @@ function openCheckout() {
     }
 
 
-    /* CHECKOUT PRODUCTS */
-
     if (checkoutItems) {
 
         checkoutItems.innerHTML =
-            cart.map(function (item) {
+            cart.map(
+                function (item) {
 
-                return `
-                    <div class="checkout-item">
+                    return `
+                        <div class="checkout-item">
 
-                        <div>
+                            <div>
 
-                            <div class="checkout-item-name">
-                                ${item.name}
+                                <div class="checkout-item-name">
+                                    ${item.name}
+                                </div>
+
+                                <div class="checkout-item-qty">
+                                    QTY: ${item.quantity}
+                                </div>
+
                             </div>
 
-                            <div class="checkout-item-qty">
-                                QTY: ${item.quantity}
-                            </div>
+                            <strong>
+                                Rs.
+                                ${(
+                                    Number(
+                                        item.price
+                                    ) *
+                                    item.quantity
+                                ).toLocaleString()}
+                            </strong>
 
                         </div>
+                    `;
 
-                        <strong>
-                            Rs.
-                            ${(Number(item.price) * item.quantity)
-                                .toLocaleString()}
-                        </strong>
-
-                    </div>
-                `;
-
-            }).join("");
+                }
+            ).join("");
     }
 
 
-    /* TOTAL */
+  updateCheckoutTotal();
 
-    if (checkoutTotal) {
-
-        checkoutTotal.textContent =
-            "Rs. " +
-            getCartTotal().toLocaleString();
-    }
-
-
-    /* CLOSE CART FIRST */
 
     const cartPanel =
-        document.getElementById("cartPanel");
+        document.getElementById(
+            "cartPanel"
+        );
 
     const cartOverlay =
-        document.getElementById("cartOverlay");
+        document.getElementById(
+            "cartOverlay"
+        );
 
 
     if (cartPanel) {
@@ -950,8 +1461,6 @@ function openCheckout() {
         );
     }
 
-
-    /* OPEN CHECKOUT */
 
     checkoutPanel.classList.add(
         "active"
@@ -1001,6 +1510,7 @@ if (checkoutBtn) {
         function (event) {
 
             event.preventDefault();
+
             event.stopPropagation();
 
             openCheckout();
@@ -1048,228 +1558,358 @@ if (checkoutOverlay) {
 ===================================================== */
 
 const checkoutForm =
-    document.getElementById("checkoutForm");
+    document.getElementById(
+        "checkoutForm"
+    );
+
 
 if (checkoutForm) {
 
-    checkoutForm.addEventListener("submit", async function (event) {
+    checkoutForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-        /* ==============================
-           CHECK CART
-        ============================== */
-
-        if (!cart || cart.length === 0) {
-
-            alert("YOUR BAG IS EMPTY.");
-            return;
-
-        }
+            event.preventDefault();
 
 
-        /* ==============================
-           GET CUSTOMER DATA
-        ============================== */
+            if (
+                !cart ||
+                cart.length === 0
+            ) {
 
-        const name =
-            document.getElementById("customerName")
-                ?.value
-                .trim();
-
-        const phone =
-            document.getElementById("customerPhone")
-                ?.value
-                .trim();
-
-        const address =
-            document.getElementById("customerAddress")
-                ?.value
-                .trim();
-
-        const city =
-            document.getElementById("customerCity")
-                ?.value
-                .trim();
-
-
-        /* ==============================
-           VALIDATION
-        ============================== */
-
-        if (!name || !phone || !address || !city) {
-
-            alert("PLEASE FILL ALL DETAILS.");
-            return;
-
-        }
-
-
-        /* ==============================
-           PREPARE ORDER
-        ============================== */
-
-        const orderData = {
-
-            customer: {
-
-                name: name,
-                phone: phone,
-                address: address,
-                city: city
-
-            },
-
-            items: cart.map(function (item) {
-
-                return {
-
-                    id: item.id,
-                    name: item.name,
-                    price: Number(item.price),
-                    quantity: item.quantity,
-                    image: item.image || ""
-
-                };
-
-            })
-
-        };
-
-
-        /* ==============================
-           DISABLE BUTTON
-        ============================== */
-
-        const submitButton =
-            checkoutForm.querySelector(
-                ".place-order-btn"
-            );
-
-        if (submitButton) {
-
-            submitButton.disabled = true;
-            submitButton.innerHTML =
-                "PLACING ORDER...";
-
-        }
-
-
-        /* ==============================
-           SEND TO BACKEND
-        ============================== */
-
-        try {
-
-            const response = await fetch(
-                `${API_URL}/api/orders`,
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify(orderData)
-
-                }
-            );
-
-
-            const data =
-                await response.json();
-
-
-            /* ==============================
-               BACKEND ERROR
-            ============================== */
-
-            if (!response.ok || !data.success) {
-
-                throw new Error(
-                    data.message ||
-                    "ORDER FAILED"
+                alert(
+                    "YOUR BAG IS EMPTY."
                 );
 
+                return;
             }
 
 
-            /* ==============================
-               SUCCESS
-            ============================== */
+            const name =
+                document
+                    .getElementById(
+                        "customerName"
+                    )
+                    ?.value
+                    .trim();
 
-            alert(
-                "THANK YOU, " +
-                name.toUpperCase() +
-                "!\n\n" +
-                "YOUR ORDER HAS BEEN RECEIVED.\n\n" +
-                "ORDER ID: " +
-                data.order.id
-            );
+            const phone =
+                document
+                    .getElementById(
+                        "customerPhone"
+                    )
+                    ?.value
+                    .trim();
+
+            const address =
+                document
+                    .getElementById(
+                        "customerAddress"
+                    )
+                    ?.value
+                    .trim();
+
+            const city =
+                document
+                    .getElementById(
+                        "customerCity"
+                    )
+                    ?.value
+                    .trim();
+const postalCode =
+    document
+        .getElementById(
+            "customerPostalCode"
+        )
+        ?.value
+        .trim();
+
+const postalAreaElement =
+    document.getElementById(
+        "postalArea"
+    );
+
+if (
+    !postalCode ||
+    postalCode.length !== 5 ||
+    !postalAreaElement ||
+    !postalAreaElement.innerHTML.includes("AREA:")
+) {
+
+    alert(
+        "PLEASE ENTER A VALID POSTAL CODE FIRST.\n\n" +
+        "YOUR DELIVERY CHARGE WILL BE CALCULATED AFTER THE POSTAL CODE IS VERIFIED."
+    );
+
+    return;
+}
+
+            if (
+                !name ||
+                !phone ||
+                !address ||
+                !city
+            ) {
+
+                alert(
+                    "PLEASE FILL ALL DETAILS."
+                );
+
+                return;
+            }
 
 
-            /* ==============================
-               RESET CHECKOUT
-            ============================== */
+            const orderData = {
 
-            checkoutForm.reset();
+                customer: {
 
-            closeCheckoutPanel();
+                    name:
+                        name,
+
+                    phone:
+                        phone,
+
+                    address:
+                        address,
+
+                    city:
+                        city
+
+                },
+
+                items:
+                    cart.map(
+                        function (item) {
+
+                            return {
+
+                                id:
+                                    item.id,
+
+                                name:
+                                    item.name,
+
+                                price:
+                                    Number(
+                                        item.price
+                                    ),
+
+                                quantity:
+                                    item.quantity,
+
+                                image:
+                                    item.image ||
+                                    ""
+
+                            };
+                        }
+                    )
+            };
 
 
-            /* ==============================
-               CLEAR CART
-            ============================== */
+            const submitButton =
+                checkoutForm.querySelector(
+                    ".place-order-btn"
+                );
 
-            cart = [];
-
-            saveCart();
-
-            updateCartUI();
-
-
-            console.log(
-                "ORDER CREATED:",
-                data.order
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "ORDER ERROR:",
-                error
-            );
-
-            alert(
-                "ORDER COULD NOT BE PLACED.\n\n" +
-                "PLEASE TRY AGAIN."
-            );
-
-
-        } finally {
-
-            /* ==============================
-               ENABLE BUTTON
-            ============================== */
 
             if (submitButton) {
 
-                submitButton.disabled = false;
+                submitButton.disabled =
+                    true;
 
                 submitButton.innerHTML =
-                    'PLACE ORDER <span>→</span>';
+                    "PLACING ORDER...";
+            }
 
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/orders`,
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    orderData
+                                )
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "ORDER FAILED"
+                    );
+                }
+
+
+                const orderId =
+                    data.order &&
+                    data.order.id
+                        ? data.order.id
+                        : "PENDING";
+
+
+                window.alert(
+                    "THANK YOU, " +
+                    name.toUpperCase() +
+                    "!\n\n" +
+                    "YOUR ORDER HAS BEEN RECEIVED.\n\n" +
+                    "ORDER ID: " +
+                    orderId
+                );
+
+
+                checkoutForm.reset();
+
+                closeCheckoutPanel();
+
+
+                cart = [];
+
+                saveCart();
+
+                updateCartUI();
+
+
+                console.log(
+                    "ORDER CREATED:",
+                    data.order
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "ORDER ERROR:",
+                    error
+                );
+
+                alert(
+                    "ORDER COULD NOT BE PLACED.\n\n" +
+                    "PLEASE TRY AGAIN."
+                );
+
+
+            } finally {
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.innerHTML =
+                        'PLACE ORDER <span>→</span>';
+                }
             }
 
         }
+    );
+}
+/* =====================================================
+   POSTAL CODE → AREA / CITY
+===================================================== */
 
-    });
+const postalCodeInput =
+    document.getElementById("customerPostalCode");
 
+const postalArea =
+    document.getElementById("postalArea");
+
+const cityInput =
+    document.getElementById("customerCity");
+
+if (postalCodeInput) {
+
+    postalCodeInput.addEventListener(
+        "input",
+        async function () {
+
+            const postalCode =
+                postalCodeInput.value
+                    .replace(/\D/g, "")
+                    .slice(0, 5);
+
+            postalCodeInput.value =
+                postalCode;
+
+            if (postalCode.length !== 5) {
+                if (postalArea) {
+                    postalArea.innerHTML = "";
+                }
+                return;
+            }
+
+            if (postalArea) {
+                postalArea.innerHTML =
+                    "CHECKING AREA...";
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+`${API_URL}/api/postal-codes/${postalCode}`                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.results ||
+                    data.results.length === 0
+                ) {
+                    throw new Error(
+                        "POSTAL CODE NOT FOUND"
+                    );
+                }
+
+                const location =
+                    data.results[0];
+
+                if (cityInput) {
+                    cityInput.value =
+                        location.city || "";
+                }
+updateCheckoutTotal();
+               
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        `<strong>AREA:</strong> ${location.area_name || ""}`;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "POSTAL CODE ERROR:",
+                    error
+                );
+
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        "AREA NOT FOUND — PLEASE CHECK POSTAL CODE.";
+                }
+            }
+        }
+    );
 }
 
 /* =====================================================
@@ -1296,234 +1936,382 @@ window.addEventListener(
         }
     }
 );
+
 /* =====================================================
-   FINAL CHECKOUT FIX
-   HTML loads after script.js
+   PROCEED TO CHECKOUT — SAFETY FIX
 ===================================================== */
 
-window.addEventListener("load", function () {
+window.addEventListener(
+    "load",
+    function () {
 
-    const finalCheckoutBtn =
-        document.getElementById("checkoutBtn");
+        const finalCheckoutBtn =
+            document.getElementById(
+                "checkoutBtn"
+            );
 
-    const finalCheckoutPanel =
-        document.getElementById("checkoutPanel");
+        if (!finalCheckoutBtn) {
+            return;
+        }
 
-    const finalCheckoutOverlay =
-        document.getElementById("checkoutOverlay");
+        /*
+           Existing checkout listener is already
+           installed above.
 
-    const finalCloseCheckout =
-        document.getElementById("closeCheckout");
-
-    const finalCheckoutItems =
-        document.getElementById("checkoutItems");
-
-    const finalCheckoutTotal =
-        document.getElementById("checkoutTotal");
-
-
-    /* =========================================
-       PROCEED TO CHECKOUT
-    ========================================= */
-
-    if (finalCheckoutBtn) {
-
-        finalCheckoutBtn.addEventListener("click", function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
+           We do NOT add another listener here,
+           because duplicate listeners can cause
+           checkout to open twice.
+        */
+    }
+);
 
 
-            if (!cart || cart.length === 0) {
+/* =====================================================
+   LIVE VISITOR TRACKING
+   HIDDEN YOUTH
+===================================================== */
 
-                alert("YOUR BAG IS EMPTY.");
+(function () {
+
+    const VISITOR_KEY =
+        "hiddenYouthVisitorId";
+
+
+    let visitorId =
+        localStorage.getItem(
+            VISITOR_KEY
+        );
+
+
+    if (!visitorId) {
+
+        visitorId =
+            "visitor-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10);
+
+
+        localStorage.setItem(
+            VISITOR_KEY,
+            visitorId
+        );
+    }
+
+
+    async function sendVisitorHeartbeat() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/visitors/heartbeat`,
+                    {
+                        method:
+                            "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                visitorId:
+                                    visitorId
+                            })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    "Visitor heartbeat failed:",
+                    response.status
+                );
 
                 return;
             }
 
 
-            /* SHOW PRODUCTS */
+            const data =
+                await response.json();
 
-            if (finalCheckoutItems) {
 
-                finalCheckoutItems.innerHTML =
-                    cart.map(function (item) {
+            if (data.success) {
 
-                        return `
-                            <div class="checkout-item">
-
-                                <div>
-
-                                    <div class="checkout-item-name">
-                                        ${item.name}
-                                    </div>
-
-                                    <div class="checkout-item-qty">
-                                        QTY: ${item.quantity}
-                                    </div>
-
-                                </div>
-
-                                <strong>
-                                    Rs.
-                                    ${(Number(item.price) * item.quantity)
-                                    .toLocaleString()}
-                                </strong>
-
-                            </div>
-                        `;
-
-                    }).join("");
+                console.log(
+                    "HIDDEN YOUTH: VISITOR ONLINE"
+                );
             }
 
 
-            /* SHOW TOTAL */
+        } catch (error) {
 
-            if (finalCheckoutTotal) {
-
-                finalCheckoutTotal.textContent =
-                    "Rs. " +
-                    getCartTotal().toLocaleString();
-            }
-
-
-            /* CLOSE CART */
-
-            const finalCartPanel =
-                document.getElementById("cartPanel");
-
-            const finalCartOverlay =
-                document.getElementById("cartOverlay");
-
-
-            if (finalCartPanel) {
-
-                finalCartPanel.classList.remove("active");
-            }
-
-
-            if (finalCartOverlay) {
-
-                finalCartOverlay.classList.remove("active");
-            }
-
-
-            /* OPEN CHECKOUT */
-
-            if (finalCheckoutPanel) {
-
-                finalCheckoutPanel.classList.add("active");
-            }
-
-
-            if (finalCheckoutOverlay) {
-
-                finalCheckoutOverlay.classList.add("active");
-            }
-
-        });
-    }
-
-
-    /* =========================================
-       CLOSE CHECKOUT
-    ========================================= */
-
-    if (finalCloseCheckout) {
-
-        finalCloseCheckout.addEventListener("click", function () {
-
-            if (finalCheckoutPanel) {
-
-                finalCheckoutPanel.classList.remove("active");
-            }
-
-            if (finalCheckoutOverlay) {
-
-                finalCheckoutOverlay.classList.remove("active");
-            }
-
-        });
-    }
-
-
-    /* =========================================
-       CLICK OVERLAY TO CLOSE
-    ========================================= */
-
-    if (finalCheckoutOverlay) {
-
-        finalCheckoutOverlay.addEventListener("click", function () {
-
-            if (finalCheckoutPanel) {
-
-                finalCheckoutPanel.classList.remove("active");
-            }
-
-            finalCheckoutOverlay.classList.remove("active");
-
-        });
-    }
-
-
-    /* =========================================
-       PLACE ORDER
-    ========================================= */
-
-    const finalCheckoutForm =
-        document.getElementById("checkoutForm");
-
-
-    if (finalCheckoutForm) {
-
-        finalCheckoutForm.addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
-
-            const nameInput =
-                document.getElementById("customerName");
-
-            const name =
-                nameInput
-                    ? nameInput.value.trim()
-                    : "CUSTOMER";
-
-
-            alert(
-                "THANK YOU, " +
-                name.toUpperCase() +
-                "!\n\n" +
-                "YOUR ORDER HAS BEEN RECEIVED."
+            console.error(
+                "Visitor tracking error:",
+                error
             );
-
-
-            finalCheckoutForm.reset();
-
-
-            /* CLOSE CHECKOUT */
-
-            if (finalCheckoutPanel) {
-
-                finalCheckoutPanel.classList.remove("active");
-            }
-
-
-            if (finalCheckoutOverlay) {
-
-                finalCheckoutOverlay.classList.remove("active");
-            }
-
-
-            /* EMPTY CART */
-
-            cart = [];
-
-            saveCart();
-
-            updateCartUI();
-
-        });
+        }
     }
 
-});
+
+    /*
+       Send immediately
+    */
+
+    sendVisitorHeartbeat();
+
+
+    /*
+       Keep visitor online
+       every 20 seconds
+    */
+
+    setInterval(
+        sendVisitorHeartbeat,
+        20000
+    );
+
+})();
+
+
+/* =====================================================
+   ACTIVE CART HEARTBEAT
+===================================================== */
+
+setInterval(
+    function () {
+
+        /*
+           Only sync when the customer
+           actually has products in cart.
+        */
+
+        if (
+            Array.isArray(cart) &&
+            cart.length > 0
+        ) {
+
+            syncCartWithBackend();
+
+        }
+
+    },
+    20000
+);
+
+
+/* =====================================================
+   FINAL CART SYNC WHEN PAGE CLOSES
+===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    function () {
+
+        /*
+           Do not block page closing.
+           The normal 20-second heartbeat
+           keeps the backend updated.
+        */
+
+        if (
+            Array.isArray(cart) &&
+            cart.length > 0
+        ) {
+
+            try {
+
+                const visitorId =
+                    getVisitorId();
+
+                const payload =
+                    JSON.stringify({
+
+                        visitorId:
+                            visitorId,
+
+                        items:
+                            cart.map(
+                                function (item) {
+
+                                    return {
+
+                                        id:
+                                            Number(
+                                                item.id
+                                            ),
+
+                                        name:
+                                            String(
+                                                item.name ||
+                                                ""
+                                            ),
+
+                                        price:
+                                            Number(
+                                                item.price ||
+                                                0
+                                            ),
+
+                                        quantity:
+                                            Number(
+                                                item.quantity ||
+                                                1
+                                            ),
+
+                                        image:
+                                            String(
+                                                item.image ||
+                                                ""
+                                            )
+                                    };
+                                }
+                            )
+                    });
+
+
+                if (
+                    navigator.sendBeacon
+                ) {
+
+                    const blob =
+                        new Blob(
+                            [payload],
+                            {
+                                type:
+                                    "application/json"
+                            }
+                        );
+
+                    navigator.sendBeacon(
+                        `${API_URL}/api/visitor/cart`,
+                        blob
+                    );
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "FINAL CART SYNC ERROR:",
+                    error
+                );
+            }
+        }
+    }
+);
+
+
+/* =====================================================
+   INITIAL CART BACKEND SYNC
+===================================================== */
+
+window.addEventListener(
+    "load",
+    function () {
+
+        /*
+           Give the page a moment to restore
+           localStorage before syncing.
+        */
+
+        setTimeout(
+            function () {
+
+                if (
+                    Array.isArray(cart)
+                ) {
+
+                    syncCartWithBackend();
+
+                }
+
+            },
+            500
+        );
+
+    }
+);
+
+
+/* =====================================================
+   ONLINE STATUS
+===================================================== */
+
+window.addEventListener(
+    "online",
+    function () {
+
+        console.log(
+            "HIDDEN YOUTH: INTERNET ONLINE"
+        );
+
+
+        if (
+            Array.isArray(cart)
+        ) {
+
+            syncCartWithBackend();
+        }
+    }
+);
+
+
+/* =====================================================
+   OFFLINE STATUS
+===================================================== */
+
+window.addEventListener(
+    "offline",
+    function () {
+
+        console.log(
+            "HIDDEN YOUTH: INTERNET OFFLINE"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   ERROR HANDLER
+===================================================== */
+
+window.addEventListener(
+    "error",
+    function (event) {
+
+        console.error(
+            "HIDDEN YOUTH JAVASCRIPT ERROR:",
+            event.error ||
+            event.message
+        );
+
+    }
+);
+
+
+/* =====================================================
+   FINAL READY MESSAGE
+===================================================== */
+
+console.log(
+    "HIDDEN YOUTH SCRIPT LOADED SUCCESSFULLY."
+);
+
+console.log(
+    "Backend:",
+    API_URL
+);
+
+console.log(
+    "Active cart tracking: ENABLED"
+);
+
+console.log(
+    "Live visitor tracking: ENABLED"
+);
