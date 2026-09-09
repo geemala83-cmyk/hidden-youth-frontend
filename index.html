@@ -119,29 +119,36 @@
     position: relative;
 }
 
+/* FORCE THE THREE-LINE MENU TO THE FAR LEFT OF THE HEADER */
 .navbar > .menu-btn {
-    order: -1;
-    flex: 0 0 auto;
-    width: 42px;
-    height: 42px;
-    margin-right: 22px;
-    padding: 8px 5px;
-    border: 0;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-    z-index: 1001;
+    position: absolute !important;
+    left: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    padding: 8px 5px !important;
+    border: 0 !important;
+    background: transparent !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    z-index: 1001 !important;
+}
+
+.navbar > .logo {
+    margin-left: 52px !important;
 }
 
 .navbar > .menu-btn span {
-    display: block;
-    width: 28px;
-    height: 1.5px;
-    background: currentColor;
+    display: block !important;
+    width: 28px !important;
+    height: 1.5px !important;
+    background: currentColor !important;
     border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
 }
@@ -157,7 +164,7 @@
 .hidden-youth-menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 0;
+    left: 8px;
     width: 210px;
     padding: 10px;
     border: 1px solid rgba(190, 130, 255, .25);
@@ -199,11 +206,16 @@
 
 @media (max-width: 900px) {
     .navbar > .menu-btn {
-        margin-right: 12px;
+        left: 10px !important;
+        margin: 0 !important;
+    }
+
+    .navbar > .logo {
+        margin-left: 46px !important;
     }
 
     .hidden-youth-menu {
-        left: 0;
+        left: 4px;
         width: 190px;
     }
 }
