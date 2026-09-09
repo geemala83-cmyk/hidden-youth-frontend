@@ -442,6 +442,14 @@ document.getElementById("productAdd").addEventListener("click", function() {
 
     localStorage.setItem("hiddenYouthCart", JSON.stringify(cart));
 
+    /*
+       Keep the main script's cart variable in sync
+       with the product-page cart.
+    */
+    if (typeof window.cart !== "undefined") {
+        window.cart = cart;
+    }
+
     this.textContent = "ADDED ✓";
     this.classList.add("added");
 
