@@ -1316,6 +1316,7 @@ function getDeliveryCharge() {
     // BATAPUR ke qareeb areas
     const nearPostalCodes = [
         "53400", // Batapur
+        "53500", // Jallo / Jallo More / Jallo Pind
         "53600", // Wagha
         "54850", // Harbans Pura
         "54870", // Tajpura
