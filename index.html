@@ -117,41 +117,32 @@
 ===================================================== */
 .navbar {
     position: relative;
-    overflow: visible !important;
 }
 
 .navbar > .menu-btn {
-    order: 0;
-    flex: 0 0 42px;
-    width: 42px !important;
-    height: 42px !important;
-    margin: 0 22px 0 0 !important;
-    padding: 8px 5px !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: #ffffff !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-    position: relative !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    z-index: 9999 !important;
+    order: -1;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    margin-right: 22px;
+    padding: 8px 5px;
+    border: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1001;
 }
 
 .navbar > .menu-btn span {
-    display: block !important;
-    width: 28px !important;
-    min-width: 28px !important;
-    height: 2px !important;
-    min-height: 2px !important;
-    background: #ffffff !important;
-    border-radius: 2px !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    display: block;
+    width: 28px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
 }
 
@@ -167,7 +158,6 @@
     position: absolute;
     top: calc(100% + 12px);
     left: 0;
-
     width: 210px;
     padding: 10px;
     border: 1px solid rgba(190, 130, 255, .25);
@@ -1001,6 +991,45 @@ html { scroll-behavior: smooth; }
 }
 
 </style>
+
+<style>
+/* HIDDEN YOUTH — SEARCH / ACCOUNT FUNCTIONALITY */
+.hy-overlay{position:fixed;inset:0;background:rgba(3,0,6,.97);z-index:9999;display:none;align-items:flex-start;justify-content:center;padding:90px 24px 40px;overflow:auto}
+.hy-overlay.open{display:flex}
+.hy-overlay-inner{width:min(900px,100%);position:relative}
+.hy-overlay-close{position:absolute;right:0;top:-55px;width:42px;height:42px;border:1px solid rgba(190,130,255,.35);border-radius:50%;background:rgba(100,40,150,.12);color:#fff;font-size:24px;cursor:pointer}
+.hy-search-kicker,.hy-account-kicker{font-size:10px;letter-spacing:.3em;color:#bd82ff;margin-bottom:14px}
+.hy-search-title,.hy-account-title{margin:0 0 28px;font-size:clamp(42px,7vw,78px);letter-spacing:-.05em}
+.hy-search-box{display:flex;border-bottom:1px solid rgba(190,130,255,.45);padding-bottom:12px;margin-bottom:28px}
+.hy-search-box input{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:24px;padding:8px 0}
+.hy-search-results{display:grid;gap:10px}
+.hy-search-result{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 4px;border-bottom:1px solid rgba(255,255,255,.09);color:#fff;text-decoration:none}
+.hy-search-result span{color:#a99db3;font-size:11px;letter-spacing:.08em}
+.hy-search-empty{color:#9f95a8;font-size:13px;padding:20px 0}
+.hy-account-card{max-width:520px;border:1px solid rgba(190,130,255,.28);padding:30px;background:rgba(20,8,30,.55);border-radius:12px}
+.hy-account-card p{color:#aaa0b0;line-height:1.7;font-size:13px}
+.hy-account-note{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#8f8497}
+.hy-auth-form{display:grid;gap:14px}
+.hy-auth-label{font-size:9px;letter-spacing:.22em;color:#9e91aa;text-transform:uppercase}
+.hy-auth-input{width:100%;box-sizing:border-box;border:1px solid rgba(190,130,255,.22);border-radius:7px;background:rgba(0,0,0,.32);color:#fff;padding:14px 15px;outline:none;font:inherit;margin-top:7px}
+.hy-auth-input:focus{border-color:rgba(190,130,255,.7);box-shadow:0 0 0 3px rgba(190,130,255,.08)}
+.hy-auth-submit{border:1px solid rgba(206,163,255,.5);background:linear-gradient(135deg,rgba(137,57,198,.55),rgba(40,12,61,.8));color:#fff;padding:14px 18px;border-radius:7px;letter-spacing:.18em;font-size:10px;font-weight:800;cursor:pointer}
+.hy-auth-submit:disabled{opacity:.6;cursor:wait}
+.hy-auth-switch{margin-top:18px;color:#9f95a8;font-size:11px;text-align:center}
+.hy-auth-switch button,.hy-account-link{border:0;background:none;color:#d1a8ff;cursor:pointer;text-decoration:underline;font:inherit}
+.hy-auth-error{min-height:18px;color:#ff9dba;font-size:11px;line-height:1.5}
+.hy-account-welcome{font-size:13px;color:#b9afc2;margin-bottom:20px;line-height:1.7}
+.hy-account-email{color:#d6b3ff;font-weight:700}
+.hy-order-list{display:grid;gap:10px;margin-top:20px}
+.hy-order{border:1px solid rgba(255,255,255,.1);padding:15px;border-radius:7px;background:rgba(0,0,0,.18)}
+.hy-order-top{display:flex;justify-content:space-between;gap:12px;font-size:11px}
+.hy-order-status{color:#d1a8ff;letter-spacing:.12em}
+.hy-order-items{margin-top:8px;color:#9f95a8;font-size:11px;line-height:1.6}
+.hy-account-actions{display:flex;gap:10px;margin-top:20px}
+.hy-account-secondary{border:1px solid rgba(255,255,255,.13);background:transparent;color:#c0b6c8;padding:11px 14px;border-radius:7px;font-size:9px;letter-spacing:.16em;cursor:pointer}
+@media(max-width:600px){.hy-overlay{padding:75px 18px 30px}.hy-overlay-close{top:-52px}.hy-search-box input{font-size:19px}.hy-search-result{align-items:flex-start;flex-direction:column;gap:6px}}
+</style>
+
 </head>
 
 
@@ -1150,14 +1179,14 @@ html { scroll-behavior: smooth; }
 
             <div class="header-actions" aria-label="Header actions">
 
-                <button class="header-action" type="button" aria-label="Search">
+                <button class="header-action" id="hySearchButton" type="button" aria-label="Search">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="10.8" cy="10.8" r="6.7"></circle>
                         <path d="m16 16 5 5"></path>
                     </svg>
                 </button>
 
-                <button class="header-action" type="button" aria-label="Account">
+                <button class="header-action" id="hyAccountButton" type="button" aria-label="Account">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <circle cx="12" cy="7.5" r="3.2"></circle>
                         <path d="M4.8 20c.8-3.5 3.3-5.5 7.2-5.5s6.4 2 7.2 5.5"></path>
@@ -1950,6 +1979,32 @@ html { scroll-behavior: smooth; }
     </div>
 
 </div>
+
+<!-- HIDDEN YOUTH — SEARCH PANEL -->
+<div class="hy-overlay" id="hySearchOverlay" aria-hidden="true">
+  <div class="hy-overlay-inner">
+    <button class="hy-overlay-close" type="button" data-close-hy="search" aria-label="Close search">×</button>
+    <div class="hy-search-kicker">SEARCH HIDDEN YOUTH</div>
+    <h2 class="hy-search-title">FIND YOUR PIECE.</h2>
+    <div class="hy-search-box">
+      <input id="hySearchInput" type="search" placeholder="Search products..." autocomplete="off">
+    </div>
+    <div class="hy-search-results" id="hySearchResults">
+      <div class="hy-search-empty">Start typing to search the collection.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HIDDEN YOUTH — ACCOUNT PANEL -->
+<div class="hy-overlay" id="hyAccountOverlay" aria-hidden="true">
+  <div class="hy-overlay-inner">
+    <button class="hy-overlay-close" type="button" data-close-hy="account" aria-label="Close account">×</button>
+    <div class="hy-account-kicker">HIDDEN YOUTH / ACCOUNT</div>
+    <h2 class="hy-account-title">MY ACCOUNT.</h2>
+    <div class="hy-account-card" id="hyAccountContent"></div>
+  </div>
+</div>
+
     <!-- =====================================================
          JAVASCRIPT
          ONLY MOVED TO THE VERY END
@@ -1985,7 +2040,136 @@ html { scroll-behavior: smooth; }
     })();
     </script>
 
-    <script src="script.js"></script>
+    
+<script>
+/* HIDDEN YOUTH — SEARCH / CUSTOMER ACCOUNT */
+(function(){
+  const searchBtn=document.getElementById('hySearchButton');
+  const accountBtn=document.getElementById('hyAccountButton');
+  const searchOverlay=document.getElementById('hySearchOverlay');
+  const accountOverlay=document.getElementById('hyAccountOverlay');
+  const searchInput=document.getElementById('hySearchInput');
+  const results=document.getElementById('hySearchResults');
+  const accountContent=document.getElementById('hyAccountContent');
+  const API='https://hidden-youth-backend-production.up.railway.app';
+  const TOKEN_KEY='hiddenYouthCustomerToken';
+  let products=[];
+
+  function openOverlay(el){if(!el)return;el.classList.add('open');el.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+  function closeOverlay(el){if(!el)return;el.classList.remove('open');el.setAttribute('aria-hidden','true');if(!document.querySelector('.hy-overlay.open'))document.body.style.overflow='';}
+  function getToken(){return localStorage.getItem(TOKEN_KEY)||'';}
+  function setToken(token){if(token)localStorage.setItem(TOKEN_KEY,token);else localStorage.removeItem(TOKEN_KEY);}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+
+  async function api(path,options={}){
+    const headers={...(options.headers||{})};
+    if(options.body && !headers['Content-Type'])headers['Content-Type']='application/json';
+    const token=getToken();
+    if(token)headers.Authorization='Bearer '+token;
+    const r=await fetch(API+path,{...options,headers});
+    let d={};
+    try{d=await r.json();}catch{}
+    if(!r.ok||!d.success)throw new Error(d.message||'Something went wrong.');
+    return d;
+  }
+
+  function renderLogin(){
+    accountContent.innerHTML=`
+      <p class="hy-account-welcome">Login to your Hidden Youth account to view your orders and keep your customer details connected.</p>
+      <form class="hy-auth-form" id="hyLoginForm">
+        <label class="hy-auth-label">Email<input class="hy-auth-input" id="hyLoginEmail" type="email" autocomplete="email" required></label>
+        <label class="hy-auth-label">Password<input class="hy-auth-input" id="hyLoginPassword" type="password" autocomplete="current-password" required></label>
+        <div class="hy-auth-error" id="hyLoginError"></div>
+        <button class="hy-auth-submit" type="submit">LOGIN TO ACCOUNT →</button>
+      </form>
+      <div class="hy-auth-switch">New to Hidden Youth? <button type="button" id="hyShowSignup">CREATE ACCOUNT</button></div>
+    `;
+    document.getElementById('hyLoginForm').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const email=document.getElementById('hyLoginEmail').value.trim();
+      const password=document.getElementById('hyLoginPassword').value;
+      const err=document.getElementById('hyLoginError');
+      const btn=e.currentTarget.querySelector('button[type="submit"]');
+      err.textContent='';btn.disabled=true;btn.textContent='LOGGING IN...';
+      try{const d=await api('/api/customer/login',{method:'POST',body:JSON.stringify({email,password})});setToken(d.token);localStorage.setItem('hiddenYouthCustomer',JSON.stringify(d.customer));renderAccount(d.customer);}
+      catch(x){err.textContent=x.message;}
+      finally{btn.disabled=false;btn.textContent='LOGIN TO ACCOUNT →';}
+    });
+    document.getElementById('hyShowSignup').addEventListener('click',renderSignup);
+  }
+
+  function renderSignup(){
+    accountContent.innerHTML=`
+      <p class="hy-account-welcome">Create your Hidden Youth customer account with your email and a secure password.</p>
+      <form class="hy-auth-form" id="hySignupForm">
+        <label class="hy-auth-label">Name<input class="hy-auth-input" id="hySignupName" type="text" autocomplete="name" required></label>
+        <label class="hy-auth-label">Email<input class="hy-auth-input" id="hySignupEmail" type="email" autocomplete="email" required></label>
+        <label class="hy-auth-label">Password<input class="hy-auth-input" id="hySignupPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+        <div class="hy-auth-error" id="hySignupError"></div>
+        <button class="hy-auth-submit" type="submit">CREATE ACCOUNT →</button>
+      </form>
+      <div class="hy-auth-switch">Already have an account? <button type="button" id="hyShowLogin">LOGIN</button></div>
+    `;
+    document.getElementById('hySignupForm').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const name=document.getElementById('hySignupName').value.trim();
+      const email=document.getElementById('hySignupEmail').value.trim();
+      const password=document.getElementById('hySignupPassword').value;
+      const err=document.getElementById('hySignupError');
+      const btn=e.currentTarget.querySelector('button[type="submit"]');
+      err.textContent='';btn.disabled=true;btn.textContent='CREATING...';
+      try{const d=await api('/api/customer/register',{method:'POST',body:JSON.stringify({name,email,password})});setToken(d.token);localStorage.setItem('hiddenYouthCustomer',JSON.stringify(d.customer));renderAccount(d.customer);}
+      catch(x){err.textContent=x.message;}
+      finally{btn.disabled=false;btn.textContent='CREATE ACCOUNT →';}
+    });
+    document.getElementById('hyShowLogin').addEventListener('click',renderLogin);
+  }
+
+  async function renderAccount(customer){
+    accountContent.innerHTML=`<p class="hy-account-welcome">Welcome back, <strong>${esc(customer.name)}</strong>.<br><span class="hy-account-email">${esc(customer.email)}</span></p><div class="hy-auth-error" id="hyAccountError"></div><div class="hy-order-list" id="hyOrderList"><div class="hy-search-empty">Loading your orders...</div></div><div class="hy-account-actions"><button class="hy-auth-submit" id="hyLogout" type="button">LOG OUT</button></div>`;
+    try{
+      const d=await api('/api/customer/orders');
+      const list=document.getElementById('hyOrderList');
+      if(!d.orders.length){list.innerHTML='<div class="hy-search-empty">No orders on this account yet.</div>';return;}
+      list.innerHTML=d.orders.map(o=>`<div class="hy-order"><div class="hy-order-top"><strong>${esc(o.id)}</strong><span class="hy-order-status">${esc(o.status)}</span></div><div class="hy-order-items">${(o.items||[]).map(i=>esc(i.name)+' × '+Number(i.quantity||1)).join('<br>')}<br><strong>Rs. ${Number(o.total||0).toLocaleString()}</strong></div></div>`).join('');
+    }catch(x){
+      if(/login required|account not found|401/i.test(x.message)){setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();return;}
+      document.getElementById('hyAccountError').textContent=x.message;
+    }
+    document.getElementById('hyLogout').addEventListener('click',async()=>{
+      try{if(getToken())await api('/api/customer/logout',{method:'POST'});}catch{}
+      setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();
+    });
+  }
+
+  async function openAccount(){
+    openOverlay(accountOverlay);
+    if(!getToken()){renderLogin();return;}
+    try{const d=await api('/api/customer/me');renderAccount(d.customer);}catch{setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();}
+  }
+
+  searchBtn?.addEventListener('click',async()=>{
+    openOverlay(searchOverlay);
+    setTimeout(()=>searchInput?.focus(),50);
+    if(products.length)return;
+    try{const r=await fetch(API+'/api/products');const d=await r.json();if(d.success&&Array.isArray(d.products))products=d.products;}catch(e){console.error(e);}
+  });
+  accountBtn?.addEventListener('click',openAccount);
+  document.querySelectorAll('[data-close-hy="search"]').forEach(b=>b.addEventListener('click',()=>closeOverlay(searchOverlay)));
+  document.querySelectorAll('[data-close-hy="account"]').forEach(b=>b.addEventListener('click',()=>closeOverlay(accountOverlay)));
+  [searchOverlay,accountOverlay].forEach(o=>o?.addEventListener('click',e=>{if(e.target===o)closeOverlay(o);}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOverlay(searchOverlay);closeOverlay(accountOverlay);}});
+  searchInput?.addEventListener('input',()=>{
+    const q=searchInput.value.trim().toLowerCase();
+    if(!q){results.innerHTML='<div class="hy-search-empty">Start typing to search the collection.</div>';return;}
+    const matches=products.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
+    if(!matches.length){results.innerHTML='<div class="hy-search-empty">No products found.</div>';return;}
+    results.innerHTML=matches.slice(0,20).map(p=>'<a class="hy-search-result" href="product.html?id='+encodeURIComponent(p.id)+'"><strong>'+esc(p.name||'Product')+'</strong><span>Rs. '+Number(p.price||0).toLocaleString()+' · '+esc(String(p.category||'HIDDEN YOUTH').toUpperCase())+'</span></a>').join('');
+  });
+})();
+</script>
+
+<script src="script.js"></script>
 
 
 </body>
