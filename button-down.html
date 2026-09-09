@@ -340,6 +340,10 @@ async function loadButtonDownProducts() {
                 <article class="bd-card" data-product-id="${product.id}">
                     <div class="bd-image">
                         <img src="${imageUrl(product.image || "")}" alt="${product.name || "Button Down"}">
+                        <div class="product-hover">
+                            <button class="add-bag" type="button">ADD TO BAG</button>
+                            <button class="heart" type="button" aria-label="Add to wishlist">♡</button>
+                        </div>
                     </div>
                     <div class="bd-info">
                         <h3>${product.name || "BUTTON DOWN"}</h3>
@@ -350,10 +354,85 @@ async function loadButtonDownProducts() {
             `;
         }).join("");
 
-        container.querySelectorAll(".bd-card").forEach(function(card) {
+        container.querySelectorAll(".bd-card").forEach(function(card, index) {
+            const product = data.products[index];
+
             card.addEventListener("click", function() {
                 window.location.href = "product.html?id=" + card.dataset.productId;
             });
+
+            const addButton = card.querySelector(".add-bag");
+            if (addButton) {
+                addButton.addEventListener("click", function(event) {
+                    event.stopPropagation();
+
+                    try {
+                        const savedCart = localStorage.getItem("hiddenYouthCart");
+                        const currentCart = savedCart ? JSON.parse(savedCart) : [];
+                        const existingProduct = currentCart.find(function(item) {
+                            return item.id === product.id;
+                        });
+
+                        if (existingProduct) {
+                            existingProduct.quantity += 1;
+                        } else {
+                            currentCart.push({
+                                ...product,
+                                quantity: 1
+                            });
+                        }
+
+                        localStorage.setItem("hiddenYouthCart", JSON.stringify(currentCart));
+
+                        if (typeof loadCart === "function") loadCart();
+                        if (typeof updateCartUI === "function") updateCartUI();
+
+                        const cartPanel = document.getElementById("cartPanel");
+                        const cartOverlay = document.getElementById("cartOverlay");
+                        if (cartPanel) cartPanel.classList.add("active");
+                        if (cartOverlay) cartOverlay.classList.add("active");
+                    } catch (error) {
+                        console.error("Add to bag error:", error);
+                    }
+                });
+            }
+
+            const heartButton = card.querySelector(".heart");
+            if (heartButton) {
+                const savedWishlist = localStorage.getItem("hiddenYouthWishlist");
+                let currentWishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
+
+                if (currentWishlist.some(function(item) { return item.id === product.id; })) {
+                    heartButton.textContent = "♥";
+                    heartButton.classList.add("liked");
+                }
+
+                heartButton.addEventListener("click", function(event) {
+                    event.stopPropagation();
+
+                    try {
+                        const saved = localStorage.getItem("hiddenYouthWishlist");
+                        let wishlist = saved ? JSON.parse(saved) : [];
+                        const existingIndex = wishlist.findIndex(function(item) {
+                            return item.id === product.id;
+                        });
+
+                        if (existingIndex !== -1) {
+                            wishlist.splice(existingIndex, 1);
+                            heartButton.textContent = "♡";
+                            heartButton.classList.remove("liked");
+                        } else {
+                            wishlist.push(product);
+                            heartButton.textContent = "♥";
+                            heartButton.classList.add("liked");
+                        }
+
+                        localStorage.setItem("hiddenYouthWishlist", JSON.stringify(wishlist));
+                    } catch (error) {
+                        console.error("Wishlist error:", error);
+                    }
+                });
+            }
         });
     } catch (error) {
         console.error(error);
