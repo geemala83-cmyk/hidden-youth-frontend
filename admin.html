@@ -752,6 +752,131 @@
             margin-top: 4px;
         }
 
+
+        /* CUSTOMER MANAGEMENT — ADDED ONLY */
+        .customers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .customer-card {
+            background: #151515;
+            border: 1px solid #292929;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .customer-card-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .customer-card-name {
+            font-size: 17px;
+            font-weight: 900;
+        }
+
+        .customer-card-email {
+            color: #888;
+            font-size: 11px;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .customer-login-badge {
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .customer-login-badge.online {
+            background: #19351f;
+            color: #78e99a;
+        }
+
+        .customer-login-badge.offline {
+            background: #252525;
+            color: #888;
+        }
+
+        .customer-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .customer-meta-box {
+            background: #0d0d0d;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .customer-meta-label {
+            color: #666;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+
+        .customer-meta-value {
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .customer-card-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .customer-orders-panel {
+            margin-top: 12px;
+            border-top: 1px solid #292929;
+            padding-top: 12px;
+        }
+
+        .customer-order-row {
+            border-bottom: 1px solid #292929;
+            padding: 9px 0;
+        }
+
+        .customer-order-row:last-child {
+            border-bottom: 0;
+        }
+
+        .customer-order-main {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .customer-order-sub {
+            color: #777;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        @media (max-width: 1100px) {
+            .customers-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .customers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 
@@ -979,6 +1104,13 @@
                 ACTIVE CARTS
             </button>
 
+            <button
+                class="tab"
+                data-tab="customers"
+            >
+                CUSTOMERS
+            </button>
+
         </div>
 
 
@@ -1152,6 +1284,49 @@
                 id="cartsContainer"
             >
                 Loading carts...
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             CUSTOMERS
+        ================================================= -->
+
+        <section
+            id="customersSection"
+            class="hidden"
+        >
+
+            <div class="section-head">
+
+                <div>
+
+                    <div class="section-title">
+                        Customer Accounts
+                    </div>
+
+                    <div class="section-note">
+                        View registered customers, login status and order history.
+                    </div>
+
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="loadCustomers()"
+                >
+                    ↻ REFRESH CUSTOMERS
+                </button>
+
+            </div>
+
+            <div
+                class="customers-grid"
+                id="customersContainer"
+            >
+                <div class="empty">
+                    Loading customers...
+                </div>
             </div>
 
         </section>
@@ -1409,6 +1584,7 @@
 
     let products = [];
     let orders = [];
+    let customers = [];
     let productCategoryFilter = "ALL";
 
 
@@ -2999,6 +3175,15 @@ loginError.textContent =
                             tab !== "carts"
                         );
 
+                    document
+                        .getElementById(
+                            "customersSection"
+                        )
+                        .classList.toggle(
+                            "hidden",
+                            tab !== "customers"
+                        );
+
 
                     if (tab === "orders") {
                         loadOrders();
@@ -3010,6 +3195,10 @@ loginError.textContent =
 
                     if (tab === "carts") {
                         loadCarts();
+                    }
+
+                    if (tab === "customers") {
+                        loadCustomers();
                     }
 
                 }
@@ -3039,6 +3228,243 @@ loginError.textContent =
         });
 
 
+
+    /* =====================================================
+       CUSTOMERS — ADDED ONLY
+    ===================================================== */
+
+    async function loadCustomers() {
+
+        const container =
+            document.getElementById(
+                "customersContainer"
+            );
+
+        container.innerHTML =
+            '<div class="empty">Loading customers...</div>';
+
+        try {
+
+            const data =
+                await apiRequest(
+                    "/api/admin/customers"
+                );
+
+            customers =
+                Array.isArray(data.customers)
+                    ? data.customers
+                    : [];
+
+            renderCustomers();
+
+        } catch (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+                <div class="empty">
+                    ${escapeHTML(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    function renderCustomers() {
+
+        const container =
+            document.getElementById(
+                "customersContainer"
+            );
+
+        if (!customers.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    <h3>No Customer Accounts Yet</h3>
+                    <p>Registered customer accounts will appear here.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML =
+            customers.map(customer => {
+
+                const loggedIn =
+                    Boolean(customer.loggedIn);
+
+                return `
+                    <div class="customer-card">
+
+                        <div class="customer-card-top">
+
+                            <div>
+                                <div class="customer-card-name">
+                                    ${escapeHTML(customer.name || "Customer")}
+                                </div>
+
+                                <div class="customer-card-email">
+                                    ${escapeHTML(customer.email || "—")}
+                                </div>
+                            </div>
+
+                            <span class="customer-login-badge ${loggedIn ? "online" : "offline"}">
+                                ${loggedIn ? "LOGGED IN" : "LOGGED OUT"}
+                            </span>
+
+                        </div>
+
+                        <div class="customer-meta">
+
+                            <div class="customer-meta-box">
+                                <div class="customer-meta-label">Customer ID</div>
+                                <div class="customer-meta-value">
+                                    ${escapeHTML(customer.id ?? "—")}
+                                </div>
+                            </div>
+
+                            <div class="customer-meta-box">
+                                <div class="customer-meta-label">Total Orders</div>
+                                <div class="customer-meta-value">
+                                    ${Number(customer.totalOrders || 0)}
+                                </div>
+                            </div>
+
+                            <div class="customer-meta-box">
+                                <div class="customer-meta-label">Account Created</div>
+                                <div class="customer-meta-value">
+                                    ${escapeHTML(formatDateTime(customer.createdAt))}
+                                </div>
+                            </div>
+
+                            <div class="customer-meta-box">
+                                <div class="customer-meta-label">Last Login</div>
+                                <div class="customer-meta-value">
+                                    ${escapeHTML(formatDateTime(customer.lastLoginAt))}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="customer-card-actions">
+                            <button
+                                class="small-btn"
+                                type="button"
+                                onclick="viewCustomerOrders(${Number(customer.id)})"
+                            >
+                                VIEW ORDERS
+                            </button>
+                        </div>
+
+                        <div
+                            class="customer-orders-panel hidden"
+                            id="customerOrders-${Number(customer.id)}"
+                        ></div>
+
+                    </div>
+                `;
+
+            }).join("");
+
+    }
+
+
+    function formatDateTime(value) {
+
+        if (!value) return "—";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return "—";
+        }
+
+        return date.toLocaleString("en-PK", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+
+    }
+
+
+    async function viewCustomerOrders(customerId) {
+
+        const panel =
+            document.getElementById(
+                "customerOrders-" + Number(customerId)
+            );
+
+        if (!panel) return;
+
+        if (!panel.classList.contains("hidden")) {
+            panel.classList.add("hidden");
+            panel.innerHTML = "";
+            return;
+        }
+
+        panel.classList.remove("hidden");
+        panel.innerHTML =
+            '<div class="customer-order-sub">Loading order history...</div>';
+
+        try {
+
+            const data =
+                await apiRequest(
+                    "/api/admin/customers/" +
+                    encodeURIComponent(customerId) +
+                    "/orders"
+                );
+
+            const orders =
+                Array.isArray(data.orders)
+                    ? data.orders
+                    : [];
+
+            if (!orders.length) {
+
+                panel.innerHTML =
+                    '<div class="customer-order-sub">No orders found for this customer.</div>';
+
+                return;
+            }
+
+            panel.innerHTML =
+                orders.map(order => `
+                    <div class="customer-order-row">
+
+                        <div class="customer-order-main">
+                            <span>${escapeHTML(order.id || "Order")}</span>
+                            <span>${formatMoney(order.total)}</span>
+                        </div>
+
+                        <div class="customer-order-sub">
+                            ${escapeHTML(order.status || "PENDING")}
+                            ·
+                            ${escapeHTML(formatDateTime(order.createdAt))}
+                        </div>
+
+                    </div>
+                `).join("");
+
+        } catch (error) {
+
+            console.error(error);
+
+            panel.innerHTML = `
+                <div class="customer-order-sub">
+                    ${escapeHTML(error.message)}
+                </div>
+            `;
+
+        }
+
+    }
+
+
     /* =====================================================
        REFRESH ALL
     ===================================================== */
@@ -3054,6 +3480,8 @@ loginError.textContent =
             loadVisitors(),
             loadCarts()
         ]);
+
+        await loadCustomers();
 
         console.log("Dashboard refreshed successfully.");
 
