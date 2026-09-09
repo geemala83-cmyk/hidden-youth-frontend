@@ -852,6 +852,149 @@ const checkoutTotal =
 
 
 /* =====================================================
+   DELIVERY / CHECKOUT TOTAL
+===================================================== */
+
+const checkoutSubtotal =
+    document.getElementById("checkoutSubtotal");
+
+const deliveryChargeElement =
+    document.getElementById("deliveryCharge");
+
+function getDeliveryCharge() {
+
+    const cityInput =
+        document.getElementById("customerCity");
+
+    const postalCodeInput =
+        document.getElementById("customerPostalCode");
+
+    const city = cityInput
+        ? cityInput.value.trim().toLowerCase()
+        : "";
+
+    const postalCode = postalCodeInput
+        ? postalCodeInput.value.trim()
+        : "";
+
+    if (city && city !== "lahore") {
+        return 500;
+    }
+
+    const nearPostalCodes = [
+        "54000", "54700", "54782", "53720"
+    ];
+
+    const mediumPostalCodes = [
+        "54010", "54020", "54030", "54040"
+    ];
+
+    const farPostalCodes = [
+        "54050", "54060", "54070", "54080"
+    ];
+
+    if (nearPostalCodes.includes(postalCode)) return 250;
+    if (mediumPostalCodes.includes(postalCode)) return 350;
+    if (farPostalCodes.includes(postalCode)) return 450;
+
+    return 0;
+}
+
+function updateCheckoutTotal() {
+
+    const subtotal = getCartTotal();
+    const delivery = getDeliveryCharge();
+    const total = subtotal + delivery;
+
+    if (checkoutSubtotal) {
+        checkoutSubtotal.textContent =
+            "Rs. " + subtotal.toLocaleString();
+    }
+
+    if (deliveryChargeElement) {
+        deliveryChargeElement.textContent =
+            "Rs. " + delivery.toLocaleString();
+    }
+
+    if (checkoutTotal) {
+        checkoutTotal.textContent =
+            "Rs. " + total.toLocaleString();
+    }
+}
+
+
+/* =====================================================
+   POSTAL CODE → AREA / CITY
+===================================================== */
+
+const postalCodeInput =
+    document.getElementById("customerPostalCode");
+
+const postalArea =
+    document.getElementById("postalArea");
+
+const cityInput =
+    document.getElementById("customerCity");
+
+if (postalCodeInput) {
+
+    postalCodeInput.addEventListener("input", async function () {
+
+        const postalCode = postalCodeInput.value
+            .replace(/\D/g, "")
+            .slice(0, 5);
+
+        postalCodeInput.value = postalCode;
+
+        if (postalCode.length !== 5) {
+            if (postalArea) postalArea.innerHTML = "";
+            updateCheckoutTotal();
+            return;
+        }
+
+        if (postalArea) postalArea.innerHTML = "CHECKING AREA...";
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/api/postal-codes/${postalCode}`
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.results || data.results.length === 0) {
+                throw new Error("POSTAL CODE NOT FOUND");
+            }
+
+            const location = data.results[0];
+
+            if (cityInput) {
+                cityInput.value = location.city || "";
+            }
+
+            updateCheckoutTotal();
+
+            if (postalArea) {
+                postalArea.innerHTML =
+                    `<strong>AREA:</strong> ${location.area_name || ""}`;
+            }
+
+        } catch (error) {
+
+            console.error("POSTAL CODE ERROR:", error);
+
+            if (postalArea) {
+                postalArea.innerHTML =
+                    "AREA NOT FOUND — PLEASE CHECK POSTAL CODE.";
+            }
+
+            updateCheckoutTotal();
+        }
+    });
+}
+
+
+/* =====================================================
    OPEN CHECKOUT
 ===================================================== */
 
@@ -918,12 +1061,7 @@ function openCheckout() {
 
     /* TOTAL */
 
-    if (checkoutTotal) {
-
-        checkoutTotal.textContent =
-            "Rs. " +
-            getCartTotal().toLocaleString();
-    }
+    updateCheckoutTotal();
 
 
     /* CLOSE CART FIRST */
@@ -1092,6 +1230,34 @@ if (checkoutForm) {
                 ?.value
                 .trim();
 
+        const postalCode =
+            document.getElementById("customerPostalCode")
+                ?.value
+                .trim();
+
+        const postalAreaElement =
+            document.getElementById("postalArea");
+
+
+        /* ==============================
+           POSTAL CODE VALIDATION
+        ============================== */
+
+        if (
+            !postalCode ||
+            postalCode.length !== 5 ||
+            !postalAreaElement ||
+            !postalAreaElement.innerHTML.includes("AREA:")
+        ) {
+
+            alert(
+                "PLEASE ENTER A VALID POSTAL CODE FIRST.\n\n" +
+                "YOUR DELIVERY CHARGE WILL BE CALCULATED AFTER THE POSTAL CODE IS VERIFIED."
+            );
+
+            return;
+        }
+
 
         /* ==============================
            VALIDATION
@@ -1116,7 +1282,8 @@ if (checkoutForm) {
                 name: name,
                 phone: phone,
                 address: address,
-                city: city
+                city: city,
+                postalCode: postalCode
 
             },
 
@@ -1527,111 +1694,3 @@ window.addEventListener("load", function () {
     }
 
 });
-
-/* =====================================================
-   HIDDEN YOUTH — VISITOR + CART TRACKING
-   Sends lightweight heartbeat/cart data to the backend.
-===================================================== */
-
-(function startHiddenYouthTracking() {
-
-    const TRACKING_API =
-        "https://hidden-youth-backend-production.up.railway.app";
-
-    let visitorId =
-        localStorage.getItem("hiddenYouthVisitorId");
-
-    if (!visitorId) {
-        visitorId =
-            "HY-" +
-            Date.now().toString(36) +
-            "-" +
-            Math.random().toString(36).slice(2, 10);
-
-        localStorage.setItem(
-            "hiddenYouthVisitorId",
-            visitorId
-        );
-    }
-
-    async function sendVisitorHeartbeat() {
-        try {
-            await fetch(
-                `${TRACKING_API}/api/visitors/heartbeat`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        visitorId,
-                        page: window.location.pathname + window.location.search
-                    }),
-                    keepalive: true
-                }
-            );
-        } catch (error) {
-            console.warn("Visitor tracking unavailable.");
-        }
-    }
-
-    async function syncVisitorCart() {
-        try {
-            const saved =
-                localStorage.getItem("hiddenYouthCart");
-
-            let items = [];
-
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    items = Array.isArray(parsed) ? parsed : [];
-                } catch {
-                    items = [];
-                }
-            }
-
-            await fetch(
-                `${TRACKING_API}/api/visitor/cart`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        visitorId,
-                        items
-                    }),
-                    keepalive: true
-                }
-            );
-        } catch (error) {
-            console.warn("Cart tracking unavailable.");
-        }
-    }
-
-    sendVisitorHeartbeat();
-    syncVisitorCart();
-
-    setInterval(
-        sendVisitorHeartbeat,
-        30000
-    );
-
-    setInterval(
-        syncVisitorCart,
-        15000
-    );
-
-    document.addEventListener(
-        "visibilitychange",
-        function () {
-            if (!document.hidden) {
-                sendVisitorHeartbeat();
-                syncVisitorCart();
-            }
-        }
-    );
-
-})();
-
