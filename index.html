@@ -34,267 +34,317 @@
 <style>
 html { scroll-behavior: smooth; }
 
+/* =====================================================
+   HIDDEN YOUTH — PREMIUM THRIFT ABOUT SECTION
+   ABOUT ONLY — EXISTING SITE SECTIONS UNCHANGED
+===================================================== */
 .hidden-youth-about {
-    min-height: 92vh;
-    padding: 120px 8vw 110px;
+    min-height: 100vh;
+    padding: 100px 6vw 70px;
     position: relative;
     overflow: hidden;
     isolation: isolate;
     background:
-        radial-gradient(circle at 78% 38%, rgba(168, 83, 255, .17), transparent 30%),
-        radial-gradient(circle at 12% 80%, rgba(107, 44, 171, .10), transparent 28%),
-        #05030a;
+        radial-gradient(circle at 78% 32%, rgba(160, 74, 255, .16), transparent 27%),
+        radial-gradient(circle at 8% 82%, rgba(92, 36, 145, .13), transparent 30%),
+        linear-gradient(135deg, #050308 0%, #090511 52%, #040207 100%);
     color: #fff;
-    display: flex;
-    align-items: center;
 }
 
 .hidden-youth-about::before {
     content: "";
     position: absolute;
-    inset: 35px;
-    border: 1px solid rgba(255,255,255,.045);
+    inset: 24px;
+    border: 1px solid rgba(185,120,255,.055);
     pointer-events: none;
 }
 
 .hidden-youth-about::after {
     content: "HIDDEN YOUTH";
     position: absolute;
-    right: -80px;
-    bottom: 100px;
-    font-size: clamp(70px, 13vw, 190px);
+    right: -70px;
+    bottom: 30px;
+    font-size: clamp(80px, 15vw, 210px);
     font-weight: 800;
-    letter-spacing: -.07em;
-    color: rgba(255,255,255,.018);
+    letter-spacing: -.08em;
+    color: rgba(255,255,255,.015);
     white-space: nowrap;
     pointer-events: none;
+    z-index: -1;
 }
 
 .about-inner {
-    width: min(1180px, 100%);
+    width: min(1450px, 100%);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: .9fr 1.1fr;
-    gap: 90px;
+    grid-template-columns: 1fr 1fr;
+    gap: 54px;
     align-items: center;
     position: relative;
     z-index: 3;
 }
 
+.about-heading {
+    position: relative;
+    z-index: 4;
+}
+
 .about-kicker {
-    display: inline-block;
-    color: #b978ff;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: #c184ff;
     font-size: 11px;
     letter-spacing: .34em;
     font-weight: 600;
 }
 
+.about-kicker::before {
+    content: "";
+    width: 62px;
+    height: 1px;
+    background: #c184ff;
+    box-shadow: 0 0 16px rgba(193,132,255,.8);
+}
+
 .about-title {
-    margin: 22px 0 0;
-    font-size: clamp(48px, 6.8vw, 88px);
-    line-height: .88;
-    letter-spacing: -.055em;
+    margin: 25px 0 0;
+    font-size: clamp(48px, 6.2vw, 94px);
+    line-height: .86;
+    letter-spacing: -.065em;
     font-weight: 800;
 }
 
 .about-title span {
     display: block;
-    color: transparent;
-    -webkit-text-stroke: 1.5px #b978ff;
-    text-shadow: 0 0 30px rgba(185,120,255,.16);
+    color: #b978ff;
+    text-shadow: 0 0 34px rgba(185,120,255,.18);
 }
 
 .about-line {
-    width: 90px;
-    height: 1px;
-    margin: 32px 0 25px;
-    background: #b978ff;
-    box-shadow: 0 0 20px rgba(185,120,255,.75);
+    display: none;
 }
 
 .about-intro {
-    max-width: 470px;
-    margin: 0;
-    color: rgba(255,255,255,.60);
+    max-width: 690px;
+    margin: 24px 0 0;
+    color: rgba(255,255,255,.68);
     font-size: 15px;
-    line-height: 1.85;
+    line-height: 1.78;
 }
 
 .about-copy {
-    max-width: 640px;
+    max-width: 700px;
+    margin-top: 22px;
 }
 
 .about-copy-label {
-    margin-bottom: 18px;
-    color: rgba(255,255,255,.38);
+    margin-bottom: 14px;
+    color: #bd82ff;
     font-size: 9px;
     letter-spacing: .30em;
+    font-weight: 600;
 }
 
 .about-copy h3 {
-    margin: 0 0 25px;
-    font-size: clamp(28px, 3.5vw, 46px);
-    line-height: 1.05;
+    margin: 0 0 19px;
+    font-size: clamp(25px, 2.8vw, 39px);
+    line-height: 1.08;
     letter-spacing: -.035em;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .about-copy p {
-    max-width: 610px;
-    margin: 0 0 16px;
-    color: rgba(255,255,255,.57);
-    font-size: 14px;
-    line-height: 1.9;
+    max-width: 680px;
+    margin: 0 0 12px;
+    color: rgba(255,255,255,.56);
+    font-size: 13px;
+    line-height: 1.78;
 }
 
 .about-stat-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 38px;
+    gap: 0;
+    margin-top: 25px;
+    border-top: 1px solid rgba(185,120,255,.20);
+    border-bottom: 1px solid rgba(185,120,255,.12);
 }
 
 .about-stat {
-    min-height: 105px;
-    padding: 17px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.025);
-    transition: transform .35s ease, border-color .35s ease, background .35s ease;
+    min-height: 96px;
+    padding: 16px 17px;
+    border-right: 1px solid rgba(185,120,255,.16);
+    background: linear-gradient(145deg, rgba(185,120,255,.045), rgba(255,255,255,.012));
+    transition: background .3s ease, transform .3s ease;
 }
 
+.about-stat:last-child { border-right: 0; }
+
 .about-stat:hover {
-    transform: translateY(-5px);
-    border-color: rgba(185,120,255,.42);
-    background: rgba(185,120,255,.045);
+    transform: translateY(-3px);
+    background: rgba(185,120,255,.075);
 }
 
 .about-stat strong {
     display: block;
-    margin-bottom: 10px;
-    color: #b978ff;
-    font-size: 20px;
+    margin-bottom: 9px;
+    color: #bf83ff;
+    font-size: 18px;
     font-weight: 500;
 }
 
 .about-stat span {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     font-size: 10px;
-    letter-spacing: .18em;
-    font-weight: 600;
+    letter-spacing: .14em;
+    font-weight: 700;
 }
 
 .about-stat small {
     display: block;
-    color: rgba(255,255,255,.34);
+    color: rgba(255,255,255,.38);
     font-size: 7px;
-    letter-spacing: .08em;
-    line-height: 1.5;
+    letter-spacing: .07em;
+    line-height: 1.45;
 }
 
 .about-visual {
-    min-height: 500px;
+    min-height: 600px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.about-visual::before {
+    content: "THRIFTED  //  PRE-LOVED  //  UNIQUE";
+    position: absolute;
+    right: -5px;
+    top: 20px;
+    color: rgba(194,133,255,.65);
+    font-size: 8px;
+    letter-spacing: .22em;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    z-index: 5;
+}
+
 .about-visual-glow {
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 440px;
+    height: 440px;
     border-radius: 50%;
-    background: rgba(153,67,255,.18);
-    filter: blur(80px);
+    background: rgba(145,56,255,.19);
+    filter: blur(95px);
 }
 
 .about-frame {
-    width: min(390px, 78%);
-    aspect-ratio: .76;
-    padding: 10px;
+    width: min(620px, 92%);
+    aspect-ratio: 1.05 / 1;
+    padding: 9px;
     position: relative;
-    transform: rotate(3deg);
-    border: 1px solid rgba(185,120,255,.45);
+    transform: rotate(-1deg);
+    border: 1px solid rgba(193,132,255,.55);
     box-shadow:
-        0 0 50px rgba(132,49,220,.15),
-        inset 0 0 35px rgba(185,120,255,.035);
-    background: rgba(255,255,255,.015);
+        0 0 70px rgba(132,49,220,.18),
+        inset 0 0 45px rgba(185,120,255,.035);
+    background: rgba(255,255,255,.018);
 }
 
 .about-frame-inner {
     width: 100%;
     height: 100%;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.11);
     background:
-        radial-gradient(circle at 50% 45%, rgba(185,120,255,.16), transparent 31%),
-        linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.008));
+        linear-gradient(rgba(4,2,9,.38), rgba(4,2,9,.62)),
+        linear-gradient(135deg, rgba(185,120,255,.16), transparent 45%),
+        url('Dress.jpg') center / cover no-repeat;
 }
 
 .about-frame-inner::before {
     content: "";
     position: absolute;
-    width: 190px;
-    height: 190px;
-    border: 1px solid rgba(185,120,255,.20);
-    border-radius: 50%;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(5,3,10,.82), transparent 38%, rgba(5,3,10,.20)),
+        radial-gradient(circle at 65% 45%, transparent 0 20%, rgba(0,0,0,.24) 65%, rgba(0,0,0,.60) 100%);
+    pointer-events: none;
+}
+
+.about-frame-inner::after {
+    content: "GOOD CLOTHES\A BETTER SECOND LIFE";
+    white-space: pre;
+    position: absolute;
+    right: 25px;
+    top: 28%;
+    color: rgba(255,255,255,.42);
+    font-size: clamp(12px, 1.3vw, 18px);
+    line-height: 1.25;
+    letter-spacing: .08em;
+    font-weight: 800;
+    transform: rotate(-3deg);
+    text-align: right;
 }
 
 .about-frame-word {
     position: absolute;
-    top: 30px;
-    left: 30px;
-    color: rgba(255,255,255,.23);
+    top: 23px;
+    left: 25px;
+    color: rgba(255,255,255,.60);
     font-size: 9px;
-    letter-spacing: .35em;
+    letter-spacing: .34em;
+    z-index: 3;
 }
 
 .about-frame-center {
-    text-align: center;
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    left: 26px;
+    bottom: 27px;
+    z-index: 3;
 }
 
 .about-frame-center strong {
     display: block;
-    font-size: clamp(42px, 5vw, 65px);
-    line-height: .85;
+    color: #fff;
+    font-size: clamp(38px, 5vw, 70px);
+    line-height: .86;
     letter-spacing: -.06em;
+    text-shadow: 0 0 28px rgba(185,120,255,.20);
 }
 
 .about-frame-center span {
     display: block;
-    margin-top: 19px;
-    color: #b978ff;
+    margin-top: 14px;
+    color: #c184ff;
     font-size: 8px;
-    letter-spacing: .30em;
+    letter-spacing: .27em;
 }
 
 .about-frame-number {
     position: absolute;
-    right: 28px;
-    bottom: 25px;
-    color: rgba(255,255,255,.25);
-    font-size: 10px;
-    letter-spacing: .2em;
+    right: 24px;
+    bottom: 21px;
+    color: rgba(255,255,255,.55);
+    font-size: 9px;
+    letter-spacing: .20em;
+    z-index: 3;
 }
 
 .about-frame-corner {
     position: absolute;
-    width: 28px;
-    height: 28px;
-    z-index: 4;
+    width: 34px;
+    height: 34px;
+    z-index: 6;
 }
 
-.about-corner-tl { top: -1px; left: -1px; border-top: 2px solid #b978ff; border-left: 2px solid #b978ff; }
-.about-corner-tr { top: -1px; right: -1px; border-top: 2px solid #b978ff; border-right: 2px solid #b978ff; }
-.about-corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid #b978ff; border-left: 2px solid #b978ff; }
-.about-corner-br { bottom: -1px; right: -1px; border-bottom: 2px solid #b978ff; border-right: 2px solid #b978ff; }
+.about-corner-tl { top: -2px; left: -2px; border-top: 3px solid #c184ff; border-left: 3px solid #c184ff; }
+.about-corner-tr { top: -2px; right: -2px; border-top: 3px solid #c184ff; border-right: 3px solid #c184ff; }
+.about-corner-bl { bottom: -2px; left: -2px; border-bottom: 3px solid #c184ff; border-left: 3px solid #c184ff; }
+.about-corner-br { bottom: -2px; right: -2px; border-bottom: 3px solid #c184ff; border-right: 3px solid #c184ff; }
 
 .about-orbit {
     position: absolute;
@@ -304,39 +354,133 @@ html { scroll-behavior: smooth; }
 }
 
 .about-orbit-one {
-    width: 480px;
-    height: 210px;
-    transform: rotate(-24deg);
+    width: 680px;
+    height: 270px;
+    transform: rotate(-25deg);
 }
 
 .about-orbit-two {
-    width: 400px;
-    height: 150px;
-    transform: rotate(28deg);
-    border-color: rgba(255,255,255,.07);
+    width: 590px;
+    height: 210px;
+    transform: rotate(27deg);
+    border-color: rgba(255,255,255,.075);
+}
+
+.about-thrift-note {
+    width: min(1450px, 100%);
+    margin: 35px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    position: relative;
+    z-index: 4;
+}
+
+.about-info-box {
+    min-height: 126px;
+    padding: 19px 22px;
+    border: 1px solid rgba(185,120,255,.28);
+    background: linear-gradient(135deg, rgba(185,120,255,.055), rgba(255,255,255,.012));
+    position: relative;
+}
+
+.about-info-box::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid #c184ff;
+    border-left: 2px solid #c184ff;
+}
+
+.about-info-box h4 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: .18em;
+    font-weight: 700;
+}
+
+.about-info-box p {
+    margin: 0;
+    color: rgba(255,255,255,.52);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.about-info-box strong { color: #c184ff; }
+
+.about-cta-row {
+    width: min(1450px, 100%);
+    margin: 22px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 4;
+}
+
+.about-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 28px;
+    border: 1px solid #c184ff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: .20em;
+    background: rgba(185,120,255,.025);
+    box-shadow: 0 0 24px rgba(185,120,255,.08);
+    transition: .3s ease;
+}
+
+.about-cta:hover {
+    background: rgba(185,120,255,.10);
+    box-shadow: 0 0 35px rgba(185,120,255,.18);
+    transform: translateY(-2px);
+}
+
+.about-cta span { color: #c184ff; font-size: 17px; }
+
+.about-cta-tag {
+    color: rgba(255,255,255,.36);
+    font-size: 8px;
+    letter-spacing: .28em;
+    text-align: right;
+}
+
+@media (max-width: 1050px) {
+    .about-inner { gap: 35px; }
+    .about-visual { min-height: 520px; }
+    .about-frame { width: min(560px, 94%); }
 }
 
 @media (max-width: 850px) {
-    .hidden-youth-about {
-        padding: 90px 7vw;
-    }
+    .hidden-youth-about { padding: 85px 6vw 60px; }
+    .hidden-youth-about::before { inset: 14px; }
+    .about-inner { grid-template-columns: 1fr; gap: 38px; }
+    .about-heading { order: 1; }
+    .about-visual { order: 2; min-height: 420px; }
+    .about-copy { order: 3; }
+    .about-thrift-note { grid-template-columns: 1fr; }
+    .about-stat-row { grid-template-columns: 1fr; }
+    .about-stat { border-right: 0; border-bottom: 1px solid rgba(185,120,255,.12); }
+    .about-stat:last-child { border-bottom: 0; }
+    .about-cta-row { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .about-cta-tag { text-align: left; }
+    .about-visual::before { right: 2px; }
+}
 
-    .hidden-youth-about::before {
-        inset: 20px;
-    }
-
-    .about-inner {
-        grid-template-columns: 1fr;
-        gap: 55px;
-    }
-
-    .about-visual {
-        min-height: 420px;
-    }
-
-    .about-stat-row {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 520px) {
+    .about-title { font-size: 50px; }
+    .about-intro { font-size: 13px; }
+    .about-frame { width: 96%; }
+    .about-frame-inner::after { right: 13px; font-size: 10px; }
+    .about-frame-center { left: 17px; bottom: 20px; }
+    .about-frame-word { left: 17px; }
+    .about-info-box { padding: 17px; }
 }
 </style>
 </head>
@@ -764,104 +908,126 @@ html { scroll-behavior: smooth; }
 
 
     <!-- =====================================================
-         ABOUT HIDDEN YOUTH
+         ABOUT HIDDEN YOUTH — PREMIUM THRIFT EDITION
     ====================================================== -->
     <section class="hidden-youth-about" id="about">
 
         <div class="about-inner">
 
             <div class="about-heading">
-                <span class="about-kicker">02 / ABOUT HIDDEN YOUTH</span>
+                <span class="about-kicker">ABOUT HIDDEN YOUTH</span>
 
                 <h2 class="about-title">
                     WEAR YOUR
                     <span>IDENTITY</span>
                 </h2>
 
-                <div class="about-line"></div>
-
                 <p class="about-intro">
-                    Hidden Youth is more than clothing. It is a space for
-                    individuality, confidence and self-expression — created
-                    for those who choose their own way.
+                    Hidden Youth is a curated women's thrift fashion space built around
+                    individuality, self-expression and pieces that deserve a second life.
+                    We choose distinctive pre-loved clothing for women who want style
+                    that feels personal, effortless and different.
                 </p>
+
+                <div class="about-copy">
+                    <div class="about-copy-label">THE HIDDEN PHILOSOPHY</div>
+
+                    <h3>
+                        Thrifted pieces.<br>
+                        Real character. No ordinary style.
+                    </h3>
+
+                    <p>
+                        We believe great fashion does not always have to be brand new.
+                        Every thrifted piece has its own character, history and story —
+                        and we curate those pieces to give them a new place in your wardrobe.
+                    </p>
+
+                    <p>
+                        Our goal is simple: make unique fashion more accessible while
+                        giving quality clothing another chance to be loved and worn.
+                    </p>
+
+                    <div class="about-stat-row">
+                        <div class="about-stat">
+                            <strong>01</strong>
+                            <span>PRE-LOVED</span>
+                            <small>QUALITY PIECES WITH A STORY</small>
+                        </div>
+
+                        <div class="about-stat">
+                            <strong>02</strong>
+                            <span>UNIQUE</span>
+                            <small>NO TWO FINDS FEEL THE SAME</small>
+                        </div>
+
+                        <div class="about-stat">
+                            <strong>03</strong>
+                            <span>MORE SUSTAINABLE</span>
+                            <small>GIVING GREAT CLOTHES A SECOND LIFE</small>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="about-copy">
+            <div class="about-visual" aria-hidden="true">
+                <div class="about-orbit about-orbit-one"></div>
+                <div class="about-orbit about-orbit-two"></div>
+                <div class="about-visual-glow"></div>
 
-                <div class="about-copy-label">THE HIDDEN PHILOSOPHY</div>
+                <div class="about-frame">
+                    <div class="about-frame-corner about-corner-tl"></div>
+                    <div class="about-frame-corner about-corner-tr"></div>
+                    <div class="about-frame-corner about-corner-bl"></div>
+                    <div class="about-frame-corner about-corner-br"></div>
 
-                <h3>
-                    Made for the ones<br>
-                    who refuse to blend in.
-                </h3>
+                    <div class="about-frame-inner">
+                        <div class="about-frame-word">THRIFTED / PRE-LOVED</div>
 
-                <p>
-                    We believe style should feel personal. Every piece is
-                    designed to move with you, express who you are and
-                    stand apart from the ordinary.
-                </p>
+                        <div class="about-frame-center">
+                            <strong>HIDDEN<br>YOUTH</strong>
+                            <span>CURATED FOR THE UNSEEN</span>
+                        </div>
 
-                <p>
-                    From performance-driven essentials to elevated everyday
-                    pieces, Hidden Youth brings together comfort, character
-                    and a modern attitude.
-                </p>
-
-                <div class="about-stat-row">
-
-                    <div class="about-stat">
-                        <strong>01</strong>
-                        <span>IDENTITY</span>
-                        <small>STYLE THAT FEELS LIKE YOU</small>
+                        <div class="about-frame-number">02</div>
                     </div>
-
-                    <div class="about-stat">
-                        <strong>02</strong>
-                        <span>QUALITY</span>
-                        <small>MADE TO BE WORN &amp; LIVED IN</small>
-                    </div>
-
-                    <div class="about-stat">
-                        <strong>03</strong>
-                        <span>EXPRESSION</span>
-                        <small>NO RULES. NO ORDINARY.</small>
-                    </div>
-
                 </div>
-
             </div>
 
         </div>
 
-        <div class="about-visual" aria-hidden="true">
-
-            <div class="about-orbit about-orbit-one"></div>
-            <div class="about-orbit about-orbit-two"></div>
-            <div class="about-visual-glow"></div>
-
-            <div class="about-frame">
-
-                <div class="about-frame-corner about-corner-tl"></div>
-                <div class="about-frame-corner about-corner-tr"></div>
-                <div class="about-frame-corner about-corner-bl"></div>
-                <div class="about-frame-corner about-corner-br"></div>
-
-                <div class="about-frame-inner">
-
-                    <div class="about-frame-word">HIDDEN</div>
-
-                    <div class="about-frame-center">
-                        <strong>YOUTH</strong>
-                        <span>DESIGNED FOR THE UNSEEN</span>
-                    </div>
-
-                    <div class="about-frame-number">02</div>
-
-                </div>
-
+        <div class="about-thrift-note">
+            <div class="about-info-box">
+                <h4>OUR CLOTHES ARE THRIFTED / PRE-LOVED</h4>
+                <p>
+                    All items at Hidden Youth are thrifted or pre-loved garments.
+                    Because they may have been previously owned or worn, some pieces
+                    can naturally show minor signs of wear such as small marks, fading,
+                    loose threads or other imperfections. These characteristics are part
+                    of thrifted clothing and do not necessarily mean the item is defective.
+                </p>
             </div>
 
+            <div class="about-info-box">
+                <h4>BEFORE YOU BUY</h4>
+                <p>
+                    Please review the <strong>photos, measurements, description and condition details</strong>
+                    carefully before ordering. Any noticeable flaws or important condition
+                    details will be mentioned in the product description and/or shown in
+                    the photos. By purchasing, you acknowledge that the garment is pre-loved
+                    and may not have the same condition as a brand-new item.
+                </p>
+            </div>
+        </div>
+
+        <div class="about-cta-row">
+            <a class="about-cta" href="#collections">
+                EXPLORE OUR COLLECTIONS <span>→</span>
+            </a>
+
+            <div class="about-cta-tag">
+                PRE-LOVED PIECES &nbsp;•&nbsp; REAL CHARACTER &nbsp;•&nbsp; A SECOND LIFE
+            </div>
         </div>
 
     </section>
