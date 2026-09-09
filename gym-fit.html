@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +70,7 @@
 
                     <!-- PRODUCT 01 -->
 
-                    <div class="product-card" data-product-id="1">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -110,7 +111,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong>
+                            <strong class="gym-product-price" data-gym-product-index="0">
                                 Rs. 4,990
                             </strong>
 
@@ -122,7 +123,7 @@
 
                     <!-- PRODUCT 02 -->
 
-                    <div class="product-card" data-product-id="2">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -163,7 +164,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong>
+                            <strong class="gym-product-price" data-gym-product-index="1">
                                 Rs. 4,990
                             </strong>
 
@@ -175,7 +176,7 @@
 
                     <!-- PRODUCT 03 -->
 
-                    <div class="product-card" data-product-id="3">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -216,7 +217,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong>
+                            <strong class="gym-product-price" data-gym-product-index="2">
                                 Rs. 4,990
                             </strong>
 
@@ -228,7 +229,7 @@
 
                     <!-- PRODUCT 04 -->
 
-                    <div class="product-card" data-product-id="4">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -269,7 +270,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong>
+                            <strong class="gym-product-price" data-gym-product-index="3">
                                 Rs. 4,990
                             </strong>
 
@@ -547,15 +548,49 @@
 </div>
 
 
-<script src="script.js"></script>
 <script>
-document.querySelectorAll(".gym-fit-page .product-card[data-product-id]").forEach(function(card){
-    card.style.cursor = "pointer";
-    card.addEventListener("click", function(event){
-        if(event.target.closest("button")) return;
-        window.location.href = "product.html?id=" + card.dataset.productId;
-    });
-});
+/* =====================================================
+   GYM FIT — ADMIN PRICE SYNC ONLY
+   Keeps the existing design/products/cart unchanged.
+===================================================== */
+(function () {
+    const GYM_API_URL = "https://hidden-youth-backend-production.up.railway.app";
+
+    async function syncGymFitPrices() {
+        const priceElements = document.querySelectorAll(".gym-product-price[data-gym-product-index]");
+        if (!priceElements.length) return;
+
+        try {
+            const response = await fetch(`${GYM_API_URL}/api/products`, { cache: "no-store" });
+            if (!response.ok) return;
+
+            const data = await response.json();
+            if (!data || !data.success || !Array.isArray(data.products)) return;
+
+            const gymProducts = data.products.filter(function (product) {
+                return String(product.category || "").trim().toLowerCase() === "gym fit";
+            });
+
+            priceElements.forEach(function (element) {
+                const index = Number(element.dataset.gymProductIndex);
+                const product = gymProducts[index];
+
+                if (product && product.price !== undefined && product.price !== null) {
+                    element.textContent = "Rs. " + Number(product.price).toLocaleString();
+                }
+            });
+        } catch (error) {
+            console.warn("Gym Fit price sync failed:", error);
+        }
+    }
+
+    syncGymFitPrices();
+})();
 </script>
+
+<script src="script.js"></script>
 </body>
 </html>
+
+
+================================================================================
