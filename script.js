@@ -1109,26 +1109,11 @@ if (checkoutForm) {
            PREPARE ORDER
         ============================== */
 
-        const customerToken =
-            localStorage.getItem("hiddenYouthCustomerToken") || "";
-
-        let customerEmail = "";
-
-        try {
-            const savedCustomer =
-                JSON.parse(
-                    localStorage.getItem("hiddenYouthCustomer") || "null"
-                );
-            customerEmail =
-                savedCustomer?.email || "";
-        } catch {}
-
         const orderData = {
 
             customer: {
 
                 name: name,
-                email: customerEmail,
                 phone: phone,
                 address: address,
                 city: city
@@ -1185,14 +1170,7 @@ if (checkoutForm) {
                     headers: {
 
                         "Content-Type":
-                            "application/json",
-
-                        ...(customerToken
-                            ? {
-                                "Authorization":
-                                    "Bearer " + customerToken
-                            }
-                            : {})
+                            "application/json"
 
                     },
 
@@ -1549,3 +1527,111 @@ window.addEventListener("load", function () {
     }
 
 });
+
+/* =====================================================
+   HIDDEN YOUTH — VISITOR + CART TRACKING
+   Sends lightweight heartbeat/cart data to the backend.
+===================================================== */
+
+(function startHiddenYouthTracking() {
+
+    const TRACKING_API =
+        "https://hidden-youth-backend-production.up.railway.app";
+
+    let visitorId =
+        localStorage.getItem("hiddenYouthVisitorId");
+
+    if (!visitorId) {
+        visitorId =
+            "HY-" +
+            Date.now().toString(36) +
+            "-" +
+            Math.random().toString(36).slice(2, 10);
+
+        localStorage.setItem(
+            "hiddenYouthVisitorId",
+            visitorId
+        );
+    }
+
+    async function sendVisitorHeartbeat() {
+        try {
+            await fetch(
+                `${TRACKING_API}/api/visitors/heartbeat`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        visitorId,
+                        page: window.location.pathname + window.location.search
+                    }),
+                    keepalive: true
+                }
+            );
+        } catch (error) {
+            console.warn("Visitor tracking unavailable.");
+        }
+    }
+
+    async function syncVisitorCart() {
+        try {
+            const saved =
+                localStorage.getItem("hiddenYouthCart");
+
+            let items = [];
+
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    items = Array.isArray(parsed) ? parsed : [];
+                } catch {
+                    items = [];
+                }
+            }
+
+            await fetch(
+                `${TRACKING_API}/api/visitor/cart`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        visitorId,
+                        items
+                    }),
+                    keepalive: true
+                }
+            );
+        } catch (error) {
+            console.warn("Cart tracking unavailable.");
+        }
+    }
+
+    sendVisitorHeartbeat();
+    syncVisitorCart();
+
+    setInterval(
+        sendVisitorHeartbeat,
+        30000
+    );
+
+    setInterval(
+        syncVisitorCart,
+        15000
+    );
+
+    document.addEventListener(
+        "visibilitychange",
+        function () {
+            if (!document.hidden) {
+                sendVisitorHeartbeat();
+                syncVisitorCart();
+            }
+        }
+    );
+
+})();
+
