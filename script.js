@@ -1286,178 +1286,18 @@ const deliveryChargeElement =
         "deliveryCharge"
     );
 
-const lahorePostalAreas = {
-    "53100": "LAHORE KAHNA NAU",
-    "53200": "BARKI",
-    "53400": "LAHORE BATA PUR",
-    "53480": "LAHORE BATA PUR",
-    "53500": "JALLO",
-    "53600": "WAGHA LAHORE",
-    "53700": "THOKAR NIAZ BEG",
-    "53710": "LAHORE E.M.E SOCIETY P.O",
-    "53720": "LAHORE BAHRIA TOWN",
-    "53800": "CHUHANG",
-    "54000": "LAHORE GPO",
-    "54010": "NAULAKHA",
-    "54020": "LAHORE ALFLAH",
-    "54030": "LAHORE AITCHESON COLLEGE",
-    "54100": "SHAH ALAM MARKET",
-    "54110": "SHAHI MOHALLAH",
-    "54120": "TIMBER MARKET",
-    "54500": "LAHORE MULTAN ROAD POST OFFICE",
-    "54510": "REWAZ GARDEN",
-    "54550": "LAHORE PT & T AUDIT",
-    "54560": "LAHORE PMG PUNJAB POST OFFICE",
-    "54570": "LAHORE ALLAMA IQBAL TOWN",
-    "54572": "SABZAZAR",
-    "54590": "LAHORE NEW UNIVERSITY CAMPUS",
-    "54600": "LAHORE FEROZEPUR ROAD",
-    "54610": "LAHORE SHADMAN WOMEN MODEL P.O",
-    "54650": "LAHORE SECONDARY BOARD",
-    "54660": "LAHORE GULBERG COLONY",
-    "54700": "LAHORE MODEL TOWN",
-    "54760": "LAHORE ISMAIL NAGAR",
-    "54762": "LAHORE NISHTAR TOWN",
-    "54770": "LAHORE TOWNSHIP SECTOR A-1",
-    "54780": "LAHORE AWAN COLONEY",
-    "54782": "LAHORE JOHAR TOWN",
-    "54786": "LAHORE GREEN TOWN",
-    "54790": "MANSOORA",
-    "54792": "LAHORE DEFENCE HOUSING SOCIETY",
-    "54800": "LAHORE C.M.A. CANTT.",
-    "54810": "LAHORE CANTT. GPO",
-    "54820": "LAHORE POSTMALL / JALLO MORE",
-    "54840": "MUGHALPURA",
-    "54850": "LAHORE HARBANS PURA",
-    "54870": "LAHORE TAJPURA",
-    "54880": "LAHORE PUNJAB GOVERNOR HOUSE",
-    "54890": "LAHORE ENGINEERING UNIVERSITY",
-    "54900": "CHAH MIRAN",
-    "54920": "LAHORE BAGHBANPURA",
-    "54950": "SHAHDARA BAGH",
-    "55150": "RAIWIND",
-    "55160": "LAHORE KOHINOOR ENERGY",
-    "55210": "BALLOKI",
-    "55270": "MANGA MANDI",
-    "05301": "SAMANABAD PO",
-    "05302": "DSPS SOUTH DIVN LAHORE PO",
-    "05303": "FAISAL TOWN PO",
-    "05304": "M BLOCK MODEL TOWN PO",
-    "05305": "FEROZPUR ROAD PO",
-    "05306": "CHOWK ICHHRA",
-    "05307": "GULAB DEVI HOSPITAL PO",
-    "05308": "ICHHRA PO",
-    "05309": "NEW GARDEN TOWN N. PO",
-    "05310": "RASOOL PARK PO",
-    "05311": "REHMAN PURA PO",
-    "05312": "ROTARY CENTRE",
-    "05313": "WAHDAT COLONY PO",
-    "05401": "LAHORE GPO NPO",
-    "05402": "CHOWK QURTABA PO",
-    "05403": "GOR ESTATE PO",
-    "05404": "HIGH COURT PO",
-    "05405": "ISLAMPURA PO",
-    "05406": "MADINA CHOK POST OFFICE",
-    "05407": "RACE COURSE ROAD PO",
-    "05408": "SESSION COURT PO",
-    "05409": "SHADMAN COLONY PO",
-    "05410": "SHADMAN COLONY NPO",
-    "05411": "MOZANG PO",
-    "05412": "BADAMI BAGH PO",
-    "05413": "DATA GUNJ BUKSH PO",
-    "05414": "DATA NAGAR PO",
-    "05415": "FLATTIES HOTEL PO",
-    "05416": "KAMYAB NPO",
-    "05417": "KAMYAB PO",
-    "05418": "LAHORE KUTCHERY PO",
-    "05419": "LAKSHMI CHOWK PO",
-    "05420": "MOCHI GATE PO",
-    "05421": "PAKISTAN TIMES PO",
-    "05422": "PUNJAB UNIVERSITY OLD CAMPUS PO",
-    "05423": "TAJ COMPANY NPO",
-    "05424": "TAJ COMPANY PO",
-    "05425": "A.I TOWN NPO",
-    "05426": "WAPDA TOWN PO",
-    "05427": "MANSOORA NPO",
-    "05428": "N.U CAMPUS NPO",
-    "05429": "SHAHDRA TOWN PO",
-    "05430": "AZAM PO",
-    "05431": "V R INSTITUTE PO",
-    "05432": "EP CENTRE SADAR BAZAR NPO",
-    "05433": "FORTRESS STADIUM PO",
-    "05434": "ORDINANCE DEPOT PO",
-    "05435": "SADDAR BAZAR PO",
-    "05436": "LAHORE AIRPORT LSG",
-    "05437": "LAHORE AIRPORT NPO BATCH-I",
-    "05438": "LAHORE AIRPORT NPO BATCH-II",
-    "05439": "MASJID KHALID PO",
-    "05440": "NISHAT COLONY PO",
-    "05441": "NISHTAR COLONY PO",
-    "05442": "R.A BAZAR PO",
-    "05443": "SERVICES PO",
-    "05444": "WALTON PO",
-    "05445": "RANG MAHAL NPO",
-    "05446": "RANG MAHAL PO",
-    "05447": "SHAH ALAM MARKET NPO",
-    "05449": "AMER SIDHU PO",
-    "05450": "KOT LAKHPAT PO",
-    "05452": "JAHANGIR TOWN PO",
-    "05453": "SANDA PO",
-    "05454": "L.C.C.H SOCIETY PO",
-    "05455": "L.C.C.H SOCIETY NPO",
-    "05456": "CG OFFICE PO",
-    "05457": "GULBERG COLONY NPO",
-    "05458": "GULBERG N. PO",
-    "05459": "GULBERG PO",
-    "05460": "BAGHBANPURA NPO",
-    "05461": "BILAL GUNJ PO",
-    "05462": "KPAR PO",
-    "05463": "ADDA CHABEEL PO",
-    "05464": "MEHBOOB BOOTI",
-    "05465": "PAKISTAN MINT PO",
-    "05466": "SHALIMAR TOWN PO",
-    "05467": "AGRICULTURE HOUSE PO",
-    "05468": "ALLAMA IQBAL ROAD PO",
-    "05469": "NAULAKHA NPO",
-    "05470": "RAILWAY HEADQUARTER HSG",
-    "05471": "CHAH MIRAN NPO",
-    "05472": "DAROGHAWALA PO",
-    "05473": "FAIZ BAGH PO",
-    "05474": "MISRI SHAH PO",
-    "05475": "SHAD BAGH PO",
-    "05476": "SULTAN PURA PO",
-    "05477": "WASSANPURA PO",
-    "05478": "DHARAMPURA PO",
-    "05479": "GUNJ MOGHAL PURA PO",
-    "05480": "NABI PURA PO",
-    "05481": "KASURPURA PO",
-    "05482": "SHAHDRA TOWN PO",
-    "05483": "RUSTOM SOHRAB CYCLE FACTORY PO",
-    "05484": "SHAHDRA BAGH NPO",
-    "05485": "DHOLANWAL PO",
-    "05486": "SHAH NOOR PO",
-    "05487": "MARGAZAR COLONY PO",
-    "05488": "CHUBURGI GARDEN ESTATE PO",
-    "05489": "MULTAN ROAD NPO",
-    "05490": "MULTAN ROAD PO",
-    "05491": "SODIWAL PO",
-    "05492": "S&S EP CENTRE PO",
-    "05493": "PAKKI THATTI PO",
-    "05494": "QARSHI DAWA KHANA PO",
-    "05495": "SAMANABAD NPO",
-    "05497": "REHMAN PURA PO",
-    "05498": "NEW FRUIT MARKET PO",
-    "05499": "SHER SHAH COLONY PO"
-};
-
-const nearPostalCodes = ["53400", "53480", "53500", "53600", "54820", "54840", "54850", "54870", "54900", "54920", "54950"];
-const mediumPostalCodes = ["05401", "05402", "05403", "05404", "05405", "05406", "05407", "05408", "05409", "05410", "05411", "05412", "05413", "05414", "05415", "05416", "05417", "05418", "05419", "05420", "05421", "05422", "05423", "05424", "05425", "05426", "05427", "05428", "05429", "05430", "05431", "05432", "05433", "05434", "05435", "05436", "05437", "05438", "05439", "05440", "05441", "05442", "05443", "05444", "05445", "05446", "05447", "05449", "05452", "05453", "05454", "05455", "05456", "05457", "05458", "05459", "05460", "05461", "05462", "05463", "05464", "05465", "05466", "05467", "05468", "05469", "05470", "05471", "05472", "05473", "05474", "05476", "05477", "05478", "05479", "05480", "05481", "05482", "05483", "05484", "05485", "05486", "05487", "05488", "05489", "05490", "05491", "05492", "05493", "05494", "05495", "05497", "05498", "05499", "53700", "53710", "53800", "54000", "54010", "54020", "54030", "54100", "54110", "54120", "54500", "54510", "54550", "54560", "54570", "54590", "54610", "54650", "54800", "54810", "54880", "54890"];
-const farPostalCodes = ["05475", "53100", "53200", "53720", "54500", "54572", "54600", "54660", "54700", "54760", "54762", "54770", "54780", "54782", "54786", "54790", "54792", "55150", "55160", "55210", "55270"];
-
 function getDeliveryCharge() {
+
+    const cityInput =
+        document.getElementById("customerCity");
 
     const postalCodeInput =
         document.getElementById("customerPostalCode");
+
+    const city =
+        cityInput
+            ? cityInput.value.trim().toLowerCase()
+            : "";
 
     const postalCode =
         postalCodeInput
@@ -1467,6 +1307,55 @@ function getDeliveryCharge() {
     if (!postalCode || postalCode.length !== 5) {
         return 0;
     }
+
+    // Lahore se bahar
+    if (city && city !== "lahore") {
+        return 500;
+    }
+
+    // BATAPUR ke qareeb areas
+    const nearPostalCodes = [
+        "53400", // Batapur
+        "53500", // Jallo / Jallo Pind
+        "53600", // Wagha
+        "54820", // Jallo More
+        "54850", // Harbans Pura
+        "54870", // Tajpura
+        "54920"  // Baghbanpura
+    ];
+
+    // BATAPUR se thore door areas
+    const mediumPostalCodes = [
+        "54000",
+        "54020",
+        "54030",
+        "54590",
+        "54610",
+        "54650",
+        "54800",
+        "54810",
+        "54880",
+        "54890",
+        "53710"
+    ];
+
+    // BATAPUR se sab se door areas
+    const farPostalCodes = [
+        "53100",
+        "53720",
+        "54500",
+        "54570",
+        "54600",
+        "54660",
+        "54700",
+        "54760",
+        "54762",
+        "54770",
+        "54780",
+        "54782",
+        "54792",
+        "55160"
+    ];
 
     if (nearPostalCodes.includes(postalCode)) {
         return 250;
@@ -1480,18 +1369,17 @@ function getDeliveryCharge() {
         return 500;
     }
 
-    /*
-       Unknown code:
-       NEVER falsely display "Lahore" as the area.
-       Delivery remains Rs. 500 as the safest far-zone default.
-    */
+    // Lahore ka koi naya/unknown code
     return 500;
 }
+
 
 function updateCheckoutTotal() {
 
     const subtotal = getCartTotal();
+
     const delivery = getDeliveryCharge();
+
     const total = subtotal + delivery;
 
     if (checkoutSubtotal) {
@@ -1508,88 +1396,7 @@ function updateCheckoutTotal() {
         checkoutTotal.textContent =
             "Rs. " + total.toLocaleString();
     }
-}
-
-
-/* =====================================================
-   POSTAL CODE → AREA / CITY
-===================================================== */
-
-const postalCodeInput =
-    document.getElementById(
-        "customerPostalCode"
-    );
-
-const postalArea =
-    document.getElementById(
-        "postalArea"
-    );
-
-const cityInput =
-    document.getElementById(
-        "customerCity"
-    );
-
-if (postalCodeInput) {
-
-    postalCodeInput.addEventListener(
-        "input",
-        function () {
-
-            const postalCode =
-                postalCodeInput.value
-                    .replace(/\D/g, "")
-                    .slice(0, 5);
-
-            postalCodeInput.value =
-                postalCode;
-
-            if (postalCode.length !== 5) {
-
-                if (postalArea) {
-                    postalArea.innerHTML = "";
-                }
-
-                if (cityInput) {
-                    cityInput.value = "";
-                }
-
-                updateCheckoutTotal();
-                return;
-            }
-
-            const area =
-                lahorePostalAreas[postalCode];
-
-            if (!area) {
-
-                if (postalArea) {
-                    postalArea.innerHTML =
-                        "AREA NOT FOUND — PLEASE CHECK POSTAL CODE.";
-                }
-
-                if (cityInput) {
-                    cityInput.value = "";
-                }
-
-                updateCheckoutTotal();
-                return;
-            }
-
-            if (cityInput) {
-                cityInput.value = "Lahore";
-            }
-
-            if (postalArea) {
-                postalArea.innerHTML =
-                    `<strong>AREA:</strong> ${area}`;
-            }
-
-            updateCheckoutTotal();
-        }
-    );
-}
-
+} 
 
 /* =====================================================
    OPEN CHECKOUT
@@ -2053,6 +1860,97 @@ deliveryCharge:
                 }
             }
 
+        }
+    );
+}
+
+/* =====================================================
+   POSTAL CODE → AREA / CITY
+===================================================== */
+
+const postalCodeInput =
+    document.getElementById("customerPostalCode");
+
+const postalArea =
+    document.getElementById("postalArea");
+
+const cityInput =
+    document.getElementById("customerCity");
+
+if (postalCodeInput) {
+
+    postalCodeInput.addEventListener(
+        "input",
+        async function () {
+
+            const postalCode =
+                postalCodeInput.value
+                    .replace(/\D/g, "")
+                    .slice(0, 5);
+
+            postalCodeInput.value =
+                postalCode;
+
+            if (postalCode.length !== 5) {
+                if (postalArea) {
+                    postalArea.innerHTML = "";
+                }
+                return;
+            }
+
+            if (postalArea) {
+                postalArea.innerHTML =
+                    "CHECKING AREA...";
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/api/postal-codes/${postalCode}`
+                );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.results ||
+                    data.results.length === 0
+                ) {
+                    throw new Error(
+                        "POSTAL CODE NOT FOUND"
+                    );
+                }
+
+                const location =
+                    data.results[0];
+
+                if (cityInput) {
+                    cityInput.value =
+                        location.city || "";
+                }
+
+                updateCheckoutTotal();
+
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        `<strong>AREA:</strong> ${
+                            location.area_name || ""
+                        }`;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "POSTAL CODE ERROR:",
+                    error
+                );
+
+                if (postalArea) {
+                    postalArea.innerHTML =
+                        "AREA NOT FOUND — PLEASE CHECK POSTAL CODE.";
+                }
+            }
         }
     );
 }
