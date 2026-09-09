@@ -1279,13 +1279,49 @@
                 <div class="field">
 
                     <label>
-                        Image URL / Path
+                        Upload Product Image
                     </label>
 
                     <input
-                        id="productImage"
-                        placeholder="images/product.jpg"
+                        id="productImageFile"
+                        type="file"
+                        accept="image/*"
                     >
+
+                    <input
+                        id="productImage"
+                        type="hidden"
+                    >
+
+                    <div
+                        id="productImagePreview"
+                        style="
+                            margin-top:12px;
+                            width:100%;
+                            min-height:120px;
+                            border:1px solid #333;
+                            border-radius:10px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            overflow:hidden;
+                            color:#777;
+                            background:#0b0b0b;
+                            font-size:13px;
+                        "
+                    >
+                        No image selected
+                    </div>
+
+                    <div
+                        style="
+                            margin-top:7px;
+                            font-size:12px;
+                            color:#777;
+                        "
+                    >
+                        Select an image from your PC, laptop or mobile.
+                    </div>
 
                 </div>
 
@@ -1878,6 +1914,91 @@ loginError.textContent =
 
 
     /* =====================================================
+       PRODUCT IMAGE UPLOAD
+    ===================================================== */
+
+    function readImageFile(file) {
+
+        return new Promise((resolve, reject) => {
+
+            if (!file) {
+                resolve("");
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                reject(new Error("Please select an image file."));
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                reject(new Error("Image must be 5MB or smaller."));
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error("Could not read image."));
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+
+    function showProductImagePreview(image) {
+
+        const preview =
+            document.getElementById("productImagePreview");
+
+        if (!preview) return;
+
+        if (!image) {
+            preview.innerHTML = "No image selected";
+            return;
+        }
+
+        preview.innerHTML = `
+            <img
+                src="${image}"
+                alt="Product preview"
+                style="
+                    width:100%;
+                    height:180px;
+                    object-fit:contain;
+                    display:block;
+                "
+            >
+        `;
+    }
+
+
+    document
+        .getElementById("productImageFile")
+        .addEventListener("change", async function() {
+
+            const file = this.files && this.files[0];
+
+            if (!file) return;
+
+            try {
+
+                const image = await readImageFile(file);
+
+                document.getElementById("productImage").value = image;
+                showProductImagePreview(image);
+
+            } catch(error) {
+
+                this.value = "";
+                document.getElementById("productImage").value = "";
+                showProductImagePreview("");
+                alert(error.message);
+            }
+        });
+
+
+    /* =====================================================
        PRODUCT MODAL
     ===================================================== */
 
@@ -1894,6 +2015,10 @@ loginError.textContent =
         document.getElementById(
             "productAvailable"
         ).checked = true;
+
+        document.getElementById("productImageFile").value = "";
+        document.getElementById("productImage").value = "";
+        showProductImagePreview("");
 
         if (product) {
 
@@ -1946,6 +2071,10 @@ loginError.textContent =
                 "productImage"
             ).value =
                 product.image || "";
+
+            showProductImagePreview(
+                product.image || ""
+            );
 
             document.getElementById(
                 "productAvailable"
@@ -2017,6 +2146,24 @@ loginError.textContent =
                     document.getElementById(
                         "productId"
                     ).value;
+
+                const imageFileInput =
+                    document.getElementById("productImageFile");
+
+                if (imageFileInput.files && imageFileInput.files[0]) {
+
+                    try {
+                        const image = await readImageFile(
+                            imageFileInput.files[0]
+                        );
+
+                        document.getElementById("productImage").value = image;
+
+                    } catch(error) {
+                        alert(error.message);
+                        return;
+                    }
+                }
 
                 const payload = {
 
