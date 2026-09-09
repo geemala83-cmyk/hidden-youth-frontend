@@ -2700,7 +2700,7 @@ if (productForm) {
             try {
 
                 await apiRequest(
-                    `${API_URL}/api/products`,
+                    `${API_URL}/api/admin/products`,
                     {
 
                         method:
@@ -2781,7 +2781,7 @@ async function deleteProduct(
     try {
 
         await apiRequest(
-            `${API_URL}/api/products/${productId}`,
+            `${API_URL}/api/admin/products/${productId}`,
             {
                 method:
                     "DELETE"
