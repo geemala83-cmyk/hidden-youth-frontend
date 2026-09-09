@@ -117,39 +117,41 @@
 ===================================================== */
 .navbar {
     position: relative;
+    overflow: visible !important;
 }
 
-/* FORCE THE THREE-LINE MENU TO THE FAR LEFT OF THE HEADER */
 .navbar > .menu-btn {
-    position: absolute !important;
-    left: 16px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+    order: 0;
+    flex: 0 0 42px;
     width: 42px !important;
     height: 42px !important;
-    margin: 0 !important;
+    margin: 0 22px 0 0 !important;
     padding: 8px 5px !important;
     border: 0 !important;
     background: transparent !important;
+    color: #ffffff !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 6px !important;
     cursor: pointer !important;
-    z-index: 1001 !important;
-}
-
-.navbar > .logo {
-    margin-left: 52px !important;
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 9999 !important;
 }
 
 .navbar > .menu-btn span {
     display: block !important;
     width: 28px !important;
-    height: 1.5px !important;
-    background: currentColor !important;
-    border-radius: 2px;
+    min-width: 28px !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    background: #ffffff !important;
+    border-radius: 2px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     transition: transform .25s ease, opacity .25s ease;
 }
 
@@ -164,7 +166,8 @@
 .hidden-youth-menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 8px;
+    left: 0;
+
     width: 210px;
     padding: 10px;
     border: 1px solid rgba(190, 130, 255, .25);
@@ -206,16 +209,11 @@
 
 @media (max-width: 900px) {
     .navbar > .menu-btn {
-        left: 10px !important;
-        margin: 0 !important;
-    }
-
-    .navbar > .logo {
-        margin-left: 46px !important;
+        margin-right: 12px;
     }
 
     .hidden-youth-menu {
-        left: 4px;
+        left: 0;
         width: 190px;
     }
 }
