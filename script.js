@@ -1700,6 +1700,21 @@ if (
                     name:
                         name,
 
+                    email:
+                        (() => {
+                            try {
+                                const savedCustomer =
+                                    JSON.parse(
+                                        localStorage.getItem(
+                                            "hiddenYouthCustomer"
+                                        ) || "null"
+                                    );
+                                return savedCustomer?.email || "";
+                            } catch {
+                                return "";
+                            }
+                        })(),
+
                     phone:
                         phone,
 
@@ -1773,7 +1788,19 @@ deliveryCharge:
 
                             headers: {
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
+
+                                ...(localStorage.getItem(
+                                    "hiddenYouthCustomerToken"
+                                )
+                                    ? {
+                                        "Authorization":
+                                            "Bearer " +
+                                            localStorage.getItem(
+                                                "hiddenYouthCustomerToken"
+                                            )
+                                    }
+                                    : {})
                             },
 
                             body:
