@@ -128,7 +128,6 @@
     padding: 8px 5px;
     border: 0;
     background: transparent;
-    color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -136,20 +135,13 @@
     gap: 6px;
     cursor: pointer;
     z-index: 1001;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: absolute !important;
-    left: 16px !important;
-    top: 50% !important;
-    transform: translateY(-50%);
 }
 
 .navbar > .menu-btn span {
-    display: block !important;
+    display: block;
     width: 28px;
-    height: 2px;
-    min-height: 2px;
-    background: #ffffff !important;
+    height: 1.5px;
+    background: currentColor;
     border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
 }
@@ -160,10 +152,6 @@
 
 .navbar > .menu-btn:hover span:last-child {
     transform: translateX(-3px);
-}
-
-.navbar > .logo {
-    margin-left: 58px !important;
 }
 
 .hidden-youth-menu {
@@ -2139,6 +2127,12 @@ html { scroll-behavior: smooth; }
 
   async function renderAccount(customer){
     accountContent.innerHTML=`<p class="hy-account-welcome">Welcome back, <strong>${esc(customer.name)}</strong>.<br><span class="hy-account-email">${esc(customer.email)}</span></p><div class="hy-auth-error" id="hyAccountError"></div><div class="hy-order-list" id="hyOrderList"><div class="hy-search-empty">Loading your orders...</div></div><div class="hy-account-actions"><button class="hy-auth-submit" id="hyLogout" type="button">LOG OUT</button></div>`;
+
+    document.getElementById('hyLogout').addEventListener('click',async()=>{
+      try{if(getToken())await api('/api/customer/logout',{method:'POST'});}catch{}
+      setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();
+    });
+
     try{
       const d=await api('/api/customer/orders');
       const list=document.getElementById('hyOrderList');
@@ -2148,10 +2142,6 @@ html { scroll-behavior: smooth; }
       if(/login required|account not found|401/i.test(x.message)){setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();return;}
       document.getElementById('hyAccountError').textContent=x.message;
     }
-    document.getElementById('hyLogout').addEventListener('click',async()=>{
-      try{if(getToken())await api('/api/customer/logout',{method:'POST'});}catch{}
-      setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();
-    });
   }
 
   async function openAccount(){
