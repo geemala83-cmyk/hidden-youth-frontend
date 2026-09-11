@@ -108,6 +108,7 @@ body.button-down-page { background:#030006; color:#fff; min-height:100vh; }
 @media(max-width:900px) { #buttonDownProducts { grid-template-columns:repeat(2,1fr); } }
 @media(max-width:560px) { .bd-header,.bd-title,#buttonDownProducts { width:calc(100% - 24px); } #buttonDownProducts { grid-template-columns:1fr; } }
 </style>
+<style>/* STOCK STATUS — BUTTON DOWN ONLY */.bd-card{position:relative}.bd-card .hy-soldout-overlay{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(3,0,6,.56);pointer-events:none}.bd-card .hy-soldout-overlay span{padding:12px 18px;border:1px solid rgba(255,255,255,.35);background:rgba(5,2,8,.9);color:#fff;font-size:11px;font-weight:800;letter-spacing:.25em}.bd-card.hy-soldout .add-bag{opacity:.45;pointer-events:none}</style>
 </head>
 <body class="button-down-page">
 <header class="bd-header">
@@ -416,11 +417,12 @@ async function loadButtonDownProducts() {
 
         container.innerHTML = data.products.map(function(product) {
             return `
-                <article class="bd-card" data-product-id="${product.id}">
+                <article class="bd-card ${Number(product.stock || 0) > 0 && product.available === true ? "" : "hy-soldout"}" data-product-id="${product.id}">
                     <div class="bd-image">
                         <img src="${imageUrl(product.image || "")}" alt="${product.name || "Button Down"}">
+                        ${Number(product.stock || 0) > 0 && product.available === true ? "" : '<div class="hy-soldout-overlay"><span>SOLD OUT</span></div>'}
                         <div class="product-hover">
-                            <button class="add-bag" type="button">ADD TO BAG</button>
+                            <button class="add-bag" type="button" ${Number(product.stock || 0) > 0 && product.available === true ? "" : "disabled aria-disabled=\"true\""}>${Number(product.stock || 0) > 0 && product.available === true ? "ADD TO BAG" : "SOLD OUT"}</button>
                             <button class="heart" type="button" aria-label="Add to wishlist">♡</button>
                         </div>
                     </div>
@@ -442,7 +444,10 @@ async function loadButtonDownProducts() {
 
             const addButton = card.querySelector(".add-bag");
             if (addButton) {
-                addButton.addEventListener("click", function(event) {
+                if (Number(product.stock || 0) <= 0 || product.available !== true) {
+                    addButton.disabled = true;
+                } else {
+                    addButton.addEventListener("click", function(event) {
                     event.stopPropagation();
 
                     try {
@@ -473,7 +478,8 @@ async function loadButtonDownProducts() {
                     } catch (error) {
                         console.error("Add to bag error:", error);
                     }
-                });
+                    });
+                }
             }
 
             const heartButton = card.querySelector(".heart");
