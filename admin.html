@@ -878,10 +878,29 @@
         }
 
     </style>
-<style id="hidden-youth-advance-payment-admin-added">
-.info-value a{color:#d9b7ff;text-decoration:none}
-.info-value a:hover{text-decoration:underline}
-</style>
+
+    <style id="hidden-youth-payment-verification-added">
+        .payment-proof-link {
+            color: #d9b7ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .payment-proof-link:hover {
+            text-decoration: underline;
+        }
+
+        .payment-status-badge {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #242424;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+    </style>
 
 </head>
 
@@ -2775,27 +2794,34 @@ loginError.textContent =
 
 ${customer.payment ? `
 <div class="info">
-    <div class="info-label">Payment</div>
+    <div class="info-label">
+        PAYMENT METHOD
+    </div>
     <div class="info-value">
         ${escapeHTML(customer.payment.method || "JAZZCASH")}
-        ·
-        ${escapeHTML(customer.payment.status || "PENDING")}
+        <span class="payment-status-badge">
+            ${escapeHTML(customer.payment.status || "PENDING")}
+        </span>
     </div>
 </div>
 
 <div class="info">
-    <div class="info-label">Transaction ID</div>
+    <div class="info-label">
+        TRANSACTION ID / TID
+    </div>
     <div class="info-value">
         ${escapeHTML(customer.payment.transactionId || "—")}
     </div>
 </div>
 
 <div class="info">
-    <div class="info-label">Payment Proof</div>
+    <div class="info-label">
+        PAYMENT SCREENSHOT
+    </div>
     <div class="info-value">
         ${
             customer.payment.screenshot
-                ? `<a href="${escapeHTML(customer.payment.screenshot)}" target="_blank" rel="noopener">VIEW SCREENSHOT</a>`
+                ? `<a class="payment-proof-link" href="${escapeHTML(customer.payment.screenshot)}" target="_blank" rel="noopener">VIEW SCREENSHOT</a>`
                 : "—"
         }
     </div>
@@ -2849,16 +2875,19 @@ ${customer.payment ? `
 
         let html = "";
 
+        /* Advance-payment orders must be verified before normal order status changes. */
         if (payment) {
-
             const paymentStatus =
                 payment.status || "PENDING";
 
-            if (
-                paymentStatus !== "VERIFIED"
-            ) {
-
-                html += `
+            if (paymentStatus === "VERIFIED") {
+                /* Continue with the existing CONFIRM / SHIPPED / DELIVERED / CANCEL buttons. */
+            } else if (paymentStatus === "REJECTED") {
+                return `
+                    <span class="payment-status-badge">PAYMENT REJECTED</span>
+                `;
+            } else {
+                return `
                     <button
                         class="small-btn"
                         onclick="verifyPayment(
@@ -2868,30 +2897,22 @@ ${customer.payment ? `
                     >
                         VERIFY PAYMENT
                     </button>
+                    <button
+                        class="small-btn delete-btn"
+                        onclick="verifyPayment(
+                            '${escapeJS(order.id)}',
+                            'REJECT'
+                        )"
+                    >
+                        REJECT PAYMENT
+                    </button>
                 `;
-
-                if (
-                    paymentStatus !== "REJECTED"
-                ) {
-
-                    html += `
-                        <button
-                            class="small-btn delete-btn"
-                            onclick="verifyPayment(
-                                '${escapeJS(order.id)}',
-                                'REJECT'
-                            )"
-                        >
-                            REJECT PAYMENT
-                        </button>
-                    `;
-                }
-
-                return html;
             }
         }
 
+
         if (current !== "CONFIRMED") {
+
             html += `
                 <button
                     class="small-btn"
@@ -2903,9 +2924,12 @@ ${customer.payment ? `
                     CONFIRM
                 </button>
             `;
+
         }
 
+
         if (current !== "SHIPPED") {
+
             html += `
                 <button
                     class="small-btn"
@@ -2917,9 +2941,12 @@ ${customer.payment ? `
                     SHIPPED
                 </button>
             `;
+
         }
 
+
         if (current !== "DELIVERED") {
+
             html += `
                 <button
                     class="small-btn"
@@ -2931,9 +2958,12 @@ ${customer.payment ? `
                     DELIVERED
                 </button>
             `;
+
         }
 
+
         if (current !== "CANCELLED") {
+
             html += `
                 <button
                     class="small-btn delete-btn"
@@ -2945,56 +2975,12 @@ ${customer.payment ? `
                     CANCEL
                 </button>
             `;
+
         }
+
 
         return html;
-    }
 
-
-    /* =====================================================
-       VERIFY / REJECT PAYMENT — ADDED ONLY
-    ===================================================== */
-
-    async function verifyPayment(
-        orderId,
-        action
-    ) {
-
-        const message =
-            action === "VERIFY"
-                ? "VERIFY THIS PAYMENT AND CONFIRM THE ORDER?"
-                : "REJECT THIS PAYMENT?";
-
-        if (!window.confirm(message)) {
-            return;
-        }
-
-        try {
-
-            await apiRequest(
-                `/api/orders/${encodeURIComponent(orderId)}/payment`,
-                {
-                    method: "PATCH",
-                    body:
-                        JSON.stringify({
-                            action: action
-                        })
-                }
-            );
-
-            await loadOrders();
-            await loadDashboard();
-            await loadCustomers();
-
-        } catch(error) {
-
-            console.error(error);
-
-            alert(
-                error.message ||
-                "Could not update payment."
-            );
-        }
     }
 
 
@@ -3035,6 +3021,48 @@ ${customer.payment ? `
 
         }
 
+    }
+
+
+    /* =====================================================
+       VERIFY / REJECT PAYMENT — ADDED ONLY
+    ===================================================== */
+
+    async function verifyPayment(
+        orderId,
+        action
+    ) {
+
+        const message =
+            action === "VERIFY"
+                ? "VERIFY THIS PAYMENT AND CONFIRM THE ORDER?"
+                : "REJECT THIS PAYMENT?";
+
+        if (!window.confirm(message)) {
+            return;
+        }
+
+        try {
+            await apiRequest(
+                `/api/orders/${encodeURIComponent(orderId)}/payment`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        action: action
+                    })
+                }
+            );
+
+            await loadOrders();
+            await loadDashboard();
+            await loadCustomers();
+        } catch(error) {
+            console.error(error);
+            alert(
+                error.message ||
+                "Could not update payment."
+            );
+        }
     }
 
 
