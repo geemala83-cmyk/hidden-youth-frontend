@@ -1692,6 +1692,83 @@ if (
                 return;
             }
 
+            const paymentTransactionId =
+                document
+                    .getElementById(
+                        "paymentTransactionId"
+                    )
+                    ?.value
+                    .trim();
+
+            const paymentScreenshotInput =
+                document.getElementById(
+                    "paymentScreenshot"
+                );
+
+            if (!paymentTransactionId) {
+                alert(
+                    "PLEASE ENTER YOUR JAZZCASH TRANSACTION ID."
+                );
+                return;
+            }
+
+            if (
+                !paymentScreenshotInput ||
+                !paymentScreenshotInput.files ||
+                !paymentScreenshotInput.files[0]
+            ) {
+                alert(
+                    "PLEASE UPLOAD YOUR PAYMENT SCREENSHOT."
+                );
+                return;
+            }
+
+            const paymentScreenshotFile =
+                paymentScreenshotInput.files[0];
+
+            if (
+                !paymentScreenshotFile.type.startsWith(
+                    "image/"
+                )
+            ) {
+                alert(
+                    "PLEASE UPLOAD A VALID PAYMENT SCREENSHOT."
+                );
+                return;
+            }
+
+            if (
+                paymentScreenshotFile.size >
+                1200 * 1024
+            ) {
+                alert(
+                    "PAYMENT SCREENSHOT MUST BE 1.2 MB OR SMALLER."
+                );
+                return;
+            }
+
+            const paymentScreenshot =
+                await new Promise(
+                    function(resolve, reject) {
+                        const reader = new FileReader();
+
+                        reader.onload = function() {
+                            resolve(reader.result);
+                        };
+
+                        reader.onerror = function() {
+                            reject(
+                                new Error(
+                                    "Could not read payment screenshot."
+                                )
+                            );
+                        };
+
+                        reader.readAsDataURL(
+                            paymentScreenshotFile
+                        );
+                    }
+                );
 
             const orderData = {
 
@@ -1727,12 +1804,24 @@ if (
     postalCode,
 
 deliveryCharge:
-    getDeliveryCharge()
+    getDeliveryCharge(),
+
+                    payment: {
+                        method:
+                            "JAZZCASH",
+                        accountName:
+                            "Shazia Zahid",
+                        accountNumber:
+                            "03094567938",
+                        transactionId:
+                            paymentTransactionId,
+                        screenshot:
+                            paymentScreenshot
+                    }
 
                 },
 
-                items:
-                    cart.map(
+                items:                    cart.map(
                         function (item) {
 
                             return {
@@ -1838,9 +1927,12 @@ deliveryCharge:
                     "THANK YOU, " +
                     name.toUpperCase() +
                     "!\n\n" +
-                    "YOUR ORDER HAS BEEN RECEIVED.\n\n" +
+                    "YOUR PAYMENT DETAILS HAVE BEEN SUBMITTED.\n\n" +
                     "ORDER ID: " +
-                    orderId
+                    orderId +
+                    "\n\n" +
+                    "PAYMENT VERIFICATION PENDING.\n" +
+                    "YOUR ORDER WILL BE CONFIRMED AFTER PAYMENT IS VERIFIED."
                 );
 
 
@@ -1981,6 +2073,38 @@ if (postalCodeInput) {
         }
     );
 }
+
+/* =====================================================
+   ADVANCE PAYMENT DISPLAY — ADDED ONLY
+===================================================== */
+function updateAdvancePaymentAmount() {
+    const amountElement =
+        document.getElementById("advancePaymentAmount");
+
+    if (amountElement) {
+        amountElement.textContent =
+            "Rs. " +
+            (
+                getCartTotal() +
+                getDeliveryCharge()
+            ).toLocaleString();
+    }
+}
+
+const originalUpdateCheckoutTotal =
+    updateCheckoutTotal;
+
+updateCheckoutTotal = function () {
+    originalUpdateCheckoutTotal();
+    updateAdvancePaymentAmount();
+};
+
+window.addEventListener(
+    "load",
+    function () {
+        updateAdvancePaymentAmount();
+    }
+);
 
 /* =====================================================
    PAGE LOAD
