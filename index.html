@@ -1055,6 +1055,15 @@ html { scroll-behavior: smooth; }
 .hy-advance-payment-help{margin-top:6px;color:#807688;font-size:9px;line-height:1.5}
 .hy-advance-payment-amount{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;letter-spacing:.12em}
 .hy-advance-payment-amount strong{color:#fff;font-size:15px;letter-spacing:.04em}
+.hy-advance-payment-trigger{width:100%;margin-top:20px;padding:15px 18px;border:1px solid rgba(206,163,255,.45);border-radius:7px;background:linear-gradient(135deg,rgba(137,57,198,.42),rgba(40,12,61,.78));color:#fff;font-size:10px;font-weight:800;letter-spacing:.18em;cursor:pointer}
+.hy-advance-payment-trigger:hover{border-color:rgba(220,185,255,.75);box-shadow:0 0 22px rgba(170,85,255,.16)}
+.hy-payment-options-panel{display:none;margin-top:14px;padding:16px;border:1px solid rgba(184,121,255,.2);border-radius:7px;background:rgba(0,0,0,.2)}
+.hy-payment-options-panel.active{display:block}
+.hy-payment-options-heading{font-size:10px;letter-spacing:.18em;color:#fff;margin-bottom:12px}
+.hy-payment-options-status{display:none;margin-top:13px;padding:11px 12px;border:1px solid rgba(190,130,255,.25);border-radius:6px;color:#d9b7ff;font-size:10px;line-height:1.5;letter-spacing:.08em}
+.hy-payment-options-status.active{display:block}
+.hy-payment-done-btn{width:100%;margin-top:15px;padding:14px 18px;border:1px solid rgba(206,163,255,.5);border-radius:7px;background:linear-gradient(135deg,rgba(137,57,198,.55),rgba(40,12,61,.8));color:#fff;font-size:10px;font-weight:800;letter-spacing:.18em;cursor:pointer}
+.hy-payment-done-btn:disabled{opacity:.6;cursor:wait}
 </style>
 </head>
 
@@ -1936,34 +1945,6 @@ html { scroll-behavior: smooth; }
 
             <div id="postalArea"></div>
 
-            <div class="hy-advance-payment">
-                <div class="hy-advance-payment-title">100% ADVANCE PAYMENT REQUIRED</div>
-                <div class="hy-advance-payment-note">
-                    Please pay the full order amount through JazzCash. Your order will stay
-                    <strong>PAYMENT VERIFICATION PENDING</strong> until we verify your payment.
-                </div>
-                <div class="hy-advance-payment-account">
-                    <span>JAZZCASH</span>
-                    <strong>03094567938</strong>
-                    <span>Account Name: Shazia Zahid</span>
-                </div>
-                <label>
-                    TRANSACTION ID / TID
-                    <input type="text" id="paymentTransactionId" placeholder="Enter JazzCash transaction ID" autocomplete="off" required>
-                </label>
-                <label>
-                    PAYMENT SCREENSHOT
-                    <input type="file" id="paymentScreenshot" accept="image/*" required>
-                    <div class="hy-advance-payment-help">Upload a clear screenshot of your successful JazzCash payment. Maximum file size: 1.2 MB.</div>
-                </label>
-                <div class="hy-advance-payment-amount">
-                    <span>100% PAYMENT</span>
-                    <strong id="advancePaymentAmount">Rs. 0</strong>
-                </div>
-            </div>
-
-
-
             <div class="checkout-summary">
 
                 <span>
@@ -2014,12 +1995,46 @@ html { scroll-behavior: smooth; }
             </div>
 
 
+            <div class="hy-advance-payment">
+                <div class="hy-payment-options-panel" id="paymentOptionsPanel">
+                    <div class="hy-payment-options-heading">PAY WITH JAZZCASH</div>
+                    <div class="hy-advance-payment-account">
+                        <span>JAZZCASH NUMBER</span>
+                        <strong>03094567938</strong>
+                        <span>Account Name: Shazia Zahid</span>
+                    </div>
+                    <div class="hy-advance-payment-note">
+                        Send the full payment amount shown in your order total to this JazzCash number. After payment, enter your transaction ID and upload your payment screenshot.
+                    </div>
+                    <div class="hy-advance-payment-amount">
+                        <span>100% PAYMENT</span>
+                        <strong id="advancePaymentAmount">Rs. 0</strong>
+                    </div>
+                    <label>
+                        TRANSACTION ID / TID
+                        <input type="text" id="paymentTransactionId" placeholder="Enter JazzCash transaction ID" autocomplete="off">
+                    </label>
+                    <label>
+                        PAYMENT SCREENSHOT
+                        <input type="file" id="paymentScreenshot" accept="image/*">
+                        <div class="hy-advance-payment-help">Upload a clear screenshot of your successful JazzCash payment. Maximum file size: 1.2 MB.</div>
+                    </label>
+                    <div class="hy-payment-options-status" id="paymentOptionsStatus">
+                        PAYMENT PROOF SUBMITTED — VERIFICATION PENDING.
+                    </div>
+                    <button type="button" class="hy-payment-done-btn" id="paymentDoneButton">
+                        DONE <span>→</span>
+                    </button>
+                </div>
+            </div>
+
+
             <button
                 type="submit"
                 class="place-order-btn"
             >
 
-                PLACE ORDER
+                PAYMENT OPTIONS
 
                 <span>
                     →
