@@ -1596,6 +1596,8 @@ const checkoutForm =
         "checkoutForm"
     );
 
+let advancePaymentReady = false;
+
 
 if (checkoutForm) {
 
@@ -1604,6 +1606,24 @@ if (checkoutForm) {
         async function (event) {
 
             event.preventDefault();
+
+
+            if (!advancePaymentReady) {
+                const paymentPanel =
+                    document.getElementById(
+                        "paymentOptionsPanel"
+                    );
+
+                if (paymentPanel) {
+                    paymentPanel.classList.add("active");
+                    paymentPanel.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                }
+
+                return;
+            }
 
 
             if (
@@ -1938,6 +1958,22 @@ deliveryCharge:
 
                 checkoutForm.reset();
 
+                advancePaymentReady = false;
+
+                if (paymentOptionsPanel) {
+                    paymentOptionsPanel.classList.remove("active");
+                }
+
+                if (paymentOptionsStatus) {
+                    paymentOptionsStatus.classList.remove("active");
+                }
+
+                if (paymentDoneButton) {
+                    paymentDoneButton.disabled = false;
+                    paymentDoneButton.innerHTML =
+                        'DONE <span>→</span>';
+                }
+
                 closeCheckoutPanel();
 
 
@@ -1975,10 +2011,135 @@ deliveryCharge:
                         false;
 
                     submitButton.innerHTML =
-                        'PLACE ORDER <span>→</span>';
+                        'PAYMENT OPTIONS <span>→</span>';
                 }
             }
 
+        }
+    );
+}
+
+/* =====================================================
+   PAYMENT OPTIONS → JAZZCASH PROOF
+===================================================== */
+
+const paymentOptionsButton =
+    document.getElementById(
+        "paymentOptionsButton"
+    );
+
+const paymentOptionsPanel =
+    document.getElementById(
+        "paymentOptionsPanel"
+    );
+
+const paymentDoneButton =
+    document.getElementById(
+        "paymentDoneButton"
+    );
+
+const paymentOptionsStatus =
+    document.getElementById(
+        "paymentOptionsStatus"
+    );
+
+if (paymentOptionsButton) {
+    paymentOptionsButton.addEventListener(
+        "click",
+        function (event) {
+            event.preventDefault();
+
+            if (paymentOptionsPanel) {
+                paymentOptionsPanel.classList.add("active");
+                paymentOptionsPanel.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+        }
+    );
+}
+
+if (paymentDoneButton) {
+    paymentDoneButton.addEventListener(
+        "click",
+        async function (event) {
+            event.preventDefault();
+
+            const transactionId =
+                document
+                    .getElementById(
+                        "paymentTransactionId"
+                    )
+                    ?.value
+                    .trim();
+
+            const screenshotInput =
+                document.getElementById(
+                    "paymentScreenshot"
+                );
+
+            if (!transactionId) {
+                alert(
+                    "PLEASE ENTER YOUR JAZZCASH TRANSACTION ID."
+                );
+                return;
+            }
+
+            if (
+                !screenshotInput ||
+                !screenshotInput.files ||
+                !screenshotInput.files[0]
+            ) {
+                alert(
+                    "PLEASE UPLOAD YOUR PAYMENT SCREENSHOT."
+                );
+                return;
+            }
+
+            const screenshotFile =
+                screenshotInput.files[0];
+
+            if (
+                !screenshotFile.type.startsWith(
+                    "image/"
+                )
+            ) {
+                alert(
+                    "PLEASE UPLOAD A VALID PAYMENT SCREENSHOT."
+                );
+                return;
+            }
+
+            if (
+                screenshotFile.size >
+                1200 * 1024
+            ) {
+                alert(
+                    "PAYMENT SCREENSHOT MUST BE 1.2 MB OR SMALLER."
+                );
+                return;
+            }
+
+            advancePaymentReady = true;
+
+            if (paymentOptionsStatus) {
+                paymentOptionsStatus.textContent =
+                    "PAYMENT PROOF SUBMITTED — VERIFICATION PENDING.";
+                paymentOptionsStatus.classList.add("active");
+            }
+
+            if (paymentDoneButton) {
+                paymentDoneButton.disabled = true;
+                paymentDoneButton.textContent =
+                    "PAYMENT SUBMITTED — PENDING";
+            }
+
+            if (checkoutForm) {
+                setTimeout(function () {
+                    checkoutForm.requestSubmit();
+                }, 350);
+            }
         }
     );
 }
