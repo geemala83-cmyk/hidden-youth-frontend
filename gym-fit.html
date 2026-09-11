@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,6 +48,9 @@
 .gym-fit-page .product-card { min-width:0; }
 @media(max-width:900px){ .gym-fit-page .gym-products{grid-template-columns:repeat(2,1fr);} }
 @media(max-width:560px){ .gym-page-header,.gym-page-title,.gym-fit-page .gym-products{width:calc(100% - 24px);} .gym-fit-page .gym-products{grid-template-columns:1fr;} .gym-page-header{padding-top:20px;} }
+
+/* STOCK STATUS — GYM FIT ONLY */
+.gym-fit-page .hy-soldout-overlay{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(3,0,6,.56);pointer-events:none}.gym-fit-page .hy-soldout-overlay span{padding:12px 18px;border:1px solid rgba(255,255,255,.35);background:rgba(5,2,8,.9);color:#fff;font-size:11px;font-weight:800;letter-spacing:.25em}.gym-fit-page .product-card.hy-soldout .add-bag{opacity:.45;pointer-events:none}.gym-fit-page .product-card.hy-soldout .heart{position:relative;z-index:5}
 </style>
 
 <header class="gym-page-header">
@@ -70,7 +72,7 @@
 
                     <!-- PRODUCT 01 -->
 
-                    <div class="product-card">
+                    <div class="product-card" data-product-id="1">
 
                         <div class="product-image">
 
@@ -111,7 +113,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong class="gym-product-price" data-gym-product-index="0">
+                            <strong>
                                 Rs. 4,990
                             </strong>
 
@@ -123,7 +125,7 @@
 
                     <!-- PRODUCT 02 -->
 
-                    <div class="product-card">
+                    <div class="product-card" data-product-id="2">
 
                         <div class="product-image">
 
@@ -164,7 +166,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong class="gym-product-price" data-gym-product-index="1">
+                            <strong>
                                 Rs. 4,990
                             </strong>
 
@@ -176,7 +178,7 @@
 
                     <!-- PRODUCT 03 -->
 
-                    <div class="product-card">
+                    <div class="product-card" data-product-id="3">
 
                         <div class="product-image">
 
@@ -217,7 +219,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong class="gym-product-price" data-gym-product-index="2">
+                            <strong>
                                 Rs. 4,990
                             </strong>
 
@@ -229,7 +231,7 @@
 
                     <!-- PRODUCT 04 -->
 
-                    <div class="product-card">
+                    <div class="product-card" data-product-id="4">
 
                         <div class="product-image">
 
@@ -270,7 +272,7 @@
                                 PERFORMANCE / MOVEMENT
                             </p>
 
-                            <strong class="gym-product-price" data-gym-product-index="3">
+                            <strong>
                                 Rs. 4,990
                             </strong>
 
@@ -549,47 +551,8 @@
 
 
 <script>
-/* =====================================================
-   GYM FIT — ADMIN PRICE SYNC ONLY
-   Keeps the existing design/products/cart unchanged.
-===================================================== */
-(function () {
-    const GYM_API_URL = "https://hidden-youth-backend-production.up.railway.app";
-
-    async function syncGymFitPrices() {
-        const priceElements = document.querySelectorAll(".gym-product-price[data-gym-product-index]");
-        if (!priceElements.length) return;
-
-        try {
-            const response = await fetch(`${GYM_API_URL}/api/products`, { cache: "no-store" });
-            if (!response.ok) return;
-
-            const data = await response.json();
-            if (!data || !data.success || !Array.isArray(data.products)) return;
-
-            const gymProducts = data.products.filter(function (product) {
-                return String(product.category || "").trim().toLowerCase() === "gym fit";
-            });
-
-            priceElements.forEach(function (element) {
-                const index = Number(element.dataset.gymProductIndex);
-                const product = gymProducts[index];
-
-                if (product && product.price !== undefined && product.price !== null) {
-                    element.textContent = "Rs. " + Number(product.price).toLocaleString();
-                }
-            });
-        } catch (error) {
-            console.warn("Gym Fit price sync failed:", error);
-        }
-    }
-
-    syncGymFitPrices();
-})();
+(async function(){try{const r=await fetch("https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit");const d=await r.json();if(!d.success||!Array.isArray(d.products))return;document.querySelectorAll(".gym-fit-page .product-card[data-product-id]").forEach(function(card){const p=d.products.find(function(x){return String(x.id)===String(card.getAttribute("data-product-id"))});if(!p)return;const ok=Number(p.stock||0)>0&&p.available===true;if(ok)return;card.classList.add("hy-soldout");const image=card.querySelector(".product-image");if(image&&!image.querySelector(".hy-soldout-overlay")){const o=document.createElement("div");o.className="hy-soldout-overlay";o.innerHTML="<span>SOLD OUT</span>";image.appendChild(o)}const a=card.querySelector(".add-bag");if(a){a.textContent="SOLD OUT";a.disabled=true;a.setAttribute("aria-disabled","true")}})}catch(e){console.error("Gym Fit stock status error:",e)}})();
 </script>
-
 <script src="script.js"></script>
 </body>
 </html>
-
-
