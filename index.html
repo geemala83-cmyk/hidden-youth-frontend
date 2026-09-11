@@ -128,6 +128,7 @@
     padding: 8px 5px;
     border: 0;
     background: transparent;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,13 +136,20 @@
     gap: 6px;
     cursor: pointer;
     z-index: 1001;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: absolute !important;
+    left: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%);
 }
 
 .navbar > .menu-btn span {
-    display: block;
+    display: block !important;
     width: 28px;
-    height: 1.5px;
-    background: currentColor;
+    height: 2px;
+    min-height: 2px;
+    background: #ffffff !important;
     border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
 }
@@ -152,6 +160,10 @@
 
 .navbar > .menu-btn:hover span:last-child {
     transform: translateX(-3px);
+}
+
+.navbar > .logo {
+    margin-left: 58px !important;
 }
 
 .hidden-youth-menu {
@@ -1030,6 +1042,20 @@ html { scroll-behavior: smooth; }
 @media(max-width:600px){.hy-overlay{padding:75px 18px 30px}.hy-overlay-close{top:-52px}.hy-search-box input{font-size:19px}.hy-search-result{align-items:flex-start;flex-direction:column;gap:6px}}
 </style>
 
+<style id="hidden-youth-advance-payment-added">
+.hy-advance-payment{margin-top:20px;padding:18px;border:1px solid rgba(184,121,255,.24);border-radius:8px;background:linear-gradient(145deg,rgba(32,11,48,.72),rgba(4,2,8,.82))}
+.hy-advance-payment-title{font-size:10px;letter-spacing:.18em;color:#d9b7ff;margin-bottom:10px}
+.hy-advance-payment-note{font-size:11px;line-height:1.65;color:#aaa0b1;margin-bottom:14px}
+.hy-advance-payment-account{padding:13px 14px;margin-bottom:14px;border:1px solid rgba(184,121,255,.18);border-radius:7px;background:rgba(0,0,0,.2)}
+.hy-advance-payment-account strong{display:block;color:#fff;font-size:14px;letter-spacing:.08em;margin-top:3px}
+.hy-advance-payment-account span{display:block;color:#9f95a8;font-size:10px;letter-spacing:.12em;margin-top:4px}
+.hy-advance-payment label{display:block;margin-top:12px}
+.hy-advance-payment input[type="text"],.hy-advance-payment input[type="file"]{width:100%;box-sizing:border-box;margin-top:7px;padding:11px 12px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(0,0,0,.25);color:#fff;font:inherit}
+.hy-advance-payment input[type="file"]{cursor:pointer}
+.hy-advance-payment-help{margin-top:6px;color:#807688;font-size:9px;line-height:1.5}
+.hy-advance-payment-amount{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;letter-spacing:.12em}
+.hy-advance-payment-amount strong{color:#fff;font-size:15px;letter-spacing:.04em}
+</style>
 </head>
 
 
@@ -1910,6 +1936,33 @@ html { scroll-behavior: smooth; }
 
             <div id="postalArea"></div>
 
+            <div class="hy-advance-payment">
+                <div class="hy-advance-payment-title">100% ADVANCE PAYMENT REQUIRED</div>
+                <div class="hy-advance-payment-note">
+                    Please pay the full order amount through JazzCash. Your order will stay
+                    <strong>PAYMENT VERIFICATION PENDING</strong> until we verify your payment.
+                </div>
+                <div class="hy-advance-payment-account">
+                    <span>JAZZCASH</span>
+                    <strong>03094567938</strong>
+                    <span>Account Name: Shazia Zahid</span>
+                </div>
+                <label>
+                    TRANSACTION ID / TID
+                    <input type="text" id="paymentTransactionId" placeholder="Enter JazzCash transaction ID" autocomplete="off" required>
+                </label>
+                <label>
+                    PAYMENT SCREENSHOT
+                    <input type="file" id="paymentScreenshot" accept="image/*" required>
+                    <div class="hy-advance-payment-help">Upload a clear screenshot of your successful JazzCash payment. Maximum file size: 1.2 MB.</div>
+                </label>
+                <div class="hy-advance-payment-amount">
+                    <span>100% PAYMENT</span>
+                    <strong id="advancePaymentAmount">Rs. 0</strong>
+                </div>
+            </div>
+
+
 
             <div class="checkout-summary">
 
@@ -2127,12 +2180,6 @@ html { scroll-behavior: smooth; }
 
   async function renderAccount(customer){
     accountContent.innerHTML=`<p class="hy-account-welcome">Welcome back, <strong>${esc(customer.name)}</strong>.<br><span class="hy-account-email">${esc(customer.email)}</span></p><div class="hy-auth-error" id="hyAccountError"></div><div class="hy-order-list" id="hyOrderList"><div class="hy-search-empty">Loading your orders...</div></div><div class="hy-account-actions"><button class="hy-auth-submit" id="hyLogout" type="button">LOG OUT</button></div>`;
-
-    document.getElementById('hyLogout').addEventListener('click',async()=>{
-      try{if(getToken())await api('/api/customer/logout',{method:'POST'});}catch{}
-      setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();
-    });
-
     try{
       const d=await api('/api/customer/orders');
       const list=document.getElementById('hyOrderList');
@@ -2142,6 +2189,10 @@ html { scroll-behavior: smooth; }
       if(/login required|account not found|401/i.test(x.message)){setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();return;}
       document.getElementById('hyAccountError').textContent=x.message;
     }
+    document.getElementById('hyLogout').addEventListener('click',async()=>{
+      try{if(getToken())await api('/api/customer/logout',{method:'POST'});}catch{}
+      setToken('');localStorage.removeItem('hiddenYouthCustomer');renderLogin();
+    });
   }
 
   async function openAccount(){
