@@ -878,6 +878,11 @@
         }
 
     </style>
+<style id="hidden-youth-advance-payment-admin-added">
+.info-value a{color:#d9b7ff;text-decoration:none}
+.info-value a:hover{text-decoration:underline}
+</style>
+
 </head>
 
 <body>
@@ -2767,6 +2772,35 @@ loginError.textContent =
         )}
     </div>
 </div>
+
+${customer.payment ? `
+<div class="info">
+    <div class="info-label">Payment</div>
+    <div class="info-value">
+        ${escapeHTML(customer.payment.method || "JAZZCASH")}
+        ·
+        ${escapeHTML(customer.payment.status || "PENDING")}
+    </div>
+</div>
+
+<div class="info">
+    <div class="info-label">Transaction ID</div>
+    <div class="info-value">
+        ${escapeHTML(customer.payment.transactionId || "—")}
+    </div>
+</div>
+
+<div class="info">
+    <div class="info-label">Payment Proof</div>
+    <div class="info-value">
+        ${
+            customer.payment.screenshot
+                ? `<a href="${escapeHTML(customer.payment.screenshot)}" target="_blank" rel="noopener">VIEW SCREENSHOT</a>`
+                : "—"
+        }
+    </div>
+</div>
+` : ""}
                         </div>
 
 
@@ -2807,11 +2841,57 @@ loginError.textContent =
         const current =
             order.status || "PENDING";
 
+        const payment =
+            order.customer &&
+            order.customer.payment
+                ? order.customer.payment
+                : null;
+
         let html = "";
 
+        if (payment) {
+
+            const paymentStatus =
+                payment.status || "PENDING";
+
+            if (
+                paymentStatus !== "VERIFIED"
+            ) {
+
+                html += `
+                    <button
+                        class="small-btn"
+                        onclick="verifyPayment(
+                            '${escapeJS(order.id)}',
+                            'VERIFY'
+                        )"
+                    >
+                        VERIFY PAYMENT
+                    </button>
+                `;
+
+                if (
+                    paymentStatus !== "REJECTED"
+                ) {
+
+                    html += `
+                        <button
+                            class="small-btn delete-btn"
+                            onclick="verifyPayment(
+                                '${escapeJS(order.id)}',
+                                'REJECT'
+                            )"
+                        >
+                            REJECT PAYMENT
+                        </button>
+                    `;
+                }
+
+                return html;
+            }
+        }
 
         if (current !== "CONFIRMED") {
-
             html += `
                 <button
                     class="small-btn"
@@ -2823,12 +2903,9 @@ loginError.textContent =
                     CONFIRM
                 </button>
             `;
-
         }
 
-
         if (current !== "SHIPPED") {
-
             html += `
                 <button
                     class="small-btn"
@@ -2840,12 +2917,9 @@ loginError.textContent =
                     SHIPPED
                 </button>
             `;
-
         }
 
-
         if (current !== "DELIVERED") {
-
             html += `
                 <button
                     class="small-btn"
@@ -2857,12 +2931,9 @@ loginError.textContent =
                     DELIVERED
                 </button>
             `;
-
         }
 
-
         if (current !== "CANCELLED") {
-
             html += `
                 <button
                     class="small-btn delete-btn"
@@ -2874,12 +2945,56 @@ loginError.textContent =
                     CANCEL
                 </button>
             `;
-
         }
 
-
         return html;
+    }
 
+
+    /* =====================================================
+       VERIFY / REJECT PAYMENT — ADDED ONLY
+    ===================================================== */
+
+    async function verifyPayment(
+        orderId,
+        action
+    ) {
+
+        const message =
+            action === "VERIFY"
+                ? "VERIFY THIS PAYMENT AND CONFIRM THE ORDER?"
+                : "REJECT THIS PAYMENT?";
+
+        if (!window.confirm(message)) {
+            return;
+        }
+
+        try {
+
+            await apiRequest(
+                `/api/orders/${encodeURIComponent(orderId)}/payment`,
+                {
+                    method: "PATCH",
+                    body:
+                        JSON.stringify({
+                            action: action
+                        })
+                }
+            );
+
+            await loadOrders();
+            await loadDashboard();
+            await loadCustomers();
+
+        } catch(error) {
+
+            console.error(error);
+
+            alert(
+                error.message ||
+                "Could not update payment."
+            );
+        }
     }
 
 
