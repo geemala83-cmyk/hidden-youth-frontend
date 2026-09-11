@@ -44,6 +44,7 @@ body.product-page { background:#030006; color:#fff; min-height:100vh; }
     .product-image-box { height:360px; }
 }
 </style>
+<style>/* STOCK STATUS — PRODUCT DETAIL ONLY */.product-page .hy-product-stock{margin-top:18px;display:inline-flex;padding:9px 13px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.2em}.product-page .hy-product-soldout{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06)}.product-page .product-add:disabled{opacity:.45;cursor:not-allowed}</style>
 </head>
 <body class="product-page">
 
@@ -68,6 +69,7 @@ body.product-page { background:#030006; color:#fff; min-height:100vh; }
             <div class="product-sku" id="productSku"></div>
             <div class="product-description" id="productDescription"></div>
             <div class="product-details" id="productDetails"></div>
+            <div class="hy-product-stock" id="productStockStatus"></div>
             <div class="product-actions">
                 <button class="product-add" id="productAdd" type="button">ADD TO BAG</button>
             </div>
@@ -389,6 +391,20 @@ async function loadProductDetail() {
         document.getElementById("productDetails").textContent =
             currentProduct.details || "";
 
+        const stockStatus = document.getElementById("productStockStatus");
+        const addButton = document.getElementById("productAdd");
+        const productStock = Number(currentProduct.stock || 0);
+        const productAvailable = productStock > 0 && currentProduct.available === true;
+        if (stockStatus) {
+            stockStatus.textContent = productAvailable ? "IN STOCK" : "SOLD OUT";
+            stockStatus.classList.toggle("hy-product-soldout", !productAvailable);
+        }
+        if (addButton) {
+            addButton.disabled = !productAvailable;
+            addButton.textContent = productAvailable ? "ADD TO BAG" : "SOLD OUT";
+            addButton.setAttribute("aria-disabled", String(!productAvailable));
+        }
+
         const image = resolveImage(currentProduct.image);
         document.getElementById("productImage").src = image;
         document.getElementById("productImage").alt = currentProduct.name || "Product";
@@ -421,6 +437,7 @@ document.addEventListener("keydown", function(event) {
 
 document.getElementById("productAdd").addEventListener("click", function() {
     if (!currentProduct) return;
+    if (Number(currentProduct.stock || 0) <= 0 || currentProduct.available !== true) return;
 
     let cart = [];
     try {
@@ -441,14 +458,6 @@ document.getElementById("productAdd").addEventListener("click", function() {
     }
 
     localStorage.setItem("hiddenYouthCart", JSON.stringify(cart));
-
-    /*
-       Keep the main script's cart variable in sync
-       with the product-page cart.
-    */
-    if (typeof window.cart !== "undefined") {
-        window.cart = cart;
-    }
 
     this.textContent = "ADDED ✓";
     this.classList.add("added");
