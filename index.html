@@ -2237,6 +2237,158 @@ html { scroll-behavior: smooth; }
 })();
 </script>
 
+<!-- Hidden Youth WhatsApp — small cinematic floating help widget (ONLY requested feature) -->
+<style>
+  #hy-whatsapp-widget {
+    position: fixed;
+    right: 18px;
+    bottom: 22px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 7px;
+    pointer-events: none;
+    transform: translate3d(0,0,0);
+    will-change: transform;
+  }
+
+  #hy-whatsapp-help {
+    pointer-events: none;
+    background: rgba(255,255,255,.97);
+    color: #202020;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 10px;
+    padding: 6px 9px;
+    font: 500 11px/1.1 Arial, sans-serif;
+    letter-spacing: .1px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.10);
+    opacity: .94;
+    white-space: nowrap;
+  }
+
+  #hy-whatsapp-help::after {
+    content: "";
+    position: absolute;
+    right: 25px;
+    margin-top: 17px;
+    width: 7px;
+    height: 7px;
+    background: rgba(255,255,255,.97);
+    border-right: 1px solid rgba(0,0,0,.08);
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    transform: rotate(45deg);
+  }
+
+  #hy-whatsapp-link {
+    pointer-events: auto;
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 5px 16px rgba(37,211,102,.24), 0 0 0 1px rgba(255,255,255,.55) inset;
+    transition: transform .28s ease, box-shadow .28s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #hy-whatsapp-link::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(37,211,102,.30);
+    animation: hyWaPulse 2.8s ease-out infinite;
+    pointer-events: none;
+  }
+
+  #hy-whatsapp-link:hover {
+    transform: translateY(-2px) scale(1.045);
+    box-shadow: 0 8px 22px rgba(37,211,102,.32), 0 0 18px rgba(37,211,102,.16), 0 0 0 1px rgba(255,255,255,.55) inset;
+  }
+
+  #hy-whatsapp-link:active {
+    transform: scale(.97);
+  }
+
+  #hy-whatsapp-link svg {
+    width: 25px;
+    height: 25px;
+    display: block;
+    fill: currentColor;
+  }
+
+  @keyframes hyWaPulse {
+    0% { transform: scale(.94); opacity: .55; }
+    70% { transform: scale(1.20); opacity: 0; }
+    100% { transform: scale(1.20); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    #hy-whatsapp-widget { right: 13px; bottom: 16px; gap: 6px; }
+    #hy-whatsapp-help { font-size: 10px; padding: 5px 8px; border-radius: 9px; }
+    #hy-whatsapp-link { width: 44px; height: 44px; }
+    #hy-whatsapp-link svg { width: 23px; height: 23px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #hy-whatsapp-link::before { animation: none; }
+    #hy-whatsapp-link { transition: none; }
+  }
+</style>
+
+<div id="hy-whatsapp-widget" aria-label="WhatsApp help">
+  <div id="hy-whatsapp-help">Need help?</div>
+  <a id="hy-whatsapp-link"
+     href="https://wa.me/923056704386?text=Hi%20Hidden%20Youth%2C%20I%20have%20a%20question."
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Chat with Hidden Youth on WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M19.11 17.39c-.27-.14-1.59-.78-1.84-.87-.25-.09-.43-.14-.61.14-.18.27-.7.87-.86 1.05-.16.18-.32.2-.59.07-.27-.14-1.12-.41-2.13-1.31-.79-.7-1.32-1.56-1.48-1.83-.16-.27-.02-.42.12-.56.12-.12.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.98 2.63 1.11 2.81c.14.18 1.93 2.95 4.68 4.13.65.28 1.16.45 1.56.57.66.21 1.26.18 1.73.11.53-.08 1.59-.65 1.81-1.27.23-.62.23-1.15.16-1.27-.07-.11-.25-.18-.52-.32z"/>
+      <path d="M16.01 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.26.59 4.38 1.63 6.22L3.2 28.8l6.76-1.6a12.75 12.75 0 0 0 6.05 1.52h.01c7.07 0 12.8-5.73 12.8-12.8S23.08 3.2 16.01 3.2zm0 23.17h-.01a10.34 10.34 0 0 1-5.27-1.45l-.38-.23-4.01.95.96-3.91-.25-.4a10.37 10.37 0 1 1 8.96 5.04z"/>
+    </svg>
+  </a>
+</div>
+<!-- End Hidden Youth WhatsApp widget -->
+
+<script>
+  (() => {
+    const widget = document.getElementById('hy-whatsapp-widget');
+    if (!widget) return;
+
+    let lastScroll = window.scrollY || 0;
+    let targetY = 0;
+    let currentY = 0;
+    let raf = null;
+
+    const animate = () => {
+      currentY += (targetY - currentY) * 0.12;
+      widget.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0)`;
+      if (Math.abs(targetY - currentY) > 0.05) {
+        raf = requestAnimationFrame(animate);
+      } else {
+        raf = null;
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      const now = window.scrollY || 0;
+      const delta = now - lastScroll;
+      lastScroll = now;
+
+      // Small, smooth movement with the page — never changes page layout.
+      targetY += delta * 0.08;
+      targetY = Math.max(-18, Math.min(72, targetY));
+
+      if (!raf) raf = requestAnimationFrame(animate);
+    }, { passive: true });
+  })();
+</script>
 <script src="script.js"></script>
 
 
