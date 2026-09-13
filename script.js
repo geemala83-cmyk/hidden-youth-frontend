@@ -192,7 +192,7 @@ if (
 let cart = [];
 
 
-function loadCart() {
+async function loadCart() {
 
     const savedCart =
         localStorage.getItem(
@@ -206,6 +206,10 @@ function loadCart() {
             cart =
                 JSON.parse(savedCart);
 
+            if (!Array.isArray(cart)) {
+                cart = [];
+            }
+
         } catch {
 
             cart = [];
@@ -214,9 +218,13 @@ function loadCart() {
 
     /*
        IMPORTANT:
-       Restore cart first, then sync
-       it with the backend.
+       Restore cart first, then refresh saved product
+       prices from the backend before the cart is displayed.
     */
+
+    await refreshCartPricesFromBackend();
+
+    updateCartUI();
 
     syncCartWithBackend();
 }
@@ -274,9 +282,135 @@ function getVisitorId() {
    SYNC CART WITH BACKEND
 ===================================================== */
 
+async function refreshCartPricesFromBackend() {
+
+    /*
+       IMPORTANT:
+       The browser can keep an older cart in localStorage.
+       Before showing checkout/cart totals, refresh each saved
+       product's current price from the backend.
+
+       This does NOT change quantity, product order, wishlist,
+       checkout, payment flow, or any other existing feature.
+    */
+
+    if (!Array.isArray(cart) || cart.length === 0) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/products`,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+        if (!response.ok) {
+            console.warn(
+                "CART PRICE REFRESH FAILED:",
+                response.status
+            );
+            return;
+        }
+
+        const data =
+            await response.json();
+
+        if (!data.success || !Array.isArray(data.products)) {
+            return;
+        }
+
+        let changed = false;
+
+        cart.forEach(function (cartItem) {
+
+            const currentProduct =
+                data.products.find(
+                    function (product) {
+                        return String(product.id) ===
+                            String(cartItem.id);
+                    }
+                );
+
+            if (!currentProduct) {
+                return;
+            }
+
+            const currentPrice =
+                Number(currentProduct.price);
+
+            const oldPrice =
+                Number(cartItem.price);
+
+            if (
+                Number.isFinite(currentPrice) &&
+                currentPrice !== oldPrice
+            ) {
+                cartItem.price = currentPrice;
+                changed = true;
+            }
+
+            /*
+               Keep the latest product information without
+               changing the customer's selected quantity.
+            */
+            if (
+                typeof currentProduct.name === "string" &&
+                currentProduct.name !== cartItem.name
+            ) {
+                cartItem.name = currentProduct.name;
+                changed = true;
+            }
+
+            if (
+                typeof currentProduct.image === "string" &&
+                currentProduct.image !== cartItem.image
+            ) {
+                cartItem.image = currentProduct.image;
+                changed = true;
+            }
+        });
+
+        if (changed) {
+
+            localStorage.setItem(
+                "hiddenYouthCart",
+                JSON.stringify(cart)
+            );
+
+            console.log(
+                "HIDDEN YOUTH: CART PRICES UPDATED FROM BACKEND"
+            );
+        }
+
+    } catch (error) {
+
+        /*
+           Never break the shopping cart if the refresh request
+           temporarily fails. The existing cart remains usable.
+        */
+
+        console.warn(
+            "CART PRICE REFRESH ERROR:",
+            error
+        );
+    }
+}
+
+
 async function syncCartWithBackend() {
 
     try {
+
+        /*
+           First make sure an old browser-saved price is not used
+           for the visible cart/checkout.
+        */
+        await refreshCartPricesFromBackend();
 
         const visitorId =
             getVisitorId();
