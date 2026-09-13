@@ -596,11 +596,15 @@
 
 </div>
 
- <script>
-(async function () {
+
+<script src="script.js"></script>
+    <script>
+window.addEventListener("load", async function () {
+
     try {
+
         const response = await fetch(
-            "https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit",
+            "https://hidden-youth-backend-production.up.railway.app/api/products",
             {
                 cache: "no-store"
             }
@@ -608,42 +612,40 @@
 
         const data = await response.json();
 
-        if (!data.success || !Array.isArray(data.products)) {
-            console.error("GYM FIT PRICE DATA ERROR");
+        if (
+            !data.success ||
+            !Array.isArray(data.products)
+        ) {
+            console.error("GYM FIT PRICE LOAD FAILED");
             return;
         }
 
-        const cards = document.querySelectorAll(
-            ".gym-fit-page .product-card"
-        );
+        const cards =
+            document.querySelectorAll(
+                ".gym-fit-page .product-card[data-product-id]"
+            );
 
         cards.forEach(function (card) {
 
-            const nameElement =
-                card.querySelector(".product-info h3");
+            const productId =
+                Number(card.dataset.productId);
 
             const priceElement =
-                card.querySelector(".live-product-price");
+                card.querySelector(".product-info strong");
 
-            if (!nameElement || !priceElement) {
+            if (!priceElement) {
                 return;
             }
 
-            const cardName =
-                nameElement.textContent.trim();
-
             const product =
                 data.products.find(function (item) {
-                    return (
-                        String(item.name).trim() ===
-                        cardName
-                    );
+                    return Number(item.id) === productId;
                 });
 
             if (!product) {
                 console.warn(
-                    "GYM FIT PRODUCT NOT FOUND:",
-                    cardName
+                    "PRODUCT NOT FOUND:",
+                    productId
                 );
                 return;
             }
@@ -651,20 +653,19 @@
             priceElement.textContent =
                 "Rs. " +
                 Number(product.price).toLocaleString();
+
         });
 
     } catch (error) {
 
         console.error(
-            "GYM FIT LIVE PRICE ERROR:",
+            "GYM FIT PRICE ERROR:",
             error
         );
 
     }
-})();
+
+});
 </script>
-
-
-<script src="script.js"></script>
 </body>
 </html>
