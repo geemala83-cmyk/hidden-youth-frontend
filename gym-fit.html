@@ -114,7 +114,7 @@
                             </p>
 
                             <strong>
-                                Rs. 4,990
+                                Rs. 0
                             </strong>
 
                         </div>
@@ -167,7 +167,7 @@
                             </p>
 
                             <strong>
-                                Rs. 4,990
+                                Rs. 0
                             </strong>
 
                         </div>
@@ -220,7 +220,7 @@
                             </p>
 
                             <strong>
-                                Rs. 4,990
+                                Rs. 0
                             </strong>
 
                         </div>
@@ -273,7 +273,7 @@
                             </p>
 
                             <strong>
-                                Rs. 4,990
+                                Rs. 0
                             </strong>
 
                         </div>
@@ -551,7 +551,26 @@
 
 
 <script>
-(async function(){try{const r=await fetch("https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit");const d=await r.json();if(!d.success||!Array.isArray(d.products))return;document.querySelectorAll(".gym-fit-page .product-card[data-product-id]").forEach(function(card){const p=d.products.find(function(x){return String(x.id)===String(card.getAttribute("data-product-id"))});if(!p)return;const ok=Number(p.stock||0)>0&&p.available===true;if(ok)return;card.classList.add("hy-soldout");const image=card.querySelector(".product-image");if(image&&!image.querySelector(".hy-soldout-overlay")){const o=document.createElement("div");o.className="hy-soldout-overlay";o.innerHTML="<span>SOLD OUT</span>";image.appendChild(o)}const a=card.querySelector(".add-bag");if(a){a.textContent="SOLD OUT";a.disabled=true;a.setAttribute("aria-disabled","true")}})}catch(e){console.error("Gym Fit stock status error:",e)}})();
+(async function(){
+  try{
+    const r=await fetch("https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit",{cache:"no-store"});
+    const d=await r.json();
+    if(!d.success||!Array.isArray(d.products))return;
+    document.querySelectorAll(".gym-fit-page .product-card[data-product-id]").forEach(function(card){
+      const p=d.products.find(function(x){return String(x.id)===String(card.getAttribute("data-product-id"))});
+      if(!p)return;
+      const priceEl=card.querySelector(".product-info strong");
+      if(priceEl)priceEl.textContent="Rs. "+Number(p.price||0).toLocaleString();
+      const ok=Number(p.stock||0)>0&&p.available===true;
+      if(ok)return;
+      card.classList.add("hy-soldout");
+      const image=card.querySelector(".product-image");
+      if(image&&!image.querySelector(".hy-soldout-overlay")){const o=document.createElement("div");o.className="hy-soldout-overlay";o.innerHTML="<span>SOLD OUT</span>";image.appendChild(o)}
+      const a=card.querySelector(".add-bag");
+      if(a){a.textContent="SOLD OUT";a.disabled=true;a.setAttribute("aria-disabled","true")}
+    });
+  }catch(e){console.error("Gym Fit live product data error:",e)}
+})();
 </script>
 <script src="script.js"></script>
 </body>
