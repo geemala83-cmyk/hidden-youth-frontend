@@ -673,5 +673,122 @@ window.addEventListener("load", async function () {
 
 });
 </script>
+
+    <script>
+(async function () {
+
+    try {
+
+        const response = await fetch(
+            "https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit",
+            {
+                cache: "no-store"
+            }
+        );
+
+        const data = await response.json();
+
+        if (
+            !data.success ||
+            !Array.isArray(data.products)
+        ) {
+            return;
+        }
+
+        document
+            .querySelectorAll(".gym-fit-page .product-card")
+            .forEach(function (card) {
+
+                const nameElement =
+                    card.querySelector(".product-info h3");
+
+                if (!nameElement) {
+                    return;
+                }
+
+                const cardName =
+                    nameElement.textContent
+                        .trim()
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]/g, "");
+
+                const product =
+                    data.products.find(function (item) {
+
+                        const apiName =
+                            String(item.name)
+                                .trim()
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]/g, "");
+
+                        return apiName === cardName;
+                    });
+
+                if (!product) {
+                    return;
+                }
+
+                const isAvailable =
+                    Number(product.stock || 0) > 0 &&
+                    product.available === true;
+
+                if (isAvailable) {
+                    return;
+                }
+
+                card.classList.add("hy-soldout");
+
+                const image =
+                    card.querySelector(".product-image");
+
+                if (
+                    image &&
+                    !image.querySelector(
+                        ".hy-soldout-overlay"
+                    )
+                ) {
+
+                    const overlay =
+                        document.createElement("div");
+
+                    overlay.className =
+                        "hy-soldout-overlay";
+
+                    overlay.innerHTML =
+                        "<span>SOLD OUT</span>";
+
+                    image.appendChild(overlay);
+                }
+
+                const addButton =
+                    card.querySelector(".add-bag");
+
+                if (addButton) {
+
+                    addButton.textContent =
+                        "SOLD OUT";
+
+                    addButton.disabled = true;
+
+                    addButton.setAttribute(
+                        "aria-disabled",
+                        "true"
+                    );
+                }
+
+            });
+
+    } catch (error) {
+
+        console.error(
+            "Gym Fit stock status error:",
+            error
+        );
+
+    }
+
+})();
+</script>
+    
 </body>
 </html>
