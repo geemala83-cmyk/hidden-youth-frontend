@@ -45,6 +45,27 @@ body.product-page { background:#030006; color:#fff; min-height:100vh; }
 }
 </style>
 <style>/* STOCK STATUS — PRODUCT DETAIL ONLY */.product-page .hy-product-stock{margin-top:18px;display:inline-flex;padding:9px 13px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.2em}.product-page .hy-product-soldout{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06)}.product-page .product-add:disabled{opacity:.45;cursor:not-allowed}</style>
+
+<style id="hidden-youth-advance-payment-product">
+.hy-advance-payment{margin-top:20px;padding:18px;border:1px solid rgba(184,121,255,.24);border-radius:8px;background:linear-gradient(145deg,rgba(32,11,48,.72),rgba(4,2,8,.82))}
+.hy-payment-options-panel{display:none;margin-top:14px;padding:16px;border:1px solid rgba(184,121,255,.2);border-radius:7px;background:rgba(0,0,0,.2)}
+.hy-payment-options-panel.active{display:block}
+.hy-payment-options-heading{font-size:10px;letter-spacing:.18em;color:#fff;margin-bottom:12px}
+.hy-advance-payment-account{padding:13px 14px;margin-bottom:14px;border:1px solid rgba(184,121,255,.18);border-radius:7px;background:rgba(0,0,0,.2)}
+.hy-advance-payment-account strong{display:block;color:#fff;font-size:14px;letter-spacing:.08em;margin-top:3px}
+.hy-advance-payment-account span{display:block;color:#9f95a8;font-size:10px;letter-spacing:.12em;margin-top:4px}
+.hy-advance-payment-note{font-size:11px;line-height:1.65;color:#aaa0b1;margin-bottom:14px}
+.hy-advance-payment-amount{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;letter-spacing:.12em}
+.hy-advance-payment-amount strong{color:#fff;font-size:15px;letter-spacing:.04em}
+.hy-advance-payment label{display:block;margin-top:12px}
+.hy-advance-payment input[type="text"],.hy-advance-payment input[type="file"]{width:100%;box-sizing:border-box;margin-top:7px;padding:11px 12px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(0,0,0,.25);color:#fff;font:inherit}
+.hy-advance-payment input[type="file"]{cursor:pointer}
+.hy-advance-payment-help{margin-top:6px;color:#807688;font-size:9px;line-height:1.5}
+.hy-payment-options-status{display:none;margin-top:13px;padding:11px 12px;border:1px solid rgba(190,130,255,.25);border-radius:6px;color:#d9b7ff;font-size:10px;line-height:1.5;letter-spacing:.08em}
+.hy-payment-options-status.active{display:block}
+.hy-payment-done-btn{width:100%;margin-top:15px;padding:14px 18px;border:1px solid rgba(206,163,255,.5);border-radius:7px;background:linear-gradient(135deg,rgba(137,57,198,.55),rgba(40,12,61,.8));color:#fff;font-size:10px;font-weight:800;letter-spacing:.18em;cursor:pointer}
+.hy-payment-done-btn:disabled{opacity:.6;cursor:wait}
+</style>
 </head>
 <body class="product-page">
 
@@ -328,18 +349,47 @@ body.product-page { background:#030006; color:#fff; min-height:100vh; }
 
             </div>
 
+            <div class="hy-advance-payment">
+                <div class="hy-payment-options-panel" id="paymentOptionsPanel">
+                    <div class="hy-payment-options-heading">PAY WITH JAZZCASH</div>
+                    <div class="hy-advance-payment-account">
+                        <span>JAZZCASH NUMBER</span>
+                        <strong>03094567938</strong>
+                        <span>Account Name: Shazia Zahid</span>
+                    </div>
+                    <div class="hy-advance-payment-note">
+                        Send the full payment amount shown in your order total to this JazzCash number. After payment, enter your transaction ID and upload your payment screenshot.
+                    </div>
+                    <div class="hy-advance-payment-amount">
+                        <span>100% PAYMENT</span>
+                        <strong id="advancePaymentAmount">Rs. 0</strong>
+                    </div>
+                    <label>
+                        TRANSACTION ID / TID
+                        <input type="text" id="paymentTransactionId" placeholder="Enter JazzCash transaction ID" autocomplete="off">
+                    </label>
+                    <label>
+                        PAYMENT SCREENSHOT
+                        <input type="file" id="paymentScreenshot" accept="image/*">
+                        <div class="hy-advance-payment-help">Upload a clear screenshot of your successful JazzCash payment. Maximum file size: 1.2 MB.</div>
+                    </label>
+                    <div class="hy-payment-options-status" id="paymentOptionsStatus">
+                        PAYMENT PROOF SUBMITTED — VERIFICATION PENDING.
+                    </div>
+                    <button type="button" class="hy-payment-done-btn" id="paymentDoneButton">
+                        DONE <span>→</span>
+                    </button>
+                </div>
+            </div>
 
             <button
                 type="submit"
                 class="place-order-btn"
             >
-
-                PLACE ORDER
-
+                PAYMENT OPTIONS
                 <span>
                     →
                 </span>
-
             </button>
 
         </form>
@@ -370,7 +420,7 @@ async function loadProductDetail() {
     }
 
     try {
-        const response = await fetch(PRODUCT_API + "/api/products/" + encodeURIComponent(productId));
+        const response = await fetch(PRODUCT_API + "/api/products/" + encodeURIComponent(productId), { cache: "no-store" });
         const data = await response.json();
 
         if (!data.success || !data.product) throw new Error("Product unavailable");
@@ -450,6 +500,9 @@ document.getElementById("productAdd").addEventListener("click", function() {
 
     if (existing) {
         existing.quantity += 1;
+        existing.price = currentProduct.price;
+        existing.name = currentProduct.name;
+        existing.image = currentProduct.image;
     } else {
         cart.push({
             ...currentProduct,
