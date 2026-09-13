@@ -2394,4 +2394,52 @@ html { scroll-behavior: smooth; }
 
 </body>
 
+    <script>
+(function () {
+
+    function skipIntroIfBack() {
+
+        const navigation =
+            performance.getEntriesByType("navigation")[0];
+
+        const isBackForward =
+            navigation &&
+            navigation.type === "back_forward";
+
+        if (!isBackForward) {
+            return;
+        }
+
+        const opening =
+            document.querySelector(".opening");
+
+        if (opening) {
+            opening.style.display = "none";
+        }
+
+    }
+
+    window.addEventListener("pageshow", function (event) {
+
+        if (event.persisted) {
+
+            const opening =
+                document.querySelector(".opening");
+
+            if (opening) {
+                opening.style.display = "none";
+            }
+
+        }
+
+    });
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        skipIntroIfBack
+    );
+
+})();
+</script>
+
 </html>
