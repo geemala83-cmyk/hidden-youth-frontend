@@ -2820,9 +2820,9 @@ ${customer.payment ? `
     </div>
     <div class="info-value">
         ${
-            customer.payment.screenshot
-                ? `<a class="payment-proof-link" href="${escapeHTML(customer.payment.screenshot)}" target="_blank" rel="noopener">VIEW SCREENSHOT</a>`
-                : "—"
+           customer.payment.screenshot
+    ? `<a class="payment-proof-link" href="#" onclick="viewPaymentScreenshot(event, '${escapeJS(customer.payment.screenshot)}')">VIEW SCREENSHOT</a>`
+    : "—"
         }
     </div>
 </div>
@@ -2856,6 +2856,101 @@ ${customer.payment ? `
             }).join("");
 
     }
+
+        /* =====================================================
+   PAYMENT SCREENSHOT VIEWER
+===================================================== */
+function viewPaymentScreenshot(event, screenshot) {
+    if (event) event.preventDefault();
+
+    try {
+        if (!screenshot) {
+            alert("PAYMENT SCREENSHOT NOT AVAILABLE.");
+            return;
+        }
+
+        const commaIndex = screenshot.indexOf(",");
+
+        if (commaIndex === -1) {
+            window.open(
+                screenshot,
+                "_blank",
+                "noopener,noreferrer"
+            );
+            return;
+        }
+
+        const header = screenshot.slice(0, commaIndex);
+        const base64 = screenshot.slice(commaIndex + 1);
+
+        const mimeMatch =
+            header.match(/^data:([^;]+);base64$/i);
+
+        const mime =
+            mimeMatch ? mimeMatch[1] : "image/png";
+
+        const binary = atob(base64);
+
+        const bytes =
+            new Uint8Array(binary.length);
+
+        for (
+            let i = 0;
+            i < binary.length;
+            i++
+        ) {
+            bytes[i] =
+                binary.charCodeAt(i);
+        }
+
+        const blobUrl =
+            URL.createObjectURL(
+                new Blob(
+                    [bytes],
+                    { type: mime }
+                )
+            );
+
+        const win =
+            window.open(
+                blobUrl,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        if (!win) {
+            const link =
+                document.createElement("a");
+
+            link.href = blobUrl;
+            link.target = "_blank";
+            link.rel =
+                "noopener noreferrer";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+        }
+
+        setTimeout(
+            () => URL.revokeObjectURL(blobUrl),
+            60000
+        );
+
+    } catch (error) {
+
+        console.error(
+            "PAYMENT SCREENSHOT VIEW ERROR:",
+            error
+        );
+
+        alert(
+            "COULD NOT OPEN PAYMENT SCREENSHOT."
+        );
+    }
+}
 
 
     /* =====================================================
