@@ -596,7 +596,7 @@
 
 </div>
 
-    <script>
+ <script>
 (async function () {
     try {
         const response = await fetch(
@@ -609,6 +609,7 @@
         const data = await response.json();
 
         if (!data.success || !Array.isArray(data.products)) {
+            console.error("GYM FIT PRICE DATA ERROR");
             return;
         }
 
@@ -633,22 +634,23 @@
 
             const product =
                 data.products.find(function (item) {
-
                     return (
                         String(item.name).trim() ===
                         cardName
                     );
-
                 });
 
             if (!product) {
+                console.warn(
+                    "GYM FIT PRODUCT NOT FOUND:",
+                    cardName
+                );
                 return;
             }
 
             priceElement.textContent =
                 "Rs. " +
-                Number(product.price || 0)
-                    .toLocaleString();
+                Number(product.price).toLocaleString();
         });
 
     } catch (error) {
@@ -661,6 +663,8 @@
     }
 })();
 </script>
+
+<script src="script.js"></script>
 
 
 
