@@ -49,8 +49,24 @@
 @media(max-width:900px){ .gym-fit-page .gym-products{grid-template-columns:repeat(2,1fr);} }
 @media(max-width:560px){ .gym-page-header,.gym-page-title,.gym-fit-page .gym-products{width:calc(100% - 24px);} .gym-fit-page .gym-products{grid-template-columns:1fr;} .gym-page-header{padding-top:20px;} }
 
-/* STOCK STATUS — GYM FIT ONLY */
-.gym-fit-page .hy-soldout-overlay{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(3,0,6,.56);pointer-events:none}.gym-fit-page .hy-soldout-overlay span{padding:12px 18px;border:1px solid rgba(255,255,255,.35);background:rgba(5,2,8,.9);color:#fff;font-size:11px;font-weight:800;letter-spacing:.25em}.gym-fit-page .product-card.hy-soldout .add-bag{opacity:.45;pointer-events:none}.gym-fit-page .product-card.hy-soldout .heart{position:relative;z-index:5}
+/* Payment options panel — opened by existing script.js after customer details */
+.hy-payment-options-panel{display:none;margin-top:14px;padding:16px;border:1px solid rgba(184,121,255,.2);border-radius:7px;background:rgba(0,0,0,.2)}
+.hy-payment-options-panel.active{display:block}
+.hy-payment-options-heading{font-size:10px;letter-spacing:.18em;color:#fff;margin-bottom:12px}
+.hy-advance-payment-account{display:flex;flex-direction:column;gap:5px}
+.hy-advance-payment-account span{color:#9d91a8;font-size:9px;letter-spacing:.12em}
+.hy-advance-payment-account strong{color:#fff;font-size:15px;letter-spacing:.06em}
+.hy-advance-payment-note{margin-top:12px;color:#9d91a8;font-size:9px;line-height:1.5}
+.hy-advance-payment-amount{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;letter-spacing:.12em}
+.hy-advance-payment-amount strong{color:#fff;font-size:15px;letter-spacing:.04em}
+.hy-payment-options-panel label{display:block;margin-top:13px;color:#9d91a8;font-size:9px;letter-spacing:.12em}
+.hy-payment-options-panel input{margin-top:7px}
+.hy-advance-payment-help{margin-top:6px;color:#807688;font-size:9px;line-height:1.5}
+.hy-payment-options-status{display:none;margin-top:13px;padding:11px 12px;border:1px solid rgba(190,130,255,.25);border-radius:6px;color:#d9b7ff;font-size:10px;line-height:1.5;letter-spacing:.08em}
+.hy-payment-options-status.active{display:block}
+.hy-payment-done-btn{width:100%;margin-top:15px;padding:14px 18px;border:1px solid rgba(206,163,255,.5);border-radius:7px;background:linear-gradient(135deg,rgba(137,57,198,.55),rgba(40,12,61,.8));color:#fff;font-size:10px;font-weight:800;letter-spacing:.18em;cursor:pointer}
+.hy-payment-done-btn:disabled{opacity:.6;cursor:wait}
+
 </style>
 
 <header class="gym-page-header">
@@ -72,7 +88,7 @@
 
                     <!-- PRODUCT 01 -->
 
-                    <div class="product-card" data-product-id="1">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -114,7 +130,7 @@
                             </p>
 
                             <strong>
-                                Rs. 0
+                                Rs. 4,990
                             </strong>
 
                         </div>
@@ -125,7 +141,7 @@
 
                     <!-- PRODUCT 02 -->
 
-                    <div class="product-card" data-product-id="2">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -167,7 +183,7 @@
                             </p>
 
                             <strong>
-                                Rs. 0
+                                Rs. 4,990
                             </strong>
 
                         </div>
@@ -178,7 +194,7 @@
 
                     <!-- PRODUCT 03 -->
 
-                    <div class="product-card" data-product-id="3">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -220,7 +236,7 @@
                             </p>
 
                             <strong>
-                                Rs. 0
+                                Rs. 4,990
                             </strong>
 
                         </div>
@@ -231,7 +247,7 @@
 
                     <!-- PRODUCT 04 -->
 
-                    <div class="product-card" data-product-id="4">
+                    <div class="product-card">
 
                         <div class="product-image">
 
@@ -273,7 +289,7 @@
                             </p>
 
                             <strong>
-                                Rs. 0
+                                Rs. 4,990
                             </strong>
 
                         </div>
@@ -530,17 +546,48 @@
             </div>
 
 
+            <!-- Hidden until the existing script.js opens it after customer details -->
+            <div class="hy-advance-payment">
+                <div class="hy-payment-options-panel" id="paymentOptionsPanel">
+                    <div class="hy-payment-options-heading">PAY WITH JAZZCASH</div>
+                    <div class="hy-advance-payment-account">
+                        <span>JAZZCASH NUMBER</span>
+                        <strong>03094567938</strong>
+                        <span>Account Name: Shazia Zahid</span>
+                    </div>
+                    <div class="hy-advance-payment-note">
+                        Send the full payment amount shown in your order total to this JazzCash number.
+                        After payment, enter your transaction ID and upload your payment screenshot.
+                    </div>
+                    <div class="hy-advance-payment-amount">
+                        <span>100% PAYMENT</span>
+                        <strong id="advancePaymentAmount">Rs. 0</strong>
+                    </div>
+                    <label>
+                        TRANSACTION ID / TID
+                        <input type="text" id="paymentTransactionId" placeholder="Enter JazzCash transaction ID" autocomplete="off">
+                    </label>
+                    <label>
+                        PAYMENT SCREENSHOT
+                        <input type="file" id="paymentScreenshot" accept="image/*">
+                        <div class="hy-advance-payment-help">Upload a clear screenshot of your successful JazzCash payment. Maximum file size: 1.2 MB.</div>
+                    </label>
+                    <div class="hy-payment-options-status" id="paymentOptionsStatus">
+                        PAYMENT PROOF SUBMITTED — VERIFICATION PENDING.
+                    </div>
+                    <button type="button" class="hy-payment-done-btn" id="paymentDoneButton">
+                        DONE <span>→</span>
+                    </button>
+                </div>
+            </div>
+
             <button
                 type="submit"
                 class="place-order-btn"
+                id="paymentOptionsButton"
             >
-
-                PLACE ORDER
-
-                <span>
-                    →
-                </span>
-
+                PAYMENT OPTIONS
+                <span>→</span>
             </button>
 
         </form>
@@ -550,28 +597,6 @@
 </div>
 
 
-<script>
-(async function(){
-  try{
-    const r=await fetch("https://hidden-youth-backend-production.up.railway.app/api/category/Gym%20Fit",{cache:"no-store"});
-    const d=await r.json();
-    if(!d.success||!Array.isArray(d.products))return;
-    document.querySelectorAll(".gym-fit-page .product-card[data-product-id]").forEach(function(card){
-      const p=d.products.find(function(x){return String(x.id)===String(card.getAttribute("data-product-id"))});
-      if(!p)return;
-      const priceEl=card.querySelector(".product-info strong");
-      if(priceEl)priceEl.textContent="Rs. "+Number(p.price||0).toLocaleString();
-      const ok=Number(p.stock||0)>0&&p.available===true;
-      if(ok)return;
-      card.classList.add("hy-soldout");
-      const image=card.querySelector(".product-image");
-      if(image&&!image.querySelector(".hy-soldout-overlay")){const o=document.createElement("div");o.className="hy-soldout-overlay";o.innerHTML="<span>SOLD OUT</span>";image.appendChild(o)}
-      const a=card.querySelector(".add-bag");
-      if(a){a.textContent="SOLD OUT";a.disabled=true;a.setAttribute("aria-disabled","true")}
-    });
-  }catch(e){console.error("Gym Fit live product data error:",e)}
-})();
-</script>
 <script src="script.js"></script>
 </body>
 </html>
