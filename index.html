@@ -2394,52 +2394,57 @@ html { scroll-behavior: smooth; }
 
 </body>
 
-    <script>
+</style>
+
+<script>
 (function () {
 
-    function skipIntroIfBack() {
+    function checkBackNavigation() {
 
         const navigation =
             performance.getEntriesByType("navigation")[0];
 
-        const isBackForward =
+        if (
             navigation &&
-            navigation.type === "back_forward";
+            navigation.type === "back_forward"
+        ) {
 
-        if (!isBackForward) {
-            return;
-        }
-
-        const opening =
-            document.querySelector(".opening");
-
-        if (opening) {
-            opening.style.display = "none";
+            document.documentElement.classList.add(
+                "hy-skip-intro"
+            );
         }
 
     }
 
-    window.addEventListener("pageshow", function (event) {
+    checkBackNavigation();
 
-        if (event.persisted) {
+    window.addEventListener(
+        "pageshow",
+        function (event) {
 
-            const opening =
-                document.querySelector(".opening");
+            if (event.persisted) {
 
-            if (opening) {
-                opening.style.display = "none";
+                document.documentElement.classList.add(
+                    "hy-skip-intro"
+                );
+
             }
 
         }
-
-    });
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        skipIntroIfBack
     );
 
 })();
 </script>
+
+<style>
+html.hy-skip-intro .opening {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+</style>
+
+</head>
 
 </html>
