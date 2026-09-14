@@ -2394,56 +2394,6 @@ html { scroll-behavior: smooth; }
 
 </body>
 
-</style>
-
-<script>
-(function () {
-
-    function checkBackNavigation() {
-
-        const navigation =
-            performance.getEntriesByType("navigation")[0];
-
-        if (
-            navigation &&
-            navigation.type === "back_forward"
-        ) {
-
-            document.documentElement.classList.add(
-                "hy-skip-intro"
-            );
-        }
-
-    }
-
-    checkBackNavigation();
-
-    window.addEventListener(
-        "pageshow",
-        function (event) {
-
-            if (event.persisted) {
-
-                document.documentElement.classList.add(
-                    "hy-skip-intro"
-                );
-
-            }
-
-        }
-    );
-
-})();
-</script>
-
-<style>
-html.hy-skip-intro .opening {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-</style>
 
 </head>
 
